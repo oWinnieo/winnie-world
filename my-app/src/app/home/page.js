@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { Greet } from '../components/greet'
 import { Counter } from '../components/counter'
+import Link from 'next/link'
 import './style.css'
 export const Home = () => {
     return (
@@ -15,7 +16,8 @@ export const Home = () => {
         </div>
         <div className="area area-navigation">
             <div className="area-in">
-            Here will be a navigation.
+                <li><Link href="/about">about</Link></li>
+                {/* <li><Link href="/blog/first-post">blog/first-post</Link></li> */}
             </div>
         </div>
         {/* <Greet />
