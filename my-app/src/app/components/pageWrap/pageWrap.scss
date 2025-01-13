@@ -1,0 +1,19 @@
+@import '@styles/base/reset.scss';
+@import '@styles/layouts/layout-main.scss';
+
+
+.page {
+    @include page-wrap;
+    @include bg-main-33;
+}
+.page-in {
+    @include layout-area-in;
+    background: #fff;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, .2);
+}
+
+@media (min-width: 769px) {
+    .page-in {
+        @include layout-area-in-gt-768;
+    }
+}

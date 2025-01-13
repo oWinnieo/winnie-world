@@ -1,3 +1,4 @@
+// import type { NextApiRequest, NextApiResponse } from "next";
 // const mongoose = require('mongoose');
 
 // // const uri = 'mongodb://<username>:<password>@<hostname>:<port>/<database>';

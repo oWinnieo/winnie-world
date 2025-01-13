@@ -1,0 +1,19 @@
+@mixin page-wrap {
+    padding: 10px 0;
+}
+@mixin layout-area-in {
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px;
+}
+@mixin layout-area-in-gt-768 {
+    width: 1000px;
+}
+
+@mixin bg-main-33 {
+    background: linear-gradient(90deg, #7928ca33, #ff008033);
+}
+
+@mixin bg-main-ff {
+    background: linear-gradient(90deg, #7928caff, #ff0080ff);
+}
