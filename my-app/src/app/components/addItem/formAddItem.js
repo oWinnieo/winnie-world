@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react';
 import './addItem.scss';
-export const FormAddItem = ({ addSuccess }) => {
+export const FormAddItem = () => {
     const [ title, setTitle ] = useState('')
     const [ content, setContent ] = useState('')
     const handleSubmit = async (e) => {
@@ -21,8 +21,7 @@ export const FormAddItem = ({ addSuccess }) => {
             })
             if (res.ok) {
                 console.log('res: ok')
-                // addSuccess()
-                // console.log('addSuccess', addSuccess)
+                console.log('AddItem addSuccess', addSuccess)
                 window.location.reload()
             } else {
                 throw new Error('Failed to create an item.')

@@ -1,16 +1,10 @@
 // app/page.tsx
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
-import { LearningItem } from '@/app/components/learningItem/learningItem'
+import { LearningItemList } from '@/app/components/learningItemList/learningItemList'
 import { AddItem } from '@/app/components/addItem/addItem'
 // import { useState } from 'react'
-import Link from 'next/link'
-
-export default async function LearningEnglish() {
-    const { data } = await fetch('http://localhost:3000/api/learning-item', {
-      cache: 'no-store', // 等效于 SSR 的行为
-    }).then(res => res.json());
-  
+export default function LearningEnglish() {
     return (
       <div>
         <PageWrap>
@@ -20,17 +14,7 @@ export default async function LearningEnglish() {
             <AddItem></AddItem>
             <div>Learning List will be here.</div>
             {/* <div>{JSON.stringify(data)}</div> */}
-            <ul>
-                {data.map(i => (
-                    <li key={i._id}>
-                        <LearningItem
-                            title={i.title}
-                            content={i.content}
-                        ></LearningItem>
-                    </li>
-                    // <p>{JSON.stringify(i)}</p>
-                ))}
-            </ul>
+            <LearningItemList></LearningItemList>
         </PageWrap>
       </div>
     );

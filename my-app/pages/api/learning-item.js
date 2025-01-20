@@ -19,17 +19,34 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const learningItems = await LearningItem.find({}); // 获取所有item
-        res.status(200).json({ success: true, data: learningItems });
-      } catch (error) {
+        // if (req.id) {
+        //   console.log('1')
+        //   const learningOneItem = await LearningItem.findOne({ _id: req.id })
+        //   res.status(200).json({ success: true, data: {a: 'aha'}})
+        // } else {
+          console.log('2')
+          const learningItems = await LearningItem.find({}); // 获取所有item
+          res.status(200).json({ success: true, data: learningItems });
+        // }
+      } catch (err) {
         res.status(400).json({ success: false });
       }
       break;
+    // case 'GETONE':
+    //   try {
+    //     // 
+    //     // res.status(200).json({ success: true, data: learningOneItem })
+    //     const learningItems = await LearningItem.find({}); // 获取所有item
+    //     res.status(200).json({ success: true, data: learningItems });
+    //   } catch (err) {
+    //     res.status(400).json({ success: false });
+    //   }
+    //   break;
     case 'POST':
       try {
         const learningItem = await LearningItem.create(req.body); // 创建item
         res.status(201).json({ success: true, data: learningItem });
-      } catch (error) {
+      } catch (err) {
         res.status(400).json({ success: false });
       }
       break;

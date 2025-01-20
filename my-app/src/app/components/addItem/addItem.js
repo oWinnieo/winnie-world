@@ -1,12 +1,11 @@
 'use client'
 import { FormAddItem } from "./formAddItem"
 import { useState } from 'react'
-export const AddItem = ({ addSuccess }) => {
+export const AddItem = () => {
     let [ isAddItem, setIsAddItem ] = useState(false)
     const ToggleAddItem = () => {
         setIsAddItem((val) => !val)
     }
-    console.log('AddItem addSuccess', addSuccess)
     return (
         <>
             {/* <p>wtest: {JSON.stringify(isAddItem)}</p> */}
@@ -14,7 +13,7 @@ export const AddItem = ({ addSuccess }) => {
                 {isAddItem ? 'Cancel Adding' : 'Add Item'}
             </button>
             {
-                isAddItem ? <FormAddItem addSuccess={addSuccess}></FormAddItem> : null
+                isAddItem ? <FormAddItem></FormAddItem> : null
             }
         </>)
 }
