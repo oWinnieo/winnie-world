@@ -1,6 +1,6 @@
 import { LearningItem } from '@/app/components/learningItem/learningItem'
 export const LearningItemList = async () => {
-    const { data } = await fetch('http://localhost:3000/api/learning-item', {
+    const { data } = await fetch('http://winnie-online.win/api/learning-item', {
         cache: 'no-store', // 等效于 SSR 的行为
     }).then(res => res.json());
     return (
