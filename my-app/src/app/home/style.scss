@@ -1,4 +1,4 @@
-@import '@styles/layouts/layout-main.scss';
+@use '@styles/layouts/layout-main.scss' as layoutMain;
 html, body, body .page-home {
     height: 100%;
 }
@@ -10,7 +10,7 @@ body .area {
 padding: 20px 50px;
 }
 body .area .area-in {
-    @include layout-area-in; // wtest 1000
+    @include layoutMain.layout-area-in; // wtest 1000
     margin: auto;
 }
 
@@ -28,6 +28,6 @@ body .area-welcome {
 
 @media (min-width: 769px) {
     body .area .area-in {
-        @include layout-area-in-gt-768;
+        @include layoutMain.layout-area-in-gt-768;
     }
 }

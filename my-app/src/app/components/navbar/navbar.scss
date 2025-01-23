@@ -1,11 +1,11 @@
-@import '@styles/base/reset.scss';
-@import '@styles/layouts/layout-main.scss';
+@use '@styles/base/reset.scss' as reset;
+@use '@styles/layouts/layout-main.scss' as layoutMain;
 .navbar {
-    @include bg-main-ff;
+    @include layoutMain.bg-main-ff;
     color: #fff;
 }
 .navbar-in {
-    @include layout-area-in;
+    @include layoutMain.layout-area-in;
 }
 .navbar a {
     color: #fff;
@@ -17,6 +17,6 @@
 
 @media (min-width: 769px) {
     .navbar-in {
-        @include layout-area-in-gt-768;
+        @include layoutMain.layout-area-in-gt-768;
     }
 }
