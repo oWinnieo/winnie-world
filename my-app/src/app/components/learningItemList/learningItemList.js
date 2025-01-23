@@ -20,6 +20,7 @@ export const LearningItemList = async () => {
                     <LearningItem
                         title={i.title}
                         content={i.content}
+                        createdAt={i.createdAt}
                         id={i._id}
                     ></LearningItem>
                 </li>

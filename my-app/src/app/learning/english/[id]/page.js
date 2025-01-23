@@ -28,6 +28,7 @@ import { AreaTitle } from '@components/areaTitle/areaTitle'
 import Link from 'next/link'
 import dbConnect from '../../../../../lib/db';
 import LearningItem from '../../../../../models/learningItem';
+import { timeFormatter } from '../../../../../lib/util'
 import './style.scss'
 
 
@@ -40,17 +41,7 @@ export default async function Post ({ params }) {
     console.log('?2')
     console.log(data);
 
-    const timeFormatter = (time) => {
-        const timeOri = new Date(time)
-        const timeFormatted = timeOri.toLocaleString('zh-CN', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minite: '2-digit'
-        })
-        return timeFormatted
-    }
+    
     
     // const findOne = async () => {
     //     console.log('id', id)
