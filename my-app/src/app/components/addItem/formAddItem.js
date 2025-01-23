@@ -12,7 +12,7 @@ export const FormAddItem = () => {
             return
         }
         try {
-            const res = await fetch('http://winnie-online.win/api/learning-item', {
+            const res = await fetch('https://winnie-online.win/api/learning-item', {
                 method: 'POST',
                 headers: {
                     "Content-type": 'application/json'
