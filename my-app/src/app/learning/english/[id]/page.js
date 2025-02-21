@@ -41,7 +41,17 @@ export default async function Post ({ params }) {
     console.log('?2')
     console.log(data);
 
-    
+    // const timeFormatter = (time) => {
+    //     const timeOri = new Date(time)
+    //     const timeFormatted = timeOri.toLocaleString('zh-CN', {
+    //         year: 'numeric',
+    //         month: 'long',
+    //         day: 'numeric',
+    //         hour: '2-digit',
+    //         minite: '2-digit'
+    //     })
+    //     return timeFormatted
+    // }
     
     // const findOne = async () => {
     //     console.log('id', id)
@@ -56,7 +66,7 @@ export default async function Post ({ params }) {
     //   let resDetails = findOne();
     // 
     // // try {
-    //     const { data } = await fetch('http://localhost:3000/api/learning-item', {
+    //     const { data } = await fetch('https://localhost:3000/api/learning-item', {
     //         method: 'GET',
     //         // headers: {
     //         //     "Content-type": 'application/json'
@@ -67,7 +77,7 @@ export default async function Post ({ params }) {
     // // } catch (err) {
     // //     console.log(err)
     // // }
-    // const { data } = await fetch('http://localhost:3000/api/learning-item', {
+    // const { data } = await fetch('https://localhost:3000/api/learning-item', {
     //     cache: 'no-store', // 等效于 SSR 的行为
     //     method: 'GET',
     //     id: id

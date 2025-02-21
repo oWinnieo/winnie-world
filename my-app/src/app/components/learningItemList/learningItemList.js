@@ -1,6 +1,7 @@
 import { LearningItem } from '@/app/components/learningItem/learningItem'
+
 export const LearningItemList = async () => {
-    const { data } = await fetch('https://winnie-online.win/api/learning-item', {
+    const { data } = await fetch('http://localhost:3000/api/learning-item', {
         cache: 'no-store', // 等效于 SSR 的行为
     }).then(res => res.json());
     return (
@@ -15,7 +16,7 @@ export const LearningItemList = async () => {
                 // <p>{JSON.stringify(i)}</p>
             ))} */}
             {/* <p>wtest</p> */}
-            {data.map(i => (
+            {!data || data.length === 0 ? <p>Loading...</p> : data.map(i => (
                 <li key={i._id}>
                     <LearningItem
                         title={i.title}

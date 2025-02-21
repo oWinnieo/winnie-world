@@ -25,7 +25,7 @@ export default async function handler(req, res) {
         //   res.status(200).json({ success: true, data: {a: 'aha'}})
         // } else {
           console.log('2')
-          const learningItems = await LearningItem.find({}).sort({ "createdAt": -1 }).toArray(); // 获取所有item
+          const learningItems = await LearningItem.find({}); // .sort({ "createdAt": -1 }); // .toArray(); // 获取所有item
           res.status(200).json({ success: true, data: learningItems });
         // }
       } catch (err) {

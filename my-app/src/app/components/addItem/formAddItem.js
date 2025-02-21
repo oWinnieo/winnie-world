@@ -12,7 +12,7 @@ export const FormAddItem = () => {
             return
         }
         try {
-            const res = await fetch('https://winnie-online.win/api/learning-item', {
+            const res = await fetch('http://localhost:3000/api/learning-item', {
                 method: 'POST',
                 headers: {
                     "Content-type": 'application/json'
@@ -21,7 +21,7 @@ export const FormAddItem = () => {
             })
             if (res.ok) {
                 console.log('res: ok')
-                console.log('AddItem addSuccess', addSuccess)
+                // console.log('AddItem addSuccess', addSuccess)
                 window.location.reload()
             } else {
                 throw new Error('Failed to create an item.')
