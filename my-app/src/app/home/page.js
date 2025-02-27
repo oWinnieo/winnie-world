@@ -3,9 +3,11 @@ import Image from "next/image";
 import { Greet } from '../components/greet'
 import { Counter } from '../components/counter'
 import Link from 'next/link'
+import Hello from '../components/Hello'; // wtest ts
 import './style.scss'
 
-export const Home = () => {
+// export const Home = () => { // wtest wrong?
+const Home = () => {
     return (
     // <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
     <div className="page-home">
@@ -13,6 +15,7 @@ export const Home = () => {
         <div className="area area-welcome">
             <div className="area-in">
                 <h2>Welcome to Winnie&apos;s World 1st Page</h2>
+                <Hello name="TypeScript"></Hello>
             </div>
         </div>
         <div className="area area-navigation">
@@ -28,3 +31,4 @@ export const Home = () => {
     </div>
     )
 }
+export default Home;
