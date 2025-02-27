@@ -279,17 +279,17 @@ export const FormAddItem = () => {
                 type="text"
                 placeholder="Title"
                 onChange={e => setTitle(e.target.value)}></input>
-            <input
+            {/* <input
                 className="border border-slate-500 px-8 py-2"
                 type="text"
                 placeholder="Content"
-                onChange={e => setContent(e.target.value)}></input>
+                onChange={e => setContent(e.target.value)}></input> */}
             <div className="wtest-style">
-                    {/* <RichTextEditor
+                    <RichTextEditor
                         // initialContent={field.value}
                         onChange={e => setContent(content)}
                         initialContent={content}
-                    ></RichTextEditor> */}
+                    ></RichTextEditor>
             </div>
             <button>Submit</button>
         </form>
