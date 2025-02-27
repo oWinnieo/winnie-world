@@ -1,0 +1,66 @@
+/* components/Alert.module.css */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: relative;
+    position: absolute;
+    top: 10px;
+    width: 60%;
+    left: 20%;
+    button {
+        text-decoration: none;
+    }
+}
+
+.info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    button {
+        color: #31708f;
+    }
+}
+
+.success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    button {
+        color: #3c763d;
+    }
+}
+
+.warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    button {
+        color: #8a6d3b;
+    }
+}
+
+.danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    button {
+        color: #a94442;
+    }
+}
+
+.message {
+    display: inline-block;
+}
+
+.closeButtonAlert {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}

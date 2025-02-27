@@ -20,7 +20,8 @@ export const RichTextEditor = ({
         extensions: [StarterKit, Underline],
         content: initialContent,
         onUpdate : ({editor}) => {
-            onChange(editor.getHTML())
+          // console.log('wtest con: ', editor.getHTML())
+          onChange(editor.getHTML())
         },
         editorProps: {
             attributes: {

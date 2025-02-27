@@ -8,6 +8,16 @@ import { useState } from 'react';
 // import StarterKit from '@tiptap/starter-kit'
 
 /* /wtest editor 1 */
+/* form */
+// import {
+//     Form,
+//     FormControl,
+//     FormField,
+//     FormItem,
+//     FormLabel,
+//     FormMessage,
+//   } from "@/components/ui/form";
+/* /form */
 import { RichTextEditor } from "@/app/components/richTextEditor/richTextEditor"; // wtest
 import './addItem.scss';
 export const FormAddItem = () => {
@@ -15,7 +25,8 @@ export const FormAddItem = () => {
     const [ content, setContent ] = useState('aabbcc')
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('e', e)
+        // console.log('e', e)
+        // debugger;
         if (!title || !content) {
             alert('Title and content should not be empty!')
             return
@@ -279,18 +290,18 @@ export const FormAddItem = () => {
                 type="text"
                 placeholder="Title"
                 onChange={e => setTitle(e.target.value)}></input>
-            {/* <input
+            <input
                 className="border border-slate-500 px-8 py-2"
                 type="text"
                 placeholder="Content"
-                onChange={e => setContent(e.target.value)}></input> */}
-            <div className="wtest-style">
+                onChange={e => setContent(e.target.value)}></input>
+            {/* <div className="wtest-style">
                     <RichTextEditor
                         // initialContent={field.value}
-                        onChange={e => setContent(content)}
+                        onChange={e => setContent(e.target.value)}
                         initialContent={content}
                     ></RichTextEditor>
-            </div>
+            </div> */}
             <button>Submit</button>
         </form>
     )

@@ -16,7 +16,7 @@ export default function LearningEnglish() {
             {/* <button onClick={addItem}>submit wtest</button> */}
             {/* <p>wtest: {JSON.stringify(isAddItem)}</p> */}
             <AddItem></AddItem>
-            <div>Learning List will be here.</div>
+            {/* <div>Learning List will be here.</div> */}
             {/* <div>{JSON.stringify(data)}</div> */}
             <LearningItemList></LearningItemList>
         </PageWrap>
