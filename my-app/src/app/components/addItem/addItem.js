@@ -31,7 +31,7 @@ export const AddItem = () => {
     const pwCheck = () => {
         console.log('pw', pw)
         setAlertShow(true)
-        if (pw === '123') { // xiaow233
+        if (pw === 'xiaow233') { // xiaow233
             console.log('yes')
             setAlertMsg('pw ok')
             setAlertType('success')
