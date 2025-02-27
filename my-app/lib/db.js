@@ -27,7 +27,7 @@ async function dbConnect() {
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(MONGODB_URI, {
-        useNewUrlParser: true,
+        // useNewUrlParser: true, // wtest
         useUnifiedTopology: true,
       })
       .then((mongoose) => mongoose);
