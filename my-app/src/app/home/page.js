@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Greet } from '../components/greet'
 import { Counter } from '../components/counter'
 import Link from 'next/link'
-import Hello from '../components/Hello'; // wtest ts
+import Hello from '@components/hello'; // wtest ts
 import './style.scss'
 
 // export const Home = () => { // wtest wrong?
