@@ -1,26 +1,52 @@
 // app/page.tsx
 // 'use client'
+import { useContext } from 'react'
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
 import { LearningItemList } from '@/app/components/learningItemList/learningItemList'
-import { AddItem } from '@/app/components/addItem/addItem'
+import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
+
 // import { useRouter } from 'next/navigation'
 // import { useState } from 'react'
 export default function LearningEnglish() {
     // const wtest_d = useRouter()
     // console.log('wtest_d', wtest_d.asPath)
+    const urlDomain = process.env.URL_DOMAIN + '/api/learning-item'
+    /* wtest context */
+    // const { data, setData } = useContext(MyContext)
+    // const sharedState = 'Shared State'
+    // const sharedFunction = () => {
+    //   console.log('sharedFunction')
+    // }
+    /* /wtest context */
+
     return (
-      <div>
+      <>
         <PageWrap>
             <AreaTitle>English Learning</AreaTitle>
             {/* <button onClick={addItem}>submit wtest</button> */}
             {/* <p>wtest: {JSON.stringify(isAddItem)}</p> */}
-            <AddItem></AddItem>
+            
+            <ItemEditor
+              params={
+                {
+                  urlDomain,
+                  collectionName: 'english'
+                }
+              }
+            ></ItemEditor>
             {/* <div>Learning List will be here.</div> */}
             {/* <div>{JSON.stringify(data)}</div> */}
-            <LearningItemList></LearningItemList>
+            <LearningItemList
+              params={
+                {
+                  urlDomain,
+                  collectionName: 'english'
+                }
+              }
+            ></LearningItemList>
         </PageWrap>
-      </div>
+      </>
     );
   }
 // 'use client'

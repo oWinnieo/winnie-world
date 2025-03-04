@@ -1,5 +1,11 @@
+import React, { useContext } from 'react'
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@components/navbar/navbar";
+// import MyProvider from '@/app/components/MyProvider'; // wtest context
+import { AlertProvider } from '@/app/contexts/AlertContext'
+import { ModalProvider } from '@/app/contexts/ModalContext';
+import AuthProvider from "@/app/components/SessionProvider";
+
 import "./globals.css";
 import '@styles/base/base.scss';
 
@@ -24,9 +30,17 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        
         <Navbar></Navbar>
-        {children}
+        
+        <AlertProvider>
+          <ModalProvider>
+            {children}
+          </ModalProvider>
+        </AlertProvider>
       </body>
     </html>
   );
 }
+
+

@@ -1,34 +1,14 @@
-// export const dynamic = "force-dynamic";
-
-// export default function ProductPage({ params }) {
-//     return <div>Dynamic Product ID: {params.id}</div>;
-// }
-
-// const MongoClient = require('mongodb').MongoClient;
-// const url = 'mongodb://localhost:27017';
-// const dbName = 'mydatabase';
-// const collectionName = 'mycollection';
- 
-// MongoClient.connect(url, function(err, client) {
-//   if(err) throw err;
-  
-//   const db = client.db(dbName);
-//   const collection = db.collection(collectionName);
-  
-//   // 获取单条数据
-//   collection.findOne({ myField: 'myValue' }, function(err, document) {
-//     if(err) throw err;
-    
-//     console.log(document); // 输出匹配条件的文档
-//     client.close(); // 关闭连接
-//   });
-// });
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
 import Link from 'next/link'
 import dbConnect from '../../../../../lib/db';
-import LearningItem from '../../../../../models/learningItem';
+import { modelEn,
+    modelJp,
+    modelServer,
+    LearningItem
+  } from '../../../../../models/learningItem'; // wtest LearningItem
 import { timeFormatter } from '../../../../../lib/util'
+import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
 import './style.scss'
 
 
@@ -36,10 +16,9 @@ export default async function Post ({ params }) {
     const { id } = await params
 
     await dbConnect();
-    console.log('?1')
-    const data = await LearningItem.findOne({ _id: id });
-    console.log('?2')
-    console.log(data);
+    const data = await modelEn.findOne({ _id: id }).lean();
+    const urlDomain = process.env.URL_DOMAIN + '/api/learning-item' // wtest ?collectionName=english
+    console.log('data', data)
 
     // const timeFormatter = (time) => {
     //     const timeOri = new Date(time)
@@ -85,17 +64,33 @@ export default async function Post ({ params }) {
     return (
         <PageWrap>
             <AreaTitle>
-                <h2>{data.title}</h2>
+                {/* <h2>{data.title}</h2> */}
             </AreaTitle>
-            <div><Link href="/learning/english">Back to List</Link></div>
+            <div className="area-info">
+                <div><Link href="/learning/english">Back to List</Link></div>
+                {/* <p>Created Time: {timeFormatter(data.createdAt)} </p>
+                <p>Updated Time: {timeFormatter(data.updatedAt)} </p> */}
+                {/* <p>wtest: {JSON.stringify(data.updatedAt)}</p> */}
+            </div>
+            
             <div className="page-details">
                 {/* <h1>Post of English Learning: id, {id}</h1> */}
-                
-                <p>Created Time: {timeFormatter(data.createdAt)} </p>
-                <p>{data.content}</p>
-                
-                {/* <div>{JSON.stringify(data)}</div> */}
-                {/* <div>{JSON.stringify(params)}</div>  */}
+                {/* <ItemEditor
+                    params={
+                    {
+                        urlDomain,
+                        data: {
+                            title: data.title,
+                            // content: data.content, // wtest
+                            content: data.content, // wtest htmlSimpleDecode(data.content),
+                            id: data.id,
+                            createdAt: data.createdAt,
+                            updatedAt: data.updatedAt
+                        },
+                        collectionName: 'english'
+                    }
+                    }
+                ></ItemEditor> */}
             </div>
         </PageWrap>
             
