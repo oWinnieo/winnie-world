@@ -39,7 +39,7 @@ export default async function Post({ params }) {
         <h2>{data.title}</h2>
       </AreaTitle>
       <div className="area-info">
-          <div><Link href={`/learning/${slug[0]}`}>Back to List</Link></div>
+          <div><Link href={slug[0] ? `/learning/${slug[0]}` : '/learning'}>Back to List</Link></div>
           <p>Created Time: {timeFormatter(data.createdAt)} </p>
           <p>Updated Time: {timeFormatter(data.updatedAt)} </p>
       </div>

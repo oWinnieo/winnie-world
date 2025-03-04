@@ -13,7 +13,7 @@ const listLearning = [
     },
     {
         title: 'Server Deployment',
-        link: '/learning/server-deployment'
+        link: '/learning/server'
     },
     // {
     //     title: 'Coming Soon ...',
