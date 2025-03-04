@@ -36,7 +36,7 @@ export const ItemEditor = ({ params, type }) => {
     /* /modal */
     /* pw check */
     const pwCheck = (val) => {
-        if (val === '123') { // wtest xiaow233
+        if (val === 'xiaow233') { // wtest 
             showAlert({
                 message: 'pw ok',
                 type: "success",
