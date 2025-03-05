@@ -4,11 +4,11 @@ import Link from 'next/link'
 import dbConnect from '../../../../lib/db';
 import { modelEn,
   modelJp,
-  modelServer,
-  LearningItem
-} from '../../../../models/learningItem'; // wtest LearningItem
+  modelServer
+} from '../../../../models/learningItem';
 import { timeFormatter } from '../../../../lib/util'
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
+import './style.scss'
 
 export default async function Post({ params }) {
   // 确保 params.slug 存在
