@@ -3,7 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { Image } from 'next/image'
 import './auth.scss'
 export const Auth = () => {
-    const { data: session } = useSession();
+    // const { data: session } = useSession();
     /* wtest *
     const session = {
         "user": {
@@ -13,16 +13,15 @@ export const Auth = () => {
         },
         "expires":"2025-04-05T16:26:40.823Z"
     }
-    const session_in = null
+    /* /wtest */
+    /* /wtest */
+    const session = null
     /* /wtest */
     return (
         <div className="area-auth">
             {/* <p>session: {session && JSON.stringify(session)}</p> */}
             {session ? (
                 <>
-                {/* <p>id: {session.user.id}</p> */}
-                {/* <p>tokenSub: {session.user.tokenSub}</p> */}
-                {/* <p>accessToken: {session.user.accessToken}</p> */}
                 <p className="auth-welcome">Welcome, {session.user.name}({session.user.id})!</p>
                 
                 <Image className="auth-avatar" src={session.user.image} alt="User Avatar" />
@@ -34,3 +33,7 @@ export const Auth = () => {
         </div>
     )
 }
+
+// {/* <p>id: {session.user.id}</p> */}
+//                 {/* <p>tokenSub: {session.user.tokenSub}</p> */}
+//                 {/* <p>accessToken: {session.user.accessToken}</p> */}
