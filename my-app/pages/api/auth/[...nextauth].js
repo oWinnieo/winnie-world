@@ -20,7 +20,7 @@ export const authOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET, // 用于加密 JWT
-  // callbacks: {
+  callbacks: {
     /*
     回调函数: 可访问的数据
     jwt: token, user, account, profile
@@ -69,20 +69,20 @@ export const authOptions = {
     // 	•	session.user.id: 传递用户 ID 到前端。
     // 	•	session.user.accessToken: 传递 Google 访问令牌到前端（如调用 Google API 时使用）。
     //   */
-    // async session({ session, token }) {
-    //   // session: 传递到前端的会话数据
-    //   // token: jwt 回调中的 token
-    //   session.user.id = token.id; // 传递用户 ID
-    //   session.user.tokenSub = token.sub // wtest what is it?
-    //   session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
-    //   session.user.image = token.picture; // 传递头像
-    //   /* wtest another *
-    //   session.user.id = token.id; // 传递用户 ID
-    //   session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
-    //   session.user.image = token.picture; // 传递头像
-    //   /* /wtest another */
-    //   return session;
-    // },
+    async session({ session, token }) {
+      // session: 传递到前端的会话数据
+      // token: jwt 回调中的 token
+      session.user.id = token.id; // 传递用户 ID
+      session.user.tokenSub = token.sub // wtest what is it?
+      session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
+      session.user.image = token.picture; // 传递头像
+      /* wtest another *
+      session.user.id = token.id; // 传递用户 ID
+      session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
+      session.user.image = token.picture; // 传递头像
+      /* /wtest another */
+      return session;
+    },
     //     /*
     //     signIn 回调 (用户登录时触发)
     //     	•	user: 登录的用户信息（name, email, image 等）。
@@ -121,7 +121,7 @@ export const authOptions = {
     //     }
 
       
-  // },
+  },
   pages: {
     signIn: '/signin',
     // signIn: '/auth/signin',

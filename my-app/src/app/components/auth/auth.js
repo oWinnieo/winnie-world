@@ -22,10 +22,10 @@ export const Auth = () => {
             {/* <p>session: {session && JSON.stringify(session)}</p> */}
             {session ? (
                 <>
-                {/* <p>id: {session?.user?.id ? session.user.id : '?'}</p>
+                <p>id: {session?.user?.id ? session.user.id : '?'}</p>
                 <p>tokenSub: {session?.user?.tokenSub ? session.user.tokenSub : '?'}</p>
                 <p>accessToken: {session?.user?.accessToken ? session.user.accessToken : '?'}</p>
-                <p>image: {session?.user?.image ? session.user.image : '?'}</p> */}
+                <p>image: {session?.user?.image ? session.user.image : '?'}</p>
                 <p className="auth-welcome">Welcome, {session.user.name}!</p>
                 <img className="auth-avatar" src={session.user.image} alt="User Avatar" />
                 <button onClick={() => signOut()} className="btn-signout">Sign out</button>
