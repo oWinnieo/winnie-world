@@ -20,8 +20,8 @@ export const Auth = () => {
             {/* <p>session: {session && JSON.stringify(session)}</p> */}
             {session ? (
                 <>
-                <p>id: {session.user.id}</p>
-                <p>tokenSub: {session.user.tokenSub}</p>
+                {/* <p>id: {session.user.id}</p> */}
+                {/* <p>tokenSub: {session.user.tokenSub}</p> */}
                 {/* <p>accessToken: {session.user.accessToken}</p> */}
                 <p className="auth-welcome">Welcome, {session.user.name}({session.user.id})!</p>
                 
