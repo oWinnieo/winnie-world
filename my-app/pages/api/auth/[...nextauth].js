@@ -20,7 +20,7 @@ export const authOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET, // 用于加密 JWT
-  callbacks: {
+  // callbacks: {
     /*
     回调函数: 可访问的数据
 jwt: token, user, account, profile
@@ -121,7 +121,7 @@ authorized: request, auth
 //     }
 
       
-  },
+  // },
   pages: {
     signIn: '/signin',
     // signIn: '/auth/signin',
@@ -134,7 +134,7 @@ authorized: request, auth
 };
 
 export default NextAuth(authOptions);
-/* wtest */
+/* wtest *
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
 /* /wtest */
