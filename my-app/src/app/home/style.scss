@@ -21,9 +21,11 @@ body .area-welcome {
     font-weight: 700;
     font-size: 30px;
     white-space: pre-wrap;
+    display: flex;
+    align-items: center;
 }
 .area-welcome h2 {
-    padding-top: 100px;
+    // padding-top: 100px;
 }
 
 @media (min-width: 769px) {
