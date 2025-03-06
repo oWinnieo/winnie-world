@@ -3,8 +3,7 @@ import Image from "next/image";
 import { Greet } from '../components/greet'
 import { Counter } from '../components/counter'
 import Link from 'next/link'
-import Hello from '@components/hello'; // wtest ts
-import { Auth } from '@components/auth/auth'
+// import Hello from '@components/hello'; // wtest ts
 import './style.scss'
 
 // export const Home = () => { // wtest wrong?
@@ -16,7 +15,7 @@ const Home = () => {
         <div className="area area-welcome">
             <div className="area-in">
                 <h2>Welcome to Winnie&apos;s World 1st Page</h2>
-                <Hello name="TypeScript"></Hello>
+                {/* <Hello name="TypeScript"></Hello> */}
             </div>
         </div>
         <div className="area area-navigation">
@@ -25,7 +24,6 @@ const Home = () => {
                 <li><Link href="learning">Learning</Link></li>
                 
             </div>
-            <Auth></Auth>
         </div>
         {/* <li><Link href="/blog/first-post">blog/first-post</Link></li> */}
         {/* <Greet />

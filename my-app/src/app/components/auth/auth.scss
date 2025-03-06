@@ -1,5 +1,25 @@
 .area-auth {
+    display: flex;
+    align-items: center;
     button {
         text-decoration: none;
+    }
+    .btn-signin,
+    .btn-signout {
+        min-height: 28px;
+        background: #fff;
+        color: #ff0080ff;
+        border-radius: 10px;
+        font-size: 12px;
+        padding: 0 10px;
+    }
+    .auth-welcome,
+    .auth-avatar {
+        margin-right: 10px;
+    }
+    .auth-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
     }
 }
