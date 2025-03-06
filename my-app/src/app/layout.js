@@ -33,14 +33,13 @@ export default function RootLayout({ children }) {
       >
         
         <Navbar></Navbar>
-        
-          <AlertProvider>
-            <ModalProvider>
-              <AuthProvider>
+          <AuthProvider>
+            <AlertProvider>
+              <ModalProvider>
                 {children}
-              </AuthProvider>
-            </ModalProvider>
-          </AlertProvider>
+              </ModalProvider>
+            </AlertProvider>
+          </AuthProvider>
       </body>
     </html>
   );

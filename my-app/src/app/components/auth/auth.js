@@ -1,10 +1,10 @@
+'use client'
 import { useSession, signIn, signOut } from "next-auth/react";
 import './auth.scss'
 export const Auth = () => {
     const { data: session } = useSession();
     return (
-        <div className="area-auth flex flex-col items-center">
-            {/* mt-20 */}
+        <div className="flex flex-col items-center mt-20">
             <p>session: {session && JSON.stringify(session)}</p>
             {session ? (
                 <>
