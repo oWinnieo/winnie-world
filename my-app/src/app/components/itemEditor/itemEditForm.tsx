@@ -12,6 +12,7 @@ type FormAddItemParams = {
     urlDomain: string;
     data: FormAddItemType,
     collectionName: string;
+    userId: string;
 }
 type FormAddItemType = {
     title: string;
@@ -75,6 +76,8 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
         // 处理表单提交逻辑
         if (params.data) {
             console.log('newData', newData) // wtest
+            console.log('params.userId', params.userId)
+            debugger;
             try {
                 // console.log('edit create wtest ---------- params.collectionName', params.collectionName)
                 // console.log('wtest params.urlDomain', params.urlDomain)
@@ -83,7 +86,7 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
                     headers: {
                         "Content-type": 'application/json'
                     },
-                    body: JSON.stringify({ ...newData, updatedAt: new Date() })
+                    body: JSON.stringify({ ...newData, updatedAt: new Date(), authorId: params.userId })
                 })
                 const dataRes = await res.json();
                 if (dataRes.success) {
@@ -103,7 +106,7 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
                     headers: {
                         "Content-type": 'application/json'
                     },
-                    body: JSON.stringify({ title, content })
+                    body: JSON.stringify({ title, content, authorId: params.userId })
                 })
                 const dataRes = await res.json();
                 // debugger;
@@ -126,6 +129,7 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
         className="area-form flex flex-col gap-3"
         onSubmit={handleSubmit(onSubmit)}>
             {/* handleSubmit(onSubmit) */}
+            <p>wtest params.userId: {params.userId}</p>
         <div className="area-form-item">
             {/* 标题输入框 */}
             <label className="block">

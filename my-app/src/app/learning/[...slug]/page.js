@@ -32,6 +32,7 @@ export default async function Post({ params }) {
     // const urlDomain = `${process.env.URL_DOMAIN}/api/learning-item?collectionName=${slug[0]}`
     console.log('data ~~~~~~~~~~~~~~~~~~', data)
 
+
   return (
     <PageWrap>
       {data && <>
@@ -42,6 +43,7 @@ export default async function Post({ params }) {
           <div><Link href={slug[0] ? `/learning/${slug[0]}` : '/learning'}>Back to List</Link></div>
           <p>Created Time: {timeFormatter(data.createdAt)} </p>
           <p>Updated Time: {timeFormatter(data.updatedAt)} </p>
+          <p>Author: {data.authorId}</p>
       </div>
       <div className="page-details">
         <ItemEditor
@@ -54,7 +56,8 @@ export default async function Post({ params }) {
                     content: data.content, // wtest htmlSimpleDecode(data.content),
                     id: slug[1],
                     createdAt: data.createdAt,
-                    updatedAt: data.updatedAt
+                    updatedAt: data.updatedAt,
+                    authorId: data.authorId
                 },
                 collectionName: slug[0]
             }

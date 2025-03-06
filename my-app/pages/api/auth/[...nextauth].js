@@ -72,9 +72,9 @@ export const authOptions = {
     async session({ session, token }) {
       // session: 传递到前端的会话数据
       // token: jwt 回调中的 token
-      session.user.id = token.id; // 传递用户 ID
-      session.user.tokenSub = token.sub // wtest what is it?
-      session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
+      // session.user.id = token.id; // 传递用户 ID
+      session.user.id = token.sub // wtest what is it?
+      // session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* wtest another *
       session.user.id = token.id; // 传递用户 ID
