@@ -22,7 +22,7 @@ export const Auth = () => {
                 <>
                 <p>id: {session.user.id}</p>
                 <p>tokenSub: {session.user.tokenSub}</p>
-                <p>accessToken: {session.user.accessToken}</p>
+                {/* <p>accessToken: {session.user.accessToken}</p> */}
                 <p className="auth-welcome">Welcome, {session.user.name}({session.user.id})!</p>
                 
                 <Image className="auth-avatar" src={session.user.image} alt="User Avatar" />
