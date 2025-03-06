@@ -27,8 +27,7 @@ export const Auth = () => {
                 <p>accessToken: {session?.user?.accessToken ? session.user.accessToken : '?'}</p>
                 <p>image: {session?.user?.image ? session.user.image : '?'}</p> */}
                 <p className="auth-welcome">Welcome, {session.user.name}!</p>
-{/*                 
-                <Image className="auth-avatar" src={session.user.image} alt="User Avatar" /> */}
+                <img className="auth-avatar" src={session.user.image} alt="User Avatar" />
                 <button onClick={() => signOut()} className="btn-signout">Sign out</button>
                 </>
             ) : (
