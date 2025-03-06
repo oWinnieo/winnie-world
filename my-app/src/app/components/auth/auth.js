@@ -1,6 +1,6 @@
 'use client'
 import { useSession, signIn, signOut } from "next-auth/react";
-import { Image } from 'next/image'
+// import { Image } from 'next/image'
 import './auth.scss'
 export const Auth = () => {
     const { data: session } = useSession();
@@ -27,8 +27,8 @@ export const Auth = () => {
                 <p>accessToken: {session?.user?.accessToken ? session.user.accessToken : '?'}</p>
                 <p>image: {session?.user?.image ? session.user.image : '?'}</p> */}
                 <p className="auth-welcome">Welcome, {session.user.name}!</p>
-                
-                <Image className="auth-avatar" src={session.user.image} alt="User Avatar" />
+{/*                 
+                <Image className="auth-avatar" src={session.user.image} alt="User Avatar" /> */}
                 <button onClick={() => signOut()} className="btn-signout">Sign out</button>
                 </>
             ) : (
