@@ -7,6 +7,8 @@ import { useAlert } from '@/app/contexts/AlertContext' // wtest alert
 import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 /* /wtest pw */
+import { useSession } from "next-auth/react"; // wtest auth
+import { userInfo } from '@/app/mock/userInfo' // wtest mock
 import './learningItem.scss'
 
 const itemDelete = async ({ params, id }) => {
@@ -19,8 +21,6 @@ const itemDelete = async ({ params, id }) => {
         body: JSON.stringify({ id }) // wtest waiting
     })
     const dataRes = await res.json();
-    // console.log('res aa 123', res, params) wtest
-    // console.log('dataRes', dataRes) wtest
     if (dataRes.success) {
         console.log(dataRes.message)
         window.location.reload() // wtest backup
@@ -49,7 +49,13 @@ const itemDelete = async ({ params, id }) => {
     /* /wtest 1 */
 }
 
-export const LearningItem = ({ title, content, contentSliced, createdAt, collectionName, id, params }) => {
+export const LearningItem = ({ title, author, content, contentSliced, createdAt, collectionName, id, params }) => {
+    const { data: session } = useSession(); // wtest auth backup
+    /* wtest auth mock *
+    const session = {
+        user: userInfo
+    }
+    /* /wtest auth mock */
     const itemUrl = `/learning/${collectionName}/${id}`
     /* wtest pw */
     const { showAlert } = useAlert() // wtest alert
@@ -68,7 +74,7 @@ export const LearningItem = ({ title, content, contentSliced, createdAt, collect
     }
     /* pw check */
     const pwCheck = (val) => {
-        if (val === 'xiaow233') { // wtest xiaow233
+        if (val === '123') { // wtest xiaow233
             showAlert({
                 message: 'pw ok',
                 type: "success",
@@ -90,7 +96,7 @@ export const LearningItem = ({ title, content, contentSliced, createdAt, collect
     /* /wtest pw */
     return (
         <div className="item-learning">
-            <h3>{title}</h3>
+            <h3>{title} (Author: {author?.name ? author.name : '??'})</h3>
             <p>{contentSliced}</p>
             {/* <p>---</p> */}
             {/* <div dangerouslySetInnerHTML={{ __html: content }}></div> */}
@@ -98,10 +104,10 @@ export const LearningItem = ({ title, content, contentSliced, createdAt, collect
             <p>{timeFormatter(createdAt)}</p>
             {/* <p>wtest: id: {id}</p> */}
             <Link href={itemUrl}>More...</Link>
-            <button
+            {author && author.userId && author.userId === session.user.userId && <button
                 className="btnDelete"
                 onClick={checkDelStatus}
-            >Delete</button>
+            >Delete</button>}
         </div>
     )
 }

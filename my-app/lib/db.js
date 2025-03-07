@@ -53,7 +53,7 @@ export default dbConnect;
 //   // sslCA: [fs.readFileSync('path_to_CA_cert.crt')], // 可选，指定 CA 证书
 // };
 
-// console.log("MONGODB_URI:", process.env.MONGODB_URI); // wtest
+
 
 
 // if (!uri) {

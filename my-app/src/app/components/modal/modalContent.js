@@ -1,12 +1,6 @@
 import { useState } from 'react'
 export const ModalContent = ({ closeModal, valueHandler }) => {
     const [pw, setPw] = useState("");
-  
-    // const pwCheck = () => {
-    // //   console.log("Entered Password:", pw);
-    //   closeModal();
-    // };
-  
     return (
       <>
         <input

@@ -8,7 +8,6 @@ const ModalContext = createContext()
 //     // const [ modal, setModal ] = useState({ title: "", content: "", visible: false })
 //     const [ modalContent, setModalContent ] = useState(null)
 //     const [ isOpen, setIsOpen ] = useState(false)
-//     console.log('wtest ??')
 //     const [ modalState, setModalState ] = useState({password: 'wtest-1'}) // wtest {}
 
 //     const openModal = ({
@@ -103,7 +102,6 @@ export const useModal = () => {
                             // // setModalState({ ...modalState, password: e.target.value });
                             // }
                             (e) => {
-                                console.log('input onchange', e.target.value)
                                 setModalState({ ...modalState, password: e.target.value })
                             }
                         }

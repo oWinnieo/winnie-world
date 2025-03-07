@@ -70,10 +70,11 @@ export const authOptions = {
     // 	•	session.user.accessToken: 传递 Google 访问令牌到前端（如调用 Google API 时使用）。
     //   */
     async session({ session, token }) {
+      console.log('wtest google session ----------> 1')
       // session: 传递到前端的会话数据
       // token: jwt 回调中的 token
       // session.user.id = token.id; // 传递用户 ID
-      session.user.id = token.sub // wtest what is it?
+      session.user.userId = token.sub // wtest what is it?
       // session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* wtest another *
@@ -89,22 +90,23 @@ export const authOptions = {
     // 	•	account: 账户信息（access_token, refresh_token, provider 等）。
     // 	•	profile: 从 Google 获取的完整用户数据（sub, name, email, picture 等）。
     //   */
-    //     async signIn({ user, account, profile }) {
-    //       console.log("用户信息:", user);
-    //       console.log("账户信息:", account);
-    //       console.log("OAuth 资料:", profile);
-    //       return true; // 允许登录
-    //       /* wtest another *
-    //       console.log("用户信息:", user);
-    //       console.log("OAuth 账户信息:", account);
-    //       console.log("Google 资料:", profile);
+        async signIn({ user, account, profile }) {
+          console.log('wtest google signIn ----------> 2')
+          console.log("用户信息:", user);
+          console.log("账户信息:", account);
+          console.log("OAuth 资料:", profile);
+          return true; // 允许登录
+          /* wtest another *
+          console.log("用户信息:", user);
+          console.log("OAuth 账户信息:", account);
+          console.log("Google 资料:", profile);
 
-    //       if (profile?.email?.endsWith("@example.com")) {
-    //         return true; // 仅允许 "@example.com" 结尾的邮箱登录
-    //       }
-    //       return false; // 其他邮箱禁止登录
-    //       /* /wtest another */
-    //     },
+          if (profile?.email?.endsWith("@example.com")) {
+            return true; // 仅允许 "@example.com" 结尾的邮箱登录
+          }
+          return false; // 其他邮箱禁止登录
+          /* /wtest another */
+        },
     //     /*
     //     redirect 回调 (控制登录后跳转的 URL)
     //     */
@@ -183,3 +185,9 @@ export default withAuth({
 
 export const config = { matcher: ["/dashboard"] }; // 保护 "/dashboard" 页面
 */
+
+
+
+
+
+

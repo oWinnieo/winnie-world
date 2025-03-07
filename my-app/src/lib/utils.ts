@@ -46,12 +46,10 @@ const getPropsFromReactNodes = (nodes: React.ReactNode[]) => {
 
 export const htmlDecodeSlice = (htmlParsed: React.ReactNode[]) => {
   const propsList = getPropsFromReactNodes(htmlParsed);
-  console.log('htmlParsed', htmlParsed)
   if (propsList.length === 0) {
     return ''
   }
   const htmlDecodedStr = propsList.length > 1 ? propsList.reduce((a, b) => {
-    console.log('a', a, 'b', b)
     if (propsList.length === 1) debugger;
     return a.children ? a.children[0] : a + b.children[0]
   }) : propsList[0].children ? propsList[0].children[0] : propsList[0]

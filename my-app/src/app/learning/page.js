@@ -1,5 +1,6 @@
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
+import { UserCheck } from '@components/userCheck/userCheck'
 import Link from 'next/link'
 
 const listLearning = [
@@ -23,7 +24,7 @@ const listLearning = [
     // }
 ]
 
-export default function Learning () {
+export default async function Learning () {
     return (
         <PageWrap>
             <AreaTitle>Learning Area</AreaTitle>
@@ -36,6 +37,7 @@ export default function Learning () {
                     ))
                 }
             </ul>
+            <UserCheck></UserCheck>
         </PageWrap>
     )
 }

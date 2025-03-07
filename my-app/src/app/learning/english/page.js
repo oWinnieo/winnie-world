@@ -1,24 +1,11 @@
-// app/page.tsx
-// 'use client'
 import { useContext } from 'react'
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
 import { LearningItemList } from '@/app/components/learningItemList/learningItemList'
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
 
-// import { useRouter } from 'next/navigation'
-// import { useState } from 'react'
 export default function LearningEnglish() {
-    // const wtest_d = useRouter()
-    // console.log('wtest_d', wtest_d.asPath)
     const urlDomain = process.env.URL_DOMAIN + '/api/learning-item'
-    /* wtest context */
-    // const { data, setData } = useContext(MyContext)
-    // const sharedState = 'Shared State'
-    // const sharedFunction = () => {
-    //   console.log('sharedFunction')
-    // }
-    /* /wtest context */
 
     return (
       <>

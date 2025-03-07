@@ -8,11 +8,18 @@ import { htmlEncode, htmlSimpleDecode } from '@/lib/utils';
 import { TiptapEditor } from '@/app/components/richTextEditor/TiptapEditor' 
 import './itemEditor.scss';
 
+// type UserType = {
+//     name: String;
+//     email: String;
+//     userId: String;
+//     image: String;
+// }
 type FormAddItemParams = {
     urlDomain: string;
     data: FormAddItemType,
     collectionName: string;
-    userId: string;
+    // user: UserType;
+    authorId: String;
 }
 type FormAddItemType = {
     title: string;
@@ -60,9 +67,7 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
         id?: string
      }> = async (data: FormAddItemType) => {
         console.log('表单提交数据:', data);
-        console.log('wtest handleSubmit')
         const { title, content } = data
-        // e.preventDefault();
         if (!title || !content) {
             alert('Title and content should not be empty!')
             return
@@ -76,7 +81,8 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
         // 处理表单提交逻辑
         if (params.data) {
             console.log('newData', newData) // wtest
-            console.log('params.userId', params.userId)
+            console.log('params', params)
+            console.log('wtest aha', { ...newData, updatedAt: new Date(), authorId: params.authorId })
             debugger;
             try {
                 // console.log('edit create wtest ---------- params.collectionName', params.collectionName)
@@ -86,7 +92,7 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
                     headers: {
                         "Content-type": 'application/json'
                     },
-                    body: JSON.stringify({ ...newData, updatedAt: new Date(), authorId: params.userId })
+                    body: JSON.stringify({ ...newData, updatedAt: new Date(), authorId: params.authorId })
                 })
                 const dataRes = await res.json();
                 if (dataRes.success) {
@@ -106,10 +112,9 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
                     headers: {
                         "Content-type": 'application/json'
                     },
-                    body: JSON.stringify({ title, content, authorId: params.userId })
+                    body: JSON.stringify({ title, content, authorId: params.authorId }) // wtest user: params.user
                 })
                 const dataRes = await res.json();
-                // debugger;
                 if (dataRes.success) {
                     console.log(dataRes.message)
                     window.location.reload()
@@ -128,8 +133,13 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
     <form
         className="area-form flex flex-col gap-3"
         onSubmit={handleSubmit(onSubmit)}>
-            {/* handleSubmit(onSubmit) */}
-            <p>wtest params.userId: {params.userId}</p>
+            {/* <p>wtest params.userId: {params.userId}</p> */}
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        >
+          Submit
+        </button>
         <div className="area-form-item">
             {/* 标题输入框 */}
             <label className="block">
@@ -166,104 +176,7 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
                 onChange={(value: string) => setValue("content", value as string)} // wtest
             />
             </label>
-            {/* <label htmlFor="content">邮箱:</label> */}
-            {/* <input
-                className="border border-slate-500 px-8 py-2"
-                type="text"
-                id="content"
-                placeholder='Content'
-                {...register('content')}
-            /> */}
-            {/* {errors.content && <p>{errors.content.message}</p>} */}
         </div>
-        {/* <button type="submit">提交1</button> */}
-        {/* 提交按钮 */}
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-        >
-          Submit
-        </button>
     </form>
-    // <form onSubmit={handleSubmit(onSubmit)}>
-    //         <div>
-    //             <label htmlFor="title">姓名:</label>
-    //             <input
-    //                 type="text"
-    //                 id="title"
-    //                 {...register('title')}
-    //             />
-    //             {errors.title && <p>{errors.title.message}</p>}
-    //         </div>
-    //         <div>
-    //             <label htmlFor="content">邮箱:</label>
-    //             <input
-    //                 type="text"
-    //                 id="content"
-    //                 {...register('content')}
-    //             />
-    //             {errors.content && <p>{errors.content.message}</p>}
-    //         </div>
-    //         <button type="submit">提交</button>
-    //     </form>
-    // <form onSubmit={handleSubmit} className="area-form flex flex-col gap-3">
-    //         <input
-    //             className="border border-slate-500 px-8 py-2"
-    //             type="text"
-    //             placeholder="Title"
-    //             onChange={e => setTitle(e.target.value)}></input>
-    //         <input
-    //             className="border border-slate-500 px-8 py-2"
-    //             type="text"
-    //             placeholder="Content"
-    //             onChange={e => setContent(e.target.value)}></input>
-    //         <div className="wtest-style">
-    //                 {/* <RichTextEditor
-    //                     // initialContent={field.value}
-    //                     onChange={e => setContent(e.target.value)}
-    //                     initialContent={content}
-    //                 ></RichTextEditor> */}
-    //         </div>
-    //         <button>Submit</button>
-    //     </form>
-    // <Form {...form}>
-    //   <form
-    //     className="space-y-6 p-2"
-    //     noValidate
-    //     onSubmit={handleSubmit(onSubmit)}
-    //   >
-    //     {/* <FormField
-    //       control={control}
-    //       name="title"
-    //       render={({ field }) => (
-    //         <FormItem>
-    //           <FormLabel>Title</FormLabel>
-    //           <FormControl>
-    //             <Input {...field} />
-    //           </FormControl>
-    //           <FormMessage />
-    //         </FormItem>
-    //       )}
-    //     />
-
-    //     <FormField
-    //       control={control}
-    //       name="content"
-    //       render={({ field }) => (
-    //         <FormItem>
-    //           <FormLabel>Description</FormLabel>
-    //           <FormControl>
-    //             <RichTextEditor  onChange={field.onChange}  />
-    //           </FormControl>
-    //           <FormMessage />
-    //         </FormItem>
-    //       )}
-    //     /> */}
-    //     <button type="submit">Submit</button>
-    //     {/* <LoadingBtn type="submit" loading={isSubmitting}>
-    //       Submit
-    //     </LoadingBtn> */}
-    //   </form>
-    // </Form>
   );
 }

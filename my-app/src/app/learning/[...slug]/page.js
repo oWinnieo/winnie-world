@@ -6,27 +6,34 @@ import { modelEn,
   modelJp,
   modelServer
 } from '../../../../models/learningItem';
+
 import { timeFormatter } from '../../../../lib/util'
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
 import './style.scss'
 
 export default async function Post({ params }) {
   // 确保 params.slug 存在
-
-  // const slug = params?.slug || [];
   const paramsArr = await params
   const slug = paramsArr.slug
   // console.log('slug', slug)
   const urlDomain = `${process.env.URL_DOMAIN}/api/learning-item` // wtest 
 
   await dbConnect();
-  let data
+  let dataOri
   if (slug[0] === 'english') {
-    data = await modelEn.findOne({ _id: slug[1] }).lean();
+    dataOri = await modelEn.findOne({ _id: slug[1] }).lean();
   } else if (slug[0] === 'japanese') {
-    data = await modelJp.findOne({ _id: slug[1] }).lean();
+    dataOri = await modelJp.findOne({ _id: slug[1] }).lean();
   } else if (slug[0] === 'server') {
-    data = await modelServer.findOne({ _id: slug[1] }).lean();
+    dataOri = await modelServer.findOne({ _id: slug[1] }).lean();
+  }
+
+  // const { name, email, id, image } = dataOri.author
+  const data = {
+    ...dataOri,
+    // author: {
+    //   name, email, id, image
+    // }
   }
   // const dataJson = data.json()
     // const urlDomain = `${process.env.URL_DOMAIN}/api/learning-item?collectionName=${slug[0]}`
@@ -43,7 +50,9 @@ export default async function Post({ params }) {
           <div><Link href={slug[0] ? `/learning/${slug[0]}` : '/learning'}>Back to List</Link></div>
           <p>Created Time: {timeFormatter(data.createdAt)} </p>
           <p>Updated Time: {timeFormatter(data.updatedAt)} </p>
-          <p>Author: {data.authorId}</p>
+          <p>Author: {data?.author?.name ? data.author.name : '??'}</p>
+          {/* data?.authorId */}
+          <p>wtest: {JSON.stringify(data?.author?.userId ? data.author.userId : '??')}</p>
       </div>
       <div className="page-details">
         <ItemEditor
@@ -52,12 +61,12 @@ export default async function Post({ params }) {
                 urlDomain,
                 data: {
                     title: data.title,
+                    author: data.author,
                     // content: data.content, // wtest
                     content: data.content, // wtest htmlSimpleDecode(data.content),
                     id: slug[1],
                     createdAt: data.createdAt,
                     updatedAt: data.updatedAt,
-                    authorId: data.authorId
                 },
                 collectionName: slug[0]
             }
@@ -75,9 +84,9 @@ export default async function Post({ params }) {
   );
 }
 
-export async function generateStaticParams() {
-  return [
-    { slug: ["learning", "japanese", "123"] },
-    { slug: ["learning", "english", "456"] },
-  ];
-}
+// export async function generateStaticParams() {
+//   return [
+//     { slug: ["learning", "japanese", "123"] },
+//     { slug: ["learning", "english", "456"] },
+//   ];
+// }

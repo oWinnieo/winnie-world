@@ -6,19 +6,15 @@ import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 import { useSession } from "next-auth/react"; // wtest auth
+import { userInfo } from '@/app/mock/userInfo' // wtest mock
 import './itemEditor.scss';
 // import MyContext from '@/app/contexts/MyContext' // wtest context
 export const ItemEditor = ({ params, type }) => {
     // console.log('wtest ItemEditor params', params)
-    // const { data: session } = useSession(); // wtest auth backup
-    /* wtest auth mock */
+    const { data: session } = useSession(); // wtest auth backup
+    /* wtest auth mock *
     const session = {
-        user: {
-            "name":"Ryuuna R",
-            "email":"ryuuna2010@gmail.com",
-            id: '100402157727233293796',
-            image: 'https://lh3.googleusercontent.com/a/ACg8ocIjhCKEvHRTFNPuWEhoKJWg-6g4U4BaGSCwu5Zk11RaaTxCBvM=s96-c'
-        }
+        user: userInfo
     }
     /* /wtest auth mock */
     const [ isAddItem, setIsAddItem ] = useState(false)
@@ -29,7 +25,7 @@ export const ItemEditor = ({ params, type }) => {
     }
     /* check author */
     const authorCheck = () => {
-        return session.user.id
+        return session.user.userId
     }
     /* /check author */
     /* modal */
@@ -53,7 +49,7 @@ export const ItemEditor = ({ params, type }) => {
     /* /modal */
     /* pw check */
     const pwCheck = (val) => {
-        if (val === 'xiaow233') { // wtest 
+        if (val === '123') { // wtest 
             showAlert({
                 message: 'pw ok',
                 type: "success",
@@ -73,18 +69,28 @@ export const ItemEditor = ({ params, type }) => {
     /* /pw check */
     return (
         <>
+            {/* <p>wtest params: {JSON.stringify(params)}</p> */}
+            {/* <p>wtest params.data: {params.data.author.id}</p> */}
+            {/* <p>wtest session.user.userId: {session.user.userId}</p> */}
             <div className="area-tools">
-                <button onClick={checkAddStatus}>
+                <button className={params?.data?.author?.id && params.data.author.id !== session.user.userId && 'disabled'} onClick={checkAddStatus}>
                     {isAddItem ? (
                         params.data ? 'Cancel Edit' : 'Cancel Adding') :
-                        (params.data ? 'Edit Item (need to enter the right password)' : 'Add Item (need to enter the right password)')}
+                        (params.data ? (
+                            params.data?.author?.id && params.data.author.id !== session.user.userId ? 'Edit Item (You‘re not the author)' :'Edit Item (need to enter the right password)'
+                        ) : (
+                            params.data?.author?.id && params.data.author.id !== session.user.userId ? 'Add Item (You‘re not the author)' : 'Add Item (need to enter the right password)')
+                        )
+                    }
+                        
                 </button>
             </div>
             <div className="area-content">
             {
                 isAddItem ? <FormAddItem params={{
                     ...params,
-                    userId: session.user.id,
+                    // user: session.user
+                    authorId: session.user.userId
                 }}></FormAddItem> : 
                     (
                         params.data ? <div>{htmlDecode(params.data.content)}</div> : null

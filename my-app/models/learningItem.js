@@ -1,9 +1,15 @@
 import mongoose from 'mongoose';
+// import defaultUserSchema, { UserSchema } from './Users' // wtest
+// console.log('~~~~~~~~~~~~~~~ >>>')
+// console.log('authorSchema', authorSchema)
+// console.log('defaultUserSchema', defaultUserSchema)
+// console.log('UserSchema', UserSchema)
 
 const LearningItemSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true }, // unique: true
-  authorId: { type: String, required: true },
+  // author: { type: authorSchema, required: true }
+  authorId: { type: String, required: true }
   // createdAt: { type: Date, default: Date.now },
   // updatedAt: { type: Date },
 },{ timestamps: true } // ✅ 启用 `createdAt` & `updatedAt`
