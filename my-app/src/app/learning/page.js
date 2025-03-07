@@ -1,6 +1,6 @@
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
-import { UserCheck } from '@components/userCheck/userCheck'
+// import { UserCheck } from '@components/userCheck/userCheck' // wtest
 import Link from 'next/link'
 
 const listLearning = [
@@ -37,7 +37,7 @@ export default async function Learning () {
                     ))
                 }
             </ul>
-            <UserCheck></UserCheck>
+            {/* <UserCheck></UserCheck> wtest */}
         </PageWrap>
     )
 }

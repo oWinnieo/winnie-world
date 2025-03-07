@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { userInfoHandler } from './userInfoHandler'
 
 export const authOptions = {
   providers: [
@@ -95,17 +96,9 @@ export const authOptions = {
           console.log("用户信息:", user);
           console.log("账户信息:", account);
           console.log("OAuth 资料:", profile);
+          userInfoHandler({ user })
           return true; // 允许登录
-          /* wtest another *
-          console.log("用户信息:", user);
-          console.log("OAuth 账户信息:", account);
-          console.log("Google 资料:", profile);
-
-          if (profile?.email?.endsWith("@example.com")) {
-            return true; // 仅允许 "@example.com" 结尾的邮箱登录
-          }
-          return false; // 其他邮箱禁止登录
-          /* /wtest another */
+          
         },
     //     /*
     //     redirect 回调 (控制登录后跳转的 URL)
