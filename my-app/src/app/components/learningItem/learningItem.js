@@ -77,12 +77,13 @@ export const LearningItem = ({ title, author, content, contentSliced, createdAt,
     /* /wtest pw */
     return (
         <div className="item-learning">
+            <p>wtest userID: {JSON.stringify(session?.user?.userId)}</p>
             <h3>{title} (Author: {author?.name ? author.name : '??'})</h3>
             <p>{contentSliced}</p>
             <p>{timeFormatter(createdAt)}</p>
             <Link href={itemUrl}>More...</Link>
             {/* <p>wtest {JSON.stringify(session.user.userId)}</p> */}
-            {author && author.userId && author.userId === session.user.userId && <button
+            {author && session?.user?.userId && author.userId && author.userId === session.user.userId && <button
                 className="btnDelete"
                 onClick={checkDelStatus}
             >Delete</button>}

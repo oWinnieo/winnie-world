@@ -90,7 +90,7 @@ export const ItemEditor = ({ params, type }) => {
                 isAddItem ? <FormAddItem params={{
                     ...params,
                     // user: session.user
-                    authorId: session.user.userId
+                    authorId: session?.user?.userId ? session.user.userId : '?? wtest waiting'
                 }}></FormAddItem> : 
                     (
                         params.data ? <div>{htmlDecode(params.data.content)}</div> : null

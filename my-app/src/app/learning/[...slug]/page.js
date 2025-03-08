@@ -45,8 +45,8 @@ export default async function Post({ params }) {
           <p>wtest: {JSON.stringify(data?.author?.userId ? data.author.userId : '??')}</p>
       </div>
       <div className="page-details">
-        <p>wtest data: {JSON.stringify(data)}</p>
-        {/* <ItemEditor
+        {/* <p>wtest data: {JSON.stringify(data)}</p> */}
+        <ItemEditor
             params={
             {
               urlDomainLearning,
@@ -62,7 +62,7 @@ export default async function Post({ params }) {
                 collectionName: slug[0]
             }
             }
-        ></ItemEditor> */}
+        ></ItemEditor>
       </div>
       {/* <div className="p-6 max-w-2xl mx-auto">
         <h1 className="text-2xl font-bold">Post Page</h1>
