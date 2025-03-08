@@ -83,6 +83,7 @@ export const authOptions = {
       session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* /wtest another */
+      console.log('session', session)
       return session;
     },
     //     /*
@@ -115,11 +116,14 @@ export const authOptions = {
     //     /*
     //     redirect 回调 (控制登录后跳转的 URL)
     //     */
-    //     async redirect({ url, baseUrl }) {
-    //       return baseUrl; // 登录成功后跳转回首页
-    //       // return url.startsWith(baseUrl) ? url : baseUrl;
-    //       // return process.env.NEXTAUTH_URL + "/api/auth/callback/google" // wtest
-    //     },
+        async redirect({ url, baseUrl }) {
+          console.log('wtest google signIn ----------> 3')
+          console.log('url', url)
+          console.log('baseUrl', baseUrl)
+          return baseUrl; // 登录成功后跳转回首页
+          // return url.startsWith(baseUrl) ? url : baseUrl;
+          // return process.env.NEXTAUTH_URL + "/api/auth/callback/google" // wtest
+        },
     //     /*
     //     authorized 回调 (控制访问权限)
     //     */
