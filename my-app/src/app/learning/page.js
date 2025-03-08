@@ -48,8 +48,7 @@ export default async function Learning () {
         collectionName: 'listNav'
     })
     console.log('listLearningFromApi', listLearningFromApi)
-    // const wtestUserHandle = () => {
-        // console.log('wtest aha', userFromGoogle)
+    /* wtest *
         const { success, message, data } = await userInfoHandler({ user: userFromGoogle })
         console.log('data wtest >>>>>>>>> 123123', data)
         // console.log('userFromGoogle', userFromGoogle)
@@ -64,7 +63,7 @@ export default async function Learning () {
             resUserHandledRes = await userCheckedHandler({ user: userFromGoogle, type: 'add' })
         }
         console.log('wtest resUserHandledRes', resUserHandledRes)
-    // }
+        /* /wtest */
     return (
         <PageWrap>
             <AreaTitle>Learning Area</AreaTitle>
