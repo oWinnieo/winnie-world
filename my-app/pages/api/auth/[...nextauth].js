@@ -117,11 +117,11 @@ export const authOptions = {
     //     redirect 回调 (控制登录后跳转的 URL)
     //     */
         async redirect({ url, baseUrl }) {
-          console.log('wtest google signIn ----------> 3')
+          console.log('wtest google redirect ----------> 3')
           console.log('url', url)
           console.log('baseUrl', baseUrl)
-          return baseUrl; // 登录成功后跳转回首页
-          // return url.startsWith(baseUrl) ? url : baseUrl;
+          // return baseUrl; // 登录成功后跳转回首页
+          return url.startsWith(baseUrl) ? url : baseUrl;
           // return process.env.NEXTAUTH_URL + "/api/auth/callback/google" // wtest
         },
     //     /*
