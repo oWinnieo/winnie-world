@@ -96,18 +96,17 @@ export const authOptions = {
           console.log("用户信息:", user);
           console.log("账户信息:", account);
           console.log("OAuth 资料:", profile);
-          const { data } = await userInfoHandler({ user: userFromGoogle })
+          const { data } = await userInfoHandler({ user })
           console.log('data wtest >>>>>>>>> 123123', data)
-          // console.log('userFromGoogle', userFromGoogle)
+          console.log('user', user)
           let resUserHandledRes
           if (data) {
-
               resUserHandledRes = await userCheckedHandler({ user: {
                   ...data,
-                  ...userFromGoogle
+                  ...user
               }, type: 'update' })
           } else {
-              resUserHandledRes = await userCheckedHandler({ user: userFromGoogle, type: 'add' })
+              resUserHandledRes = await userCheckedHandler({ user, type: 'add' })
           }
           console.log('wtest resUserHandledRes', resUserHandledRes)
           return true; // 允许登录
