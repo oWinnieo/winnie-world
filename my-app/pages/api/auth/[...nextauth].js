@@ -84,6 +84,21 @@ export const authOptions = {
       session.user.image = token.picture; // 传递头像
       /* /wtest another */
       console.log('session', session)
+
+      /* wtest */
+      const { data } = await userInfoHandler({ user: session.user })
+      let resUserHandledRes
+      if (data) {
+          resUserHandledRes = await userCheckedHandler({ user: {
+              ...data,
+              ...session.user
+          }, type: 'update' })
+      } else {
+          resUserHandledRes = await userCheckedHandler({ user: session.user, type: 'add' })
+      }
+      console.log('wtest resUserHandledRes', resUserHandledRes)
+      /* /wtest */
+      
       return session;
     },
     //     /*
@@ -97,19 +112,8 @@ export const authOptions = {
           console.log("用户信息:", user);
           console.log("账户信息:", account);
           console.log("OAuth 资料:", profile);
-          // const { data } = await userInfoHandler({ user })
           console.log('user wtest >>>>>>>>> 123123', user)
-          // console.log('user', user)
-          // let resUserHandledRes
-          // if (data) {
-          //     resUserHandledRes = await userCheckedHandler({ user: {
-          //         ...data,
-          //         ...user
-          //     }, type: 'update' })
-          // } else {
-          //     resUserHandledRes = await userCheckedHandler({ user, type: 'add' })
-          // }
-          // console.log('wtest resUserHandledRes', resUserHandledRes)
+          
           return true; // 允许登录
           
         },
