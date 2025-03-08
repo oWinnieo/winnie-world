@@ -79,13 +79,9 @@ export const LearningItem = ({ title, author, content, contentSliced, createdAt,
         <div className="item-learning">
             <h3>{title} (Author: {author?.name ? author.name : '??'})</h3>
             <p>{contentSliced}</p>
-            {/* <p>---</p> */}
-            {/* <div dangerouslySetInnerHTML={{ __html: content }}></div> */}
-            {/* <div>{htmlDecode(content, 'show')}</div> */}
             <p>{timeFormatter(createdAt)}</p>
-            {/* <p>wtest: id: {id}</p> */}
             <Link href={itemUrl}>More...</Link>
-            <p>wtest {JSON.stringify(session.user.userId)}</p>
+            {/* <p>wtest {JSON.stringify(session.user.userId)}</p> */}
             {author && author.userId && author.userId === session.user.userId && <button
                 className="btnDelete"
                 onClick={checkDelStatus}

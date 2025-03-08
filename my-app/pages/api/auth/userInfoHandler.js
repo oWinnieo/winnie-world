@@ -9,7 +9,7 @@ import { modelUser } from 'models/users';
 const urlDomainUser = `${process.env.URL_DOMAIN}/api/learning` // wtest users / learning
 
 export const userCheckedHandler = async ({ user, type }) => {
-    console.log('wtest user >>>>>>> userCheckedHandler', `>>> ${type} <<<`)
+    // console.log('wtest user >>>>>>> userCheckedHandler', `>>> ${type} <<<`)
     if (!user) return ({ success: false, message: 'no user '})
         const {
             name,

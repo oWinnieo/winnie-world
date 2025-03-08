@@ -46,7 +46,6 @@ export const LearningItemList = async ({ params }) => {
 
     return (
         <ul>
-            <p>wtest {params.collectionName} 11</p>
             {/* {listData.length} */}
             {!listData || listData.length === 0 ? <p>Loading...</p> : listData.map(i => (
                 <li key={i._id}>
