@@ -96,7 +96,7 @@ export const authOptions = {
           console.log("用户信息:", user);
           console.log("账户信息:", account);
           console.log("OAuth 资料:", profile);
-          userInfoHandler({ user })
+          // userInfoHandler({ user })
           return true; // 允许登录
           
         },

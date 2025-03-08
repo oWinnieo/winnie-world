@@ -15,7 +15,7 @@ import './itemEditor.scss';
 //     image: String;
 // }
 type FormAddItemParams = {
-    urlDomain: string;
+    urlDomainLearning: string;
     data: FormAddItemType,
     collectionName: string;
     // user: UserType;
@@ -66,7 +66,7 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
         createdAt?: Date,
         id?: string
      }> = async (data: FormAddItemType) => {
-        console.log('表单提交数据:', data);
+        // console.log('表单提交数据:', data);
         const { title, content } = data
         if (!title || !content) {
             alert('Title and content should not be empty!')
@@ -82,12 +82,9 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
         if (params.data) {
             console.log('newData', newData) // wtest
             console.log('params', params)
-            console.log('wtest aha', { ...newData, updatedAt: new Date(), authorId: params.authorId })
-            debugger;
+            // console.log('wtest aha', { ...newData, updatedAt: new Date(), authorId: params.authorId })
             try {
-                // console.log('edit create wtest ---------- params.collectionName', params.collectionName)
-                // console.log('wtest params.urlDomain', params.urlDomain)
-                const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
+                const res = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}`, {
                     method: 'PUT',
                     headers: {
                         "Content-type": 'application/json'
@@ -106,8 +103,7 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
             }
         } else {
             try {
-                console.log('add create wtest ----------')
-                const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
+                const res = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}`, {
                     method: 'POST',
                     headers: {
                         "Content-type": 'application/json'

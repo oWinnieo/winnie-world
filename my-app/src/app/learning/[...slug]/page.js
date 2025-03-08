@@ -11,34 +11,24 @@ import { timeFormatter } from '../../../../lib/util'
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
 import './style.scss'
 
+const getOneData = async (params) => {
+  // console.log('wtest_d', wtest_d)
+  const { data } = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}`, {
+      cache: 'no-store', // 等效于 SSR 的行为
+      }).then(res => res.json());
+  return data
+}
+
 export default async function Post({ params }) {
-  // 确保 params.slug 存在
   const paramsArr = await params
   const slug = paramsArr.slug
-  // console.log('slug', slug)
-  const urlDomain = `${process.env.URL_DOMAIN}/api/learning-item` // wtest 
-
-  await dbConnect();
-  let dataOri
-  if (slug[0] === 'english') {
-    dataOri = await modelEn.findOne({ _id: slug[1] }).lean();
-  } else if (slug[0] === 'japanese') {
-    dataOri = await modelJp.findOne({ _id: slug[1] }).lean();
-  } else if (slug[0] === 'server') {
-    dataOri = await modelServer.findOne({ _id: slug[1] }).lean();
-  }
-
-  // const { name, email, id, image } = dataOri.author
-  const data = {
-    ...dataOri,
-    // author: {
-    //   name, email, id, image
-    // }
-  }
-  // const dataJson = data.json()
-    // const urlDomain = `${process.env.URL_DOMAIN}/api/learning-item?collectionName=${slug[0]}`
-    console.log('data ~~~~~~~~~~~~~~~~~~', data)
-
+  const urlDomainLearning = `${process.env.URL_DOMAIN}/api/learning` // wtest 
+  const data = await getOneData({
+    urlDomainLearning,
+    collectionName: slug[0],
+    id: slug[1]
+  });
+  console.log('data post wtest >>>>>>>', data)
 
   return (
     <PageWrap>
@@ -55,10 +45,11 @@ export default async function Post({ params }) {
           <p>wtest: {JSON.stringify(data?.author?.userId ? data.author.userId : '??')}</p>
       </div>
       <div className="page-details">
-        <ItemEditor
+        <p>wtest data: {JSON.stringify(data)}</p>
+        {/* <ItemEditor
             params={
             {
-                urlDomain,
+              urlDomainLearning,
                 data: {
                     title: data.title,
                     author: data.author,
@@ -71,7 +62,7 @@ export default async function Post({ params }) {
                 collectionName: slug[0]
             }
             }
-        ></ItemEditor>
+        ></ItemEditor> */}
       </div>
       {/* <div className="p-6 max-w-2xl mx-auto">
         <h1 className="text-2xl font-bold">Post Page</h1>

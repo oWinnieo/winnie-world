@@ -4,6 +4,24 @@ const userInfo = {
             userId: '100402157727233293796',
             image: 'https://lh3.googleusercontent.com/a/ACg8ocIjhCKEvHRTFNPuWEhoKJWg-6g4U4BaGSCwu5Zk11RaaTxCBvM=s96-c'
 }
+const userFromGoogle = {
+    // id: '100402157727233293796',
+    userId: '789222123111666123',
+    name: 'Ryuuna R 789222123111666123',
+    // email: 'ryuuna2010@gmail.com',
+    email: '7892221231111666123@qq.com',
+    image: 'https://lh3.googleusercontent.com/a/ACg8ocIjhCKEvHRTFNPuWEhoKJWg-6g4U4BaGSCwu5Zk11RaaTxCBvM=s96-c'
+}// wtest waiting 123的时候无法加入,为什么?
+
+const userFromGoogle1 = {
+    // id: '100402157727233293796',
+    userId: '69',
+    name: 'Ryuuna R 69',
+    // email: 'ryuuna2010@gmail.com',
+    email: '69@qq.com',
+    image: 'https://lh3.googleusercontent.com/a/ACg8ocIjhCKEvHRTFNPuWEhoKJWg-6g4U4BaGSCwu5Zk11RaaTxCBvM=s96-c'
+}
 export {
-    userInfo
+    userInfo,
+    userFromGoogle
 }

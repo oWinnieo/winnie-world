@@ -8,7 +8,7 @@ export const timeFormatter = (time) => {
     //     minite: '2-digit'
     // })
 
-    const timeFormatted = new Intl.DateTimeFormat("zh-CN", {
+    const timeFormatted = time ? new Intl.DateTimeFormat("zh-CN", {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
@@ -17,7 +17,7 @@ export const timeFormatter = (time) => {
         second: "2-digit",
         hour12: false,
         timeZone: "Asia/Shanghai", // 时区可改
-      }).format(new Date(time));
+      }).format(new Date(time)) : '?';
 
     return timeFormatted
 }

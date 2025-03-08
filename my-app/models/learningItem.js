@@ -1,9 +1,5 @@
 import mongoose from 'mongoose';
 // import defaultUserSchema, { UserSchema } from './Users' // wtest
-// console.log('~~~~~~~~~~~~~~~ >>>')
-// console.log('authorSchema', authorSchema)
-// console.log('defaultUserSchema', defaultUserSchema)
-// console.log('UserSchema', UserSchema)
 
 const LearningItemSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -14,17 +10,6 @@ const LearningItemSchema = new mongoose.Schema({
   // updatedAt: { type: Date },
 },{ timestamps: true } // ✅ 启用 `createdAt` & `updatedAt`
 );
-
-// 添加静态方法来处理删除操作
-// LearningItemSchema.statics.deleteById = async function (id) {
-//   console.log('deleteById id', id)
-//   try {
-//     const deletedItem = await this.findByIdAndDelete(id);
-//     return deletedItem;
-//   } catch (error) {
-//     throw new Error(`Failed to delete item with ID ${id}: ${error.message}`);
-//   }
-// };
 
 const modelEn = mongoose.models.english || mongoose.model('english', LearningItemSchema);
 const modelJp = mongoose.models.japanese || mongoose.model('japanese', LearningItemSchema);

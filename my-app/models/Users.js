@@ -12,7 +12,7 @@ export const UserSchema = new mongoose.Schema({
   image: { type: String, required: true },
   // 可根据需求添加更多字段
   role: { type: String, default: 'viewer' } // wtest viewer, editor, owner, admin
-});
+},{ timestamps: true });
 
 // name: String;
 //     email: String;

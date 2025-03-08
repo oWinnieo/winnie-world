@@ -3,48 +3,101 @@
 // import dbConnect from '../../../../lib/db';
 /* wtest user */
 import { modelUser } from 'models/users';
-import { userInfo } from '@/app/mock/userInfo' // wtest mock
+// import { userInfo } from '@/app/mock/userInfo' // wtest mock
 /* /wtest user */
-export const userInfoHandler = ({ user }) => {
+
+const urlDomainUser = `${process.env.URL_DOMAIN}/api/learning` // wtest users / learning
+
+export const userCheckedHandler = async ({ user, type }) => {
+    console.log('wtest user >>>>>>> userCheckedHandler', `>>> ${type} <<<`)
+    if (!user) return ({ success: false, message: 'no user '})
+        const {
+            name,
+            email,
+            image,
+            userId
+        } = user
+    switch (type) {
+        case 'add':
+            try {
+                const res = await fetch(`${urlDomainUser}?collectionName=user&fetchType=one`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-type": 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        image,
+                        userId,
+                        role: 'viewer'
+                    }) // wtest user: params.user
+                })
+                const dataRes = await res.json();
+                if (dataRes.success) {
+                    return dataRes
+                } else {
+                    return dataRes
+                    // throw new Error('Failed to create an item.')
+                }
+            } catch (err) {
+                console.log(err)
+            }
+            break;
+        case 'update':
+            try {
+                console.log('-------> updata user', user)
+                const res = await fetch(`${urlDomainUser}?collectionName=user&fetchType=one`, {
+                    method: 'PUT',
+                    headers: {
+                        "Content-type": 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ...user,
+                        id: user._id,
+                        updatedAt: new Date(),
+                    }) // wtest user: params.user
+                })
+                const dataRes = await res.json();
+                if (dataRes.success) {
+                    return dataRes
+                } else {
+                    return dataRes
+                    // throw new Error('Failed to update an item.')
+                }
+            } catch (err) {
+                console.log(err)
+            }
+            break;
+        default:
+            res.setHeader('Allow', ['GET', 'POST']);
+            res.status(405).end(`Method ${method} Not Allowed`);
+    }
+    
+}
+export const userInfoHandler = async ({ user }) => {
     // const { data: session } = useSession(); // wtest auth backup
-    console.log('user >>>', user)
+
+
     /* wtest auth mock */
     // const session = {
     //     user: userInfo
     // }
-    // const { userId, email } = userInfo
+    const { userId, email } = user
     /* /wtest auth mock */
-    /* wtest user *
-    const urlDomainUser = `${process.env.URL_DOMAIN}/api/users`
-    console.log('urlDomainUser', urlDomainUser)
-    // const urlDomain = `${process.env.URL_DOMAIN}/api/learning-item`
-    const { data } = await fetch(`${urlDomainUser}?collectionName=user&userId=${userId}&email=${email}`, {
+    /* wtest user */
+    
+    const { data, success, message } = await fetch(`${urlDomainUser}?collectionName=user&fetchType=one&userId=${userId}&email=${email}`, {
         cache: 'no-store', // 等效于 SSR 的行为
     }).then(res => res.json())
-    // const { data } = await fetch(`${urlDomain}?collectionName=english`, {
-    //     cache: 'no-store', // 等效于 SSR 的行为
-    // }).then(res => res.json());
     // await dbConnect();
+    console.log('data, success, message', data, success, message)
+    console.log('data', data, !data)
     
-    console.log('data >>>', data)
-    // debugger;
-    // let dataUser = await modelUser.exists({ userId, email });
-    // console.log('dataUser', dataUser)
-    // const res = await fetch(`${urlDomainUser}?collectionName=user&userId=${session?.user?.userId}&email=${session?.user?.email}`, {
-    //     method: 'PUT',
-    //     headers: {
-    //         "Content-type": 'application/json'
-    //     },
-    //     // body: JSON.stringify({ userId: , email:  })
-    // })
-    // const dataRes = await res.json();
-    // console.log('dataRes', dataRes)
-    // debugger;
-    // if (dataRes.success) {
-    //     console.log(dataRes.message)
-    //     // window.location.reload()
-    // } else {
-    //     throw new Error('Failed to find an item.')
-    // }
+    if (!data) {
+        return ({ success, message })
+    } else {
+        return ({ success, message, data })
+    }
     /* /wtest user */
 }

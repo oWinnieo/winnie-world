@@ -3,41 +3,88 @@ import { modelUser } from '../../models/users';
 
 export default async function handler(req, res) {
   const { method } = req;
-  const { collectionName } = req.query
+  const { collectionName, fetchType } = req.query
   let modelTarget
   switch (collectionName) {
     case 'user':
         modelTarget = modelUser
-        console.log('wtest 1')
         break;
   }
   await dbConnect();
   switch (method) {
     case 'GET':
+      if (fetchType === 'one') {
+        console.log('user fetchType >>>>>>>>> 1', fetchType)
+        console.log('collectionName ----------------->', collectionName)
         const { userId, email } = req.query;
-        console.log('~~userId', userId)
-        console.log('~~email', email)
-        debugger;
+        // console.log('~~userId', userId)
+        // console.log('~~email', email)
+        // debugger;
         try {
             // 查询是否存在符合条件的条目
             // const userExists = await modelTarget.exists({ userId, email });
-            // const user = await modelTarget.findOne({ userId, email })
-            const user = await modelTarget.find({})
+            const user = await modelTarget.findOne({ userId, email })
+            // const user = await modelTarget.find({})
             // const user = await modelTarget.countDocuments({})
-            console.log('--------->>> userExists', user)
+            console.log('--------->>> userExists', user) // wtest waiting
             // debugger;
             if (user) {
-                console.log('yes wtest')
                 res.status(200).json({ success: true, data: user });
-                // res.status(200),json({ success: true })
             } else {
-                console.log('no wtest')
                 res.status(200).json({ success: false, message: "Item not found" });
+                // data: [],
             }
         } catch (error) {
             res.status(500).json({ error: '数据库查询出错' });
         }
-    break;
+      } else if (fetchType === 'list') {
+        console.log('user fetchType >>>>>>>>> 2', fetchType)
+      }
+        
+      break;
+    case 'POST':
+      try {
+        let userAdded = await modelTarget.create(req.body);
+        res.status(200).json({ success: true, data: userAdded })
+      } catch (err) {
+        res.status(400).json({ success: false })
+      }
+      break;
+    case 'PUT':
+      try {
+        const { _id: id, ...updateData } = req.body;
+        if (!id) {
+            return res.status(400).json({ success: false, message: "ID is required" }); // wtest here
+          }
+        let userUpdated = await modelTarget.findByIdAndUpdate(id, updateData, {
+          new: true, // 返回更新后的数据
+          runValidators: true, // 运行 Mongoose 校验
+        });
+        if (!userUpdated) {
+          return res.status(404).json({ success: false, message: "Item not found" });
+        }
+        res.status(200).json({ success: true, data: userUpdated });
+      } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      break;
+    case 'DELETE': // wtest waiting
+      try {
+        const { id } = req.body
+        if (!id) {
+          return res.status(400).json({ success: false, error: 'Missing ID' });
+        }
+        let deleteUser
+          deleteUser = await modelTarget.deleteOne({ _id: id });
+        if (deleteUser.deletedCount === 0) {
+          return res.status(404).json({ success: false, error: 'Item not found' });
+        }
+
+        res.status(200).json({ success: true, message: 'Item deleted successfully' });
+      } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+      }
+      break;
     /* wtest *
     case 'GET':
       try {

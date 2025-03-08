@@ -13,7 +13,7 @@ import './learningItem.scss'
 
 const itemDelete = async ({ params, id }) => {
     // const encodedId = encodeURIComponent(id); // wtest waiting not reason
-    const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, { // wtest waiting ?id=${encodedId}
+    const res = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}`, { // wtest waiting ?id=${encodedId}
         method: 'DELETE',
         headers: {
             "Content-type": 'application/json'
@@ -27,26 +27,6 @@ const itemDelete = async ({ params, id }) => {
     } else {
         throw new Error('Failed to delete an item.')
     }
-    /* wtest 1 *
-    const res = await fetch(params.urlDomain, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id }),
-      });
-    
-      const data = await res.json();
-      if (data.success) {
-        console.log('res: ok');
-        // 重新获取列表
-        // fetchItems();
-        // window.location.reload() // wtest backup
-      } else {
-        console.error('Failed to delete an item.:', data.error);
-      }
-      // wtest why deleteById -> findByIdAndDelete no work
-    /* /wtest 1 */
 }
 
 export const LearningItem = ({ title, author, content, contentSliced, createdAt, collectionName, id, params }) => {
@@ -55,6 +35,7 @@ export const LearningItem = ({ title, author, content, contentSliced, createdAt,
     const session = {
         user: userInfo
     }
+    // console.log('session', session)
     /* /wtest auth mock */
     const itemUrl = `/learning/${collectionName}/${id}`
     /* wtest pw */
@@ -104,6 +85,7 @@ export const LearningItem = ({ title, author, content, contentSliced, createdAt,
             <p>{timeFormatter(createdAt)}</p>
             {/* <p>wtest: id: {id}</p> */}
             <Link href={itemUrl}>More...</Link>
+            <p>wtest {JSON.stringify(session.user.userId)}</p>
             {author && author.userId && author.userId === session.user.userId && <button
                 className="btnDelete"
                 onClick={checkDelStatus}
