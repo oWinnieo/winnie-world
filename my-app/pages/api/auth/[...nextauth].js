@@ -71,7 +71,7 @@ export const authOptions = {
     // 	•	session.user.accessToken: 传递 Google 访问令牌到前端（如调用 Google API 时使用）。
     //   */
     async session({ session, token }) {
-      console.log('wtest google session ----------> 1')
+      // console.log('wtest google session ----------> 1')
       // session: 传递到前端的会话数据
       // token: jwt 回调中的 token
       // session.user.id = token.id; // 传递用户 ID
@@ -83,7 +83,7 @@ export const authOptions = {
       session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* /wtest another */
-      console.log('session', session)
+      // console.log('session', session)
 
       /* wtest */
       const { data } = await userInfoHandler({ user: session.user })
@@ -96,7 +96,7 @@ export const authOptions = {
       } else {
           resUserHandledRes = await userCheckedHandler({ user: session.user, type: 'add' })
       }
-      console.log('wtest resUserHandledRes', resUserHandledRes)
+      // console.log('wtest resUserHandledRes', resUserHandledRes)
       /* /wtest */
       
       return session;
@@ -108,11 +108,11 @@ export const authOptions = {
     // 	•	profile: 从 Google 获取的完整用户数据（sub, name, email, picture 等）。
     //   */
         async signIn({ user, account, profile }) {
-          console.log('wtest google signIn ----------> 2')
-          console.log("用户信息:", user);
-          console.log("账户信息:", account);
-          console.log("OAuth 资料:", profile);
-          console.log('user wtest >>>>>>>>> 123123', user)
+          // console.log('wtest google signIn ----------> 2')
+          // console.log("用户信息:", user);
+          // console.log("账户信息:", account);
+          // console.log("OAuth 资料:", profile);
+          // console.log('user wtest >>>>>>>>> 123123', user)
           
           return true; // 允许登录
           
@@ -121,9 +121,9 @@ export const authOptions = {
     //     redirect 回调 (控制登录后跳转的 URL)
     //     */
         async redirect({ url, baseUrl }) {
-          console.log('wtest google redirect ----------> 3')
-          console.log('url', url)
-          console.log('baseUrl', baseUrl)
+          // console.log('wtest google redirect ----------> 3')
+          // console.log('url', url)
+          // console.log('baseUrl', baseUrl)
           // return baseUrl; // 登录成功后跳转回首页
           return url.startsWith(baseUrl) ? url : baseUrl;
           // return process.env.NEXTAUTH_URL + "/api/auth/callback/google" // wtest

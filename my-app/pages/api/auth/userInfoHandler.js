@@ -9,7 +9,7 @@ import { modelUser } from 'models/users';
 const urlDomainUser = `${process.env.URL_DOMAIN}/api/learning` // wtest users / learning
 
 export const userCheckedHandler = async ({ user, type }) => {
-    // console.log('wtest user >>>>>>> userCheckedHandler', `>>> ${type} <<<`)
+    // // console.log('wtest user >>>>>>> userCheckedHandler', `>>> ${type} <<<`)
     if (!user) return ({ success: false, message: 'no user '})
         const {
             name,
@@ -41,12 +41,12 @@ export const userCheckedHandler = async ({ user, type }) => {
                     // throw new Error('Failed to create an item.')
                 }
             } catch (err) {
-                console.log(err)
+                // console.log(err)
             }
             break;
         case 'update':
             try {
-                console.log('-------> updata user', user)
+                // console.log('-------> updata user', user)
                 const res = await fetch(`${urlDomainUser}?collectionName=user&fetchType=one`, {
                     method: 'PUT',
                     headers: {
@@ -66,7 +66,7 @@ export const userCheckedHandler = async ({ user, type }) => {
                     // throw new Error('Failed to update an item.')
                 }
             } catch (err) {
-                console.log(err)
+                // console.log(err)
             }
             break;
         default:
@@ -76,28 +76,15 @@ export const userCheckedHandler = async ({ user, type }) => {
     
 }
 export const userInfoHandler = async ({ user }) => {
-    // const { data: session } = useSession(); // wtest auth backup
-
-
-    /* wtest auth mock */
-    // const session = {
-    //     user: userInfo
-    // }
     const { userId, email } = user
-    /* /wtest auth mock */
-    /* wtest user */
     
     const { data, success, message } = await fetch(`${urlDomainUser}?collectionName=user&fetchType=one&userId=${userId}&email=${email}`, {
         cache: 'no-store', // 等效于 SSR 的行为
     }).then(res => res.json())
-    // await dbConnect();
-    console.log('data, success, message', data, success, message)
-    console.log('data', data, !data)
     
     if (!data) {
         return ({ success, message })
     } else {
         return ({ success, message, data })
     }
-    /* /wtest user */
 }

@@ -14,8 +14,8 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       if (fetchType === 'one') {
-        console.log('user fetchType >>>>>>>>> 1', fetchType)
-        console.log('collectionName ----------------->', collectionName)
+        // console.log('user fetchType >>>>>>>>> 1', fetchType)
+        // console.log('collectionName ----------------->', collectionName)
         const { userId, email } = req.query;
         // console.log('~~userId', userId)
         // console.log('~~email', email)
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
             const user = await modelTarget.findOne({ userId, email })
             // const user = await modelTarget.find({})
             // const user = await modelTarget.countDocuments({})
-            console.log('--------->>> userExists', user) // wtest waiting
+            // console.log('--------->>> userExists', user) // wtest waiting
             // debugger;
             if (user) {
                 res.status(200).json({ success: true, data: user });
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
             res.status(500).json({ error: '数据库查询出错' });
         }
       } else if (fetchType === 'list') {
-        console.log('user fetchType >>>>>>>>> 2', fetchType)
+        // console.log('user fetchType >>>>>>>>> 2', fetchType)
       }
         
       break;

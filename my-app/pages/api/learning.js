@@ -9,7 +9,7 @@
 // }
 
 import dbConnect from '../../lib/db';
-// import { collectionName as colNameMock } from '@/app/mock' // wtest mock
+import { collectionName as colNameMock } from '../../src/app/mock/collectionName' // wtest mock
 import { modelEn,
   modelJp,
   modelServer,
@@ -42,31 +42,31 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       if (fetchType === 'list') {
-        // console.log('wtest waiting --------------->', collectionName, fetchType, modelTarget)
         try {
-            const learningItems = await modelTarget.find({}).sort({ createdAt: -1 }) // 获取所有item
-            // console.log('get list colNameMock', colNameMock) // wtest mock
-            if (['english', 'japanese', 'server'].includes(collectionName)) {
-                    // const authorIdArr = learningItems.map(item => item.authorId)
-                    // console.log('authorIdArr', authorIdArr)
-            //         // modelUser
-                    const authorIdArr = ['321', '112233', '67']
-                    const user = await modelUser.findOne({ userId: '321' })
+            const learningItems = await modelTarget.find({}).sort({ createdAt: -1 }).lean() // 获取所有item
+            if (colNameMock.includes(collectionName)) {
+                    const authorIdArr = learningItems.map(item => item.authorId)
                     const userArr = await modelUser.find({
                       userId: { $in: authorIdArr }
                     })
-                    // console.log('userArr', userArr)
-                    // console.log('user', user)
-            //         // // const { authorId } = learningItems.json()
-            //         // // const authorId = learningItems
-            //         // console.log('collection need auth', authorIdArr)
-            //         // // const 
+                    const learningItemsWithAuthor = learningItems.map(item => {
+                      return {
+                        ...item,
+                        authorInfo: userArr.find(user => user.userId === item.authorId)
+                      }
+                    })
+                    // const learningItemsWithAuthor = learningItems.map(item => item.toObject())
+                    res.status(200).json({ success: true, data: learningItemsWithAuthor });
+
+            } else {
+              res.status(200).json({ success: true, data: learningItems });
             }
-            res.status(200).json({ success: true, data: learningItems });
         } catch (err) {
           res.status(400).json({ success: false });
         }
       } else if (fetchType === 'one') {
+        console.log('wtest waiting --------------->', collectionName, fetchType) // wtest modelTarget
+        console.log('get list colNameMock', colNameMock) // wtest mock
         if (collectionName === 'user') {
             const { userId, email } = req.query;
             // console.log('collectionName -----------------> 123', collectionName)
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
                 const user = await modelTarget.findOne({ userId, email })
                 // const user = await modelTarget.find({})
                 // const user = await modelTarget.countDocuments({})
-                console.log('--------->>> userExists ---...', user) // wtest waiting
+                // console.log('--------->>> userExists ---...', user) // wtest waiting
                 // debugger;
                 if (user) {
                     res.status(200).json({ success: true, data: user });
@@ -89,8 +89,17 @@ export default async function handler(req, res) {
         } else {
             try {
                 const learningItem = await modelTarget.findOne({ _id: id }).lean();
-                console.log('learningItem', learningItem)
-                res.status(200).json({ success: true, data: learningItem });
+                if (colNameMock.includes(collectionName)) {
+                  const user = await modelUser.findOne({ userId: learningItem.authorId })
+                  console.log('user >>>>>>>>>>', user)
+                  res.status(200).json({ success: true, data: {
+                    ...learningItem,
+                    authorInfo: user
+                  } });
+                } else {
+                  res.status(200).json({ success: true, data: learningItem });
+                }
+                // console.log('learningItem', learningItem)
             } catch (err) {
                 res.status(400).json({ success: false });
             }
@@ -118,8 +127,8 @@ export default async function handler(req, res) {
       try {
         const { ...updateData } = req.body; // 获取 id 和要更新的数据
         const id = req.body._id || req.body.id
-        // if ()
-        console.log('req.body', req.body)
+        // if (collectionName === 'user') {} else {}
+        // console.log('req.body', req.body, 'id', id, 'updateData', updateData, 'collectionName', collectionName)
         if (!id) {
           return res.status(400).json({ success: false, message: "ID is required" }); // wtest here
         }

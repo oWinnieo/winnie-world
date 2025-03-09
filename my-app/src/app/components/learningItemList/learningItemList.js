@@ -5,11 +5,11 @@ import { htmlDecode, htmlDecodeSlice, html2txt } from '@/lib/utils';
 import { collectionName as colNameMock } from '../../mock/collectionName' // wtest mock
 
 const getListData = async (params) => {
-    const { data } = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}&fetchType=list`, {
+    // wtest backup const { data } = 
+    const {data} = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}&fetchType=list`, {
         cache: 'no-store', // 等效于 SSR 的行为
-        }).then(res => res.json());
-    // console.log('colNameMock', colNameMock)
-        // console.log('data', data)
+        }).then(res => res.json()); // wtest backup
+    // // console.log('colNameMock', colNameMock)
     const dataNew = data && data.length > 0 ? data.map(item => {
         const itemNew = colNameMock.includes(params.collectionName) ? {
             ...item,
@@ -17,7 +17,8 @@ const getListData = async (params) => {
         } : item
         return itemNew
     }) : []
-    // if (['english', 'japanese', 'server'].includes(params.collectionName)) {
+    // const dataNew = []
+    // if (colNameMock.includes(params.collectionName)) {
         // const authorIdArr = dataNew.map(item => item.authorId)
         // console.log('authorIdArr', authorIdArr)
         // const { data } = await fetch(`${params.urlDomainUser}?collectionName=user&fetchType=list`, {
@@ -57,8 +58,7 @@ export const LearningItemList = async ({ params }) => {
                             ></UserItem> :
                             <LearningItem
                                 title={i.title}
-                                author={i.author}
-                                // content={ReactHtmlParser(i.content)}
+                                authorInfo={i.authorInfo}
                                 contentSliced={i.contentSliced}
                                 createdAt={i.createdAt}
                                 collectionName={params.collectionName}

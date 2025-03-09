@@ -80,11 +80,11 @@ export const FormAddItem = ({ params }: {params: FormAddItemParams}) => {
         };
         // 处理表单提交逻辑
         if (params.data) {
-            console.log('newData', newData) // wtest
-            console.log('params', params)
+            // console.log('newData', newData) // wtest
+            // console.log('params', params)
             // console.log('wtest aha', { ...newData, updatedAt: new Date(), authorId: params.authorId })
             try {
-                console.log('wtest waiting ----------------------->')
+                // console.log('wtest waiting ----------------------->')
                 const res = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}`, {
                     method: 'PUT',
                     headers: {

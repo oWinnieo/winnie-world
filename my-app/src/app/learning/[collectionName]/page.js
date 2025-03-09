@@ -6,7 +6,7 @@ import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
 export default async function LearningArea ({ params }) {
     const { collectionName } = await params
     const urlDomainLearning = process.env.URL_DOMAIN + '/api/learning'
-    const urlDomainUser = process.env.URL_DOMAIN + '/api/learning' // wtest users / learning
+    // const urlDomainUser = process.env.URL_DOMAIN + '/api/learning' // wtest users / learning
     return (
         <>
             <PageWrap>
@@ -15,7 +15,7 @@ export default async function LearningArea ({ params }) {
               params={
                 {
                   urlDomainLearning,
-                  urlDomainUser,
+                  // urlDomainUser,
                   collectionName
                 }
               }
@@ -24,7 +24,7 @@ export default async function LearningArea ({ params }) {
               params={
                 {
                   urlDomainLearning,
-                  urlDomainUser,
+                  // urlDomainUser,
                   collectionName
                 }
               }

@@ -20,9 +20,6 @@ export const Auth = () => {
         "expires":"2025-04-05T16:26:40.823Z"
     }
     /* /wtest */
-    /* /wtest *
-    const session = null
-    /* /wtest */
     return (
         <div className="area-auth">
             {/* <p>session: {session && JSON.stringify(session)}</p> */}
@@ -33,7 +30,10 @@ export const Auth = () => {
                     <button onClick={() => signOut()} className="btn-signout">Sign out</button>
                 </>
             ) : (
-                <button onClick={() => signIn("google")} className="btn-signin">Sign in</button>
+                <>
+                    <p className="auth-tip">If you have a Google account? </p>
+                    <button onClick={() => signIn("google")} className="btn-signin">Sign in</button>
+                </>
             )}
         </div>
     )

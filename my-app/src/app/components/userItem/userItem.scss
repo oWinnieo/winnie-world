@@ -1,3 +1,4 @@
+@use '@styles/components/avatar.scss' as avatarStyle;
 .area-user {
     padding: 10px 0;
     border-bottom: 1px dashed #333;
@@ -8,9 +9,7 @@
         height: 100px;
         margin-right: 10px;
         img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+            @include avatarStyle.avatar-100
         }
     }
 }

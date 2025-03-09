@@ -29,8 +29,8 @@ const itemDelete = async ({ params, id }) => {
     }
 }
 
-export const LearningItem = ({ title, author, content, contentSliced, createdAt, collectionName, id, params }) => {
-    const { data: session } = useSession(); // wtest auth backup
+export const LearningItem = ({ title, authorInfo, contentSliced, createdAt, collectionName, id, params }) => {
+    const { data: session } = useSession(); // wtest auth
     /* wtest auth mock *
     const session = {
         user: userInfo
@@ -41,31 +41,30 @@ export const LearningItem = ({ title, author, content, contentSliced, createdAt,
     /* wtest pw */
     const { showAlert } = useAlert() // wtest alert
     const { openModal, closeModal } = useModal()
-    const checkDelStatus = () => {
+    const confirmDel = () => {
         openModal(
             {
-                title: 'pw check',
-                content: 'Please enter password for editing.',
+                title: 'del confirm',
+                content: 'Are you sure to delete this item? (If yes, please enter the world \'delete\')',
                 childEl: (closeModal) => (
-                    <ModalContent closeModal={closeModal} valueHandler={pwCheck} />
+                    <ModalContent closeModal={closeModal} valueHandler={enterDelWord} />
                 )
                 
             },
         )
     }
-    /* pw check */
-    const pwCheck = (val) => {
-        if (val === '123') { // wtest xiaow233
+    /* enterDelWord */
+    const enterDelWord = (val) => {
+        if (val === 'delete') {
             showAlert({
-                message: 'pw ok',
+                message: 'delete confirm',
                 type: "success",
             })
             closeModal()
-            // ToggleAddItem()
             itemDelete({ params, id })
         } else {
             showAlert({
-                message: 'pw wrong',
+                message: 'don\'t delete',
                 type: 'danger'
             })
         }
@@ -73,19 +72,27 @@ export const LearningItem = ({ title, author, content, contentSliced, createdAt,
             clearTimeout(t1)
         }, 3000)
     }
-    /* /pw check */
+    /* /enterDelWord */
     /* /wtest pw */
+    /* author name display */
+    const authorNameDisplay = () => {
+        return authorInfo?.name ?
+            (session?.user?.name && authorInfo.name === session?.user?.name ? <span className="span-me">Me</span> : authorInfo.name)
+            : '??'
+    }
+    /* /author name display */
     return (
         <div className="item-learning">
-            {/* <p>wtest userID: {JSON.stringify(session?.user?.userId)}</p> */}
-            <h3>{title} (Author: {author?.name ? author.name : '??'})</h3>
+            {/* <p>wtest userID: {JSON.stringify(session?.user?.userId)}, {JSON.stringify(session?.user?.name)}</p> */}
+            {/* <p>authorInfo: {JSON.stringify(authorInfo.name)}</p> */}
+            <h3 className="item-author">{title} (By: {authorNameDisplay()})</h3>
             <p>{contentSliced}</p>
             <p>{timeFormatter(createdAt)}</p>
             <Link href={itemUrl}>More...</Link>
             {/* <p>wtest {JSON.stringify(session.user.userId)}</p> */}
-            {author && session?.user?.userId && author.userId && author.userId === session.user.userId && <button
+            {authorInfo && session?.user?.userId && authorInfo?.userId && authorInfo.userId === session.user.userId && <button
                 className="btnDelete"
-                onClick={checkDelStatus}
+                onClick={confirmDel}
             >Delete</button>}
         </div>
     )

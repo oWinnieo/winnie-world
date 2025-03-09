@@ -15,7 +15,9 @@ const getOneData = async (params) => {
   // console.log('wtest_d', wtest_d)
   const { data } = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}`, {
       cache: 'no-store', // 等效于 SSR 的行为
-      }).then(res => res.json());
+      }).then(res => res.json()); // wtest backup
+    
+      // console.log('??? wtest >>>>>>>>>>>>', data)
   return data
 }
 
@@ -40,19 +42,20 @@ export default async function Post({ params }) {
           <div><Link href={slug[0] ? `/learning/${slug[0]}` : '/learning'}>Back to List</Link></div>
           <p>Created Time: {timeFormatter(data.createdAt)} </p>
           <p>Updated Time: {timeFormatter(data.updatedAt)} </p>
-          <p>Author: {data?.author?.name ? data.author.name : '??'}</p>
-          {/* data?.authorId */}
-          <p>wtest: {JSON.stringify(data?.author?.userId ? data.author.userId : '??')}</p>
+          <div className="author-info">
+            <p>Author: {data?.authorInfo?.name ? data.authorInfo.name : '??'}</p>
+            {data?.authorInfo?.image && <img className="auth-avatar" src={data.authorInfo.image} alt="User Avatar" />}
+          </div>
       </div>
       <div className="page-details">
         {/* <p>wtest data: {JSON.stringify(data)}</p> */}
         <ItemEditor
             params={
-            {
-              urlDomainLearning,
+              {
+                urlDomainLearning,
                 data: {
                     title: data.title,
-                    author: data.author,
+                    authorInfo: data.authorInfo,
                     // content: data.content, // wtest
                     content: data.content, // wtest htmlSimpleDecode(data.content),
                     id: slug[1],
@@ -60,7 +63,7 @@ export default async function Post({ params }) {
                     updatedAt: data.updatedAt,
                 },
                 collectionName: slug[0]
-            }
+              }
             }
         ></ItemEditor>
       </div>

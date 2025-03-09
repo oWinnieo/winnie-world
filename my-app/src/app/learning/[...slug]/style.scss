@@ -1,3 +1,4 @@
+@use '@styles/components/avatar.scss' as avatarStyle;
 .page-details {
     padding: 10px 10px 20px;
     h2 {
@@ -14,4 +15,14 @@
     // border-right: 0;
     padding: 10px 10px 0;
     margin: 10px 0;
+    .author-info {
+        display: flex;
+        align-items: center;
+        p {
+            margin-right: 10px;
+        }
+        img {
+            @include avatarStyle.avatar-26;
+        }
+    }
 }

@@ -48,18 +48,20 @@ export default async function Learning () {
         collectionName: 'listNav'
     })
     console.log('listLearningFromApi', listLearningFromApi)
-    /* wtest *
+    console.log('userFromGoogle', userFromGoogle)
+    /* wtest */
         const { success, message, data } = await userInfoHandler({ user: userFromGoogle })
-        console.log('data wtest >>>>>>>>> 123123', data)
+        // console.log('data wtest >>>>>>>>> 123123', data)
         // console.log('userFromGoogle', userFromGoogle)
         let resUserHandledRes
         if (data) {
-
+            console.log('wtest update')
             resUserHandledRes = await userCheckedHandler({ user: {
                 ...data,
                 ...userFromGoogle
             }, type: 'update' })
         } else {
+            console.log('wtest add')
             resUserHandledRes = await userCheckedHandler({ user: userFromGoogle, type: 'add' })
         }
         console.log('wtest resUserHandledRes', resUserHandledRes)

@@ -11,7 +11,7 @@ import './itemEditor.scss';
 // import MyContext from '@/app/contexts/MyContext' // wtest context
 export const ItemEditor = ({ params, type }) => {
     // console.log('wtest ItemEditor params', params)
-    const { data: session } = useSession(); // wtest auth backup
+    const { data: session } = useSession(); // wtest auth
     /* wtest auth mock *
     const session = {
         user: userInfo
@@ -23,11 +23,11 @@ export const ItemEditor = ({ params, type }) => {
     const ToggleAddItem = () => {
         setIsAddItem((val) => !val)
     }
-    /* check author */
+    /* check authorInfo *
     const authorCheck = () => {
         return session.user.userId
     }
-    /* /check author */
+    /* /check authorInfo */
     /* modal */
     const checkAddStatus = () => {
         if (!isAddItem) {
@@ -47,7 +47,7 @@ export const ItemEditor = ({ params, type }) => {
         
     };
     /* /modal */
-    /* pw check */
+    /* pw check *
     const pwCheck = (val) => {
         if (val === '123') { // wtest 
             showAlert({
@@ -67,27 +67,41 @@ export const ItemEditor = ({ params, type }) => {
         }, 3000)
     }
     /* /pw check */
+    /* access check */
+    const editAccess = () => {
+        return params?.data ?
+            session?.user?.userId && params?.data?.authorInfo?.userId && params.data.authorInfo.userId === session.user.userId
+            : true
+    }
+    /* /access check */
     return (
         <>
             {/* <p>wtest params: {JSON.stringify(params)}</p> */}
-            {/* <p>wtest params.data: {params.data.author.id}</p> */}
-            {/* <p>wtest session.user.userId: {session.user.userId}</p> */}
+            {/* <p>wtest params.data: {JSON.stringify(params.data.authorInfo)}</p> */}
+            {/* <p>wtest session.user.userId: {JSON.stringify(session?.user?.userId)}</p> */}
+            {/* <p>userId: {params?.data?.authorInfo?.userId}</p> */}
+            {/* <p>wtest editAccess(): {JSON.stringify(editAccess())}</p> */}
             <div className="area-tools">
-                <button className={params?.data?.author?.id && params.data.author.id !== session.user.userId && 'disabled'} onClick={checkAddStatus}>
-                    {isAddItem ? (
-                        params.data ? 'Cancel Edit' : 'Cancel Adding') :
-                        (params.data ? (
-                            params.data?.author?.id && params.data.author.id !== session.user.userId ? 'Edit Item (You‘re not the author)' :'Edit Item (need to enter the right password)'
-                        ) : (
-                            params.data?.author?.id && params.data.author.id !== session.user.userId ? 'Add Item (You‘re not the author)' : 'Add Item (need to enter the right password)')
-                        )
-                    }
-                        
-                </button>
+                {
+                    editAccess() ?
+                        <button className={params?.data?.authorInfo?.userId && params.data.authorInfo.userId !== session.user.userId ? 'disabled' : 'available'} onClick={ToggleAddItem}>
+                            {/* checkAddStatus wtest */}
+                            {isAddItem ? (
+                                params.data ? 'Cancel Edit' : 'Cancel Adding') :
+                                (params.data ? (
+                                        'Edit Item'
+                                    ) : (
+                                        'Add Item'
+                                    )
+                                )
+                            }
+                        </button> : <p className="tip">Only the author or the admin can edit this post.</p>
+                }
+                
             </div>
             <div className="area-content">
             {
-                isAddItem ? <FormAddItem params={{
+                editAccess() && isAddItem ? <FormAddItem params={{
                     ...params,
                     // user: session.user
                     authorId: session?.user?.userId ? session.user.userId : '?? wtest waiting'

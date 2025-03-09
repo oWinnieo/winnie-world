@@ -4,6 +4,11 @@
     position: relative;
     h3 {
         font-weight: 700;
+        &.item-author {
+            .span-me {
+                color: #00f;
+            }
+        }
     }
     p {
         font-size: 12px;
