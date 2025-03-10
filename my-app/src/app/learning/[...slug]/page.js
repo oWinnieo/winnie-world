@@ -9,6 +9,7 @@ import { modelEn,
 
 import { timeFormatter } from '../../../../lib/util'
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
+import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 import './style.scss'
 
 const getOneData = async (params) => {
@@ -44,7 +45,12 @@ export default async function Post({ params }) {
           <p>Updated Time: {timeFormatter(data.updatedAt)} </p>
           <div className="author-info">
             <p>Author: {data?.authorInfo?.name ? data.authorInfo.name : '??'}</p>
-            {data?.authorInfo?.image && <img className="auth-avatar" src={data.authorInfo.image} alt="User Avatar" />}
+            {data?.authorInfo?.image &&
+              // <img className="auth-avatar" src={data.authorInfo.image} alt="User Avatar" />
+              <AvatarOfUser
+                  srcImage={data.authorInfo.image}
+              ></AvatarOfUser>
+            }
           </div>
       </div>
       <div className="page-details">

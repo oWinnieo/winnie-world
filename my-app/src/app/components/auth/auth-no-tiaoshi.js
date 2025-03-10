@@ -1,5 +1,6 @@
 'use client'
 import { useSession, signIn, signOut } from "next-auth/react";
+import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 import './auth.scss'
 export const Auth = () => {
     const { data: session } = useSession(); // wtest backup
@@ -8,7 +9,10 @@ export const Auth = () => {
             {session ? (
                 <>
                     <p className="auth-welcome">Welcome, {session.user.name}!</p>
-                    <img className="auth-avatar" src={session.user.image} alt="User Avatar" />
+                    {/* <img className="auth-avatar" src={session.user.image} alt="User Avatar" /> */}
+                    <AvatarOfUser
+                        srcImage={session.user.image}
+                    ></AvatarOfUser>
                     <button onClick={() => signOut()} className="btn-signout">Sign out</button>
                 </>
             ) : (
