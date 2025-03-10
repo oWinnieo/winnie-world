@@ -7,14 +7,15 @@ import { Navbar } from "@components/navbar/navbar";
 import { AlertProvider } from '@/app/contexts/AlertContext'
 import { ModalProvider } from '@/app/contexts/ModalContext';
 import AuthProvider from "@/app/components/SessionProvider";
-import { GoogleAnalytics } from "react-ga4"; // wtest ga
-// import ReactGA from "react-ga4"; // wtest ga
+// import { GoogleAnalytics } from "react-ga4"; // wtest ga wrong import
+import ReactGA from "react-ga4"; // wtest ga
 
 import "./globals.css";
 import '@styles/base/base.scss';
 
 // GoogleAnalytics.initialize("G-9QTB7YVB49"); // wtest ga
 // ReactGA.initialize("G-9QTB7YVB49"); // wtest ga
+const GA_TRACKING_ID = 'G-9QTB7YVB49' // wtest ga
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,17 @@ export const metadata = {
 /* /wtest backup can't for use client */
 
 export default function RootLayout({ children }) {
+  /* wtest ga2 */
+  // useEffect(() => {
+  //   GoogleAnalytics.send("pageview");
+  // }, []);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      ReactGA.initialize(GA_TRACKING_ID);
+      ReactGA.send("pageview"); // 发送页面浏览事件
+    }
+  }, []);
+  /* /wtest ga2 */
   /* wtest ga 1 *
   useEffect(() => {
     // 使用正确的 Google Analytics 4 ID
@@ -53,7 +65,7 @@ export default function RootLayout({ children }) {
     };
   }, []);
   /* /wtest ga 1 */
-  /* wtest ga */
+  /* wtest ga *
   // useEffect(() => {
   //   GoogleAnalytics.send("pageview");
   // }, []);

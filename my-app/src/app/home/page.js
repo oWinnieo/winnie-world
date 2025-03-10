@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Greet } from '../components/greet'
 import { Counter } from '../components/counter'
 import Link from 'next/link'
+import { VisitorStatistics } from '@/app/components/visitorStatistics/visitorStatistics';
 // import Hello from '@components/hello'; // wtest ts
 import './style.scss'
 
@@ -20,9 +21,11 @@ const Home = () => {
         </div>
         <div className="area area-navigation">
             <div className="area-in">
-                <li><Link href="/about">About Me</Link></li>
-                <li><Link href="learning">Learning</Link></li>
-                
+                <VisitorStatistics></VisitorStatistics>
+                <ul>
+                    <li><Link href="/about">About Me</Link></li>
+                    <li><Link href="learning">Learning</Link></li>
+                </ul>
             </div>
         </div>
         {/* <li><Link href="/blog/first-post">blog/first-post</Link></li> */}

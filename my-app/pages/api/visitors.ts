@@ -21,18 +21,20 @@ async function getVisitors() {
     credentials.private_key,
     SCOPES
   );
-  console.log('auth', auth)
-console.log('analyticsreporting', analyticsreporting.properties.runReport)
+  console.log('auth.email >>>', auth.email)
+// console.log('analyticsreporting', analyticsreporting.properties.runReport)
   
-  // const res = await analyticsreporting.properties.runReport({
-  //   auth,
-  //   property: "properties/G-9QTB7YVB49", // 你的 GA4 属性 ID
-  //   requestBody: {
-  //     dateRanges: [{ startDate: "today", endDate: "today" }],
-  //     metrics: [{ name: "activeUsers" }],
-  //   },
-  // });
-  // console.log('res ga -----------------> wtest here', res) // wtest G-9QTB7YVB49
+  const res = await analyticsreporting.properties.runReport({
+    auth,
+    property: "properties/G-9QTB7YVB49", // 你的 GA4 属性 ID
+    requestBody: {
+      dateRanges: [{ startDate: "today", endDate: "today" }],
+      metrics: [{ name: "activeUsers" }],
+    },
+  }).then(ress => {
+    console.log('ress', ress)
+  });
+  console.log('res ga -----------------> wtest here', res) // wtest G-9QTB7YVB49
 
   // return res.data;
   return {data: 'wtest ga on waiting'}

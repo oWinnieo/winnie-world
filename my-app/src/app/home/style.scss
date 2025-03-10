@@ -30,6 +30,7 @@ body .area-welcome {
 
 @media (min-width: 769px) {
     body .area .area-in {
+        position: relative;
         @include layoutMain.layout-area-in-gt-768;
     }
 }
