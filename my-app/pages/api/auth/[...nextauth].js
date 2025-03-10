@@ -83,7 +83,7 @@ export const authOptions = {
       session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* /wtest another */
-      // console.log('session', session)
+      console.log('session', session)
 
       /* wtest *
       const { data } = await userInfoHandler({ user: session.user })
