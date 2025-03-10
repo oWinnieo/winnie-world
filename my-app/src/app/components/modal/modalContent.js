@@ -9,6 +9,7 @@ export const ModalContent = ({ valueHandler }) => {
   };
     return (
       <>
+        <p>wtest</p>
         <input
           className="border border-slate-500 px-8 py-2"
           type="text"
@@ -16,9 +17,9 @@ export const ModalContent = ({ valueHandler }) => {
           onChange={(e) => setVal(e.target.value)}
           onKeyDown={handleKeyDown} // 添加按键事件监听
         />
-        {/* <p> */}
-        <button onClick={() => valueHandler(val)}>Check</button>
-        {/* </p> */}
+        <p>
+          <button onClick={() => valueHandler(val)}>Check</button>
+        </p>
       </>
     );
   };
