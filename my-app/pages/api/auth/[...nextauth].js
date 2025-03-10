@@ -44,7 +44,7 @@ export const authOptions = {
 
       */
         async jwt({ token, user, account, profile }) {
-          console.log('wtest google session ----------> 222 token', token)
+          console.log('wtest google jwt ----------> 222 token', token)
           // user: 用户信息（仅在登录时可用）
           // account: OAuth 账户信息（仅在登录时可用）
           // profile: OAuth 提供的用户信息（仅在登录时可用）
@@ -59,6 +59,8 @@ export const authOptions = {
             token.accessToken = account.access_token; // 存储 Google 访问令牌
             token.id = profile?.sub; // Google 用户唯一 ID
             token.picture = profile?.picture; // 用户头像
+            token.accessToken = account.access_token; // 将 access_token 存入 token
+            token.refreshToken = account.refresh_token; // 将 refresh_token 存入 token
           }
           /* /wtest another */
           console.log('token', token)
@@ -86,10 +88,7 @@ export const authOptions = {
       session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* /wtest another */
-      if (account?.access_token) {
-        token.accessToken = account.access_token; // 将 access_token 存入 token
-        token.refreshToken = account.refresh_token; // 将 refresh_token 存入 token
-      }
+      
       console.log('when login callback > session in ...nextauth.js', session)
 
       /* wtest *
