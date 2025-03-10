@@ -25,6 +25,7 @@ export const Auth = () => {
             {/* <p>session: {session && JSON.stringify(session)}</p> */}
             {session ? (
                 <>
+                    <p>wtest: {session?.user?.userId ? session.user.userId : '?'} ~</p>
                     <p className="auth-welcome">Welcome, {session.user.name}!</p>
                     <img className="auth-avatar" src={session.user.image} alt="User Avatar" />
                     <button onClick={() => signOut()} className="btn-signout">Sign out</button>

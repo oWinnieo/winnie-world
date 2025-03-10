@@ -88,6 +88,7 @@ export const LearningItem = ({ title, authorInfo, contentSliced, createdAt, coll
             {/* <p>wtest userID: {JSON.stringify(session?.user?.userId)}, {JSON.stringify(session?.user?.name)}</p> */}
             {/* <p>authorInfo: {JSON.stringify(authorInfo.name)}</p> */}
             <h3 className="item-author">{title} (By: {authorNameDisplay()})</h3>
+            <p>wtest authorInfo userId, {authorInfo?.userId ? authorInfo.userId : '?'}, session userId, {session?.user?.userId ? session.user.userId : '?'}</p>
             <p>{contentSliced}</p>
             <p>{timeFormatter(createdAt)}</p>
             <Link href={itemUrl}>More...</Link>

@@ -7,8 +7,8 @@ export const UserItem = ({ data }) => {
             </div>
             <div className="area-info">
                 <p>name: {data.name}</p>
-                {/* <p>userId: {data.userId}</p> */}
-                {/* <p>_id: {data._id}</p> */}
+                <p>userId: {data.userId}</p>
+                <p>_id: {data._id}</p>
                 <p>email: {data.email}</p>
                 <p>role: {data.role}</p>
             </div>
