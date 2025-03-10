@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { userInfoHandler, userCheckedHandler, userInfoHandlerAfterLogin } from './userInfoHandler'
-import { useLocalStorage } from 'use-local-storage';
 
 export const authOptions = {
   providers: [
@@ -45,7 +44,7 @@ export const authOptions = {
 
       */
         async jwt({ token, user, account, profile }) {
-          console.log('wtest google jwt ----------> 11 token', token)
+          console.log('wtest google session ----------> num token', token)
           // user: 用户信息（仅在登录时可用）
           // account: OAuth 账户信息（仅在登录时可用）
           // profile: OAuth 提供的用户信息（仅在登录时可用）
@@ -56,13 +55,13 @@ export const authOptions = {
             token.picture = user.image; // 头像
           }
           /* wtest another */
-          if (account?.access_token) {
+          if (account) {
             token.accessToken = account.access_token; // 存储 Google 访问令牌
             token.id = profile?.sub; // Google 用户唯一 ID
             token.picture = profile?.picture; // 用户头像
           }
           /* /wtest another */
-          console.log('token after', token)
+          console.log('token', token)
           return token;
         },
     //     /*
@@ -73,7 +72,7 @@ export const authOptions = {
     // 	•	session.user.accessToken: 传递 Google 访问令牌到前端（如调用 Google API 时使用）。
     //   */
     async session({ session, token }) {
-      console.log('wtest google session ----------> 22 token', token)
+      console.log('wtest google session ----------> 1 token', token)
       // session: 传递到前端的会话数据
       // token: jwt 回调中的 token
       // session.user.id = token.id; // 传递用户 ID
@@ -85,13 +84,23 @@ export const authOptions = {
       session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* /wtest another */
-      const access_token = localStorage.getItem('access_token');
-      const refresh_token = localStorage.getItem('refresh_token');
-      if (access_token) {
-        session.access_token = access_token;
-        session.refresh_token = refresh_token;
-      }
       console.log('when login callback > session in ...nextauth.js', session)
+
+      /* wtest *
+      const { data } = await userInfoHandler({ user: session.user })
+      let resUserHandledRes
+      if (data) {
+        // wtest waiting for update confirm
+          // resUserHandledRes = await userCheckedHandler({ user: {
+          //     ...data,
+          //     ...session.user
+          // }, type: 'update' })
+          resUserHandledRes = { msg: 'waiting for update confirm' }; // wtest
+      } else {
+          resUserHandledRes = await userCheckedHandler({ user: session.user, type: 'add' })
+      }
+      // console.log('wtest resUserHandledRes', resUserHandledRes)
+      /* /wtest */
       /* wtest userInfo handler */
     console.log('wait for >>> userInfoHandlerAfterLogin <<<')
     const resUserInfo = await userInfoHandlerAfterLogin({ user: session.user })
@@ -107,17 +116,11 @@ export const authOptions = {
     // 	•	profile: 从 Google 获取的完整用户数据（sub, name, email, picture 等）。
     //   */
         async signIn({ user, account, profile }) {
-          const [storedValue, setStoredValue] = useLocalStorage('myKey', 'defaultValue')
           console.log('wtest google signIn ----------> 2')
           // console.log("用户信息:", user);
           console.log("账户信息:", account);
           // console.log("OAuth 资料:", profile);
           console.log('user wtest >>>>>>>>> 123123', user)
-          if (account?.access_token) {
-            // 在客户端存储 token
-            setStoredValue('access_token', account.access_token);
-            setStoredValue('refresh_token', account.refresh_token);
-          }
           
           return true; // 允许登录
           
@@ -203,3 +206,9 @@ export default withAuth({
 
 export const config = { matcher: ["/dashboard"] }; // 保护 "/dashboard" 页面
 */
+
+
+
+
+
+
