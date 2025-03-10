@@ -62,7 +62,6 @@ export default async function Post({ params }) {
                 data: {
                     title: data.title,
                     authorInfo: data.authorInfo,
-                    // content: data.content, // wtest
                     content: data.content, // wtest htmlSimpleDecode(data.content),
                     id: slug[1],
                     createdAt: data.createdAt,
@@ -83,10 +82,3 @@ export default async function Post({ params }) {
     </PageWrap>
   );
 }
-
-// export async function generateStaticParams() {
-//   return [
-//     { slug: ["learning", "japanese", "123"] },
-//     { slug: ["learning", "english", "456"] },
-//   ];
-// }

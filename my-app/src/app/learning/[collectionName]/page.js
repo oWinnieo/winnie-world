@@ -10,6 +10,13 @@ export default async function LearningArea ({ params }) {
     const { collectionName } = await params
     const urlDomainLearning = process.env.URL_DOMAIN + '/api/learning'
     // const urlDomainUser = process.env.URL_DOMAIN + '/api/learning' // wtest users / learning
+    /* wtest *
+    console.log('colNameMock', colNameMock)
+    const colNameMockMapped = colNameMock.map(item => ({
+      collectionName: item
+    }))
+    console.log('colNameMockMapped', colNameMockMapped)
+    /* /wtest */
     const titleDisplay = () => {
       let titleRes = ''
       const titleFormat = collectionName.charAt(0).toUpperCase() + collectionName.slice(1)
@@ -49,4 +56,12 @@ export default async function LearningArea ({ params }) {
             </PageWrap>
         </>
     )
+}
+
+
+export async function generateStaticParams() {
+  const colNameMockMapped = colNameMock.map(item => ({
+    collectionName: item
+  }))
+  return colNameMockMapped
 }
