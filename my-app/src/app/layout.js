@@ -39,12 +39,12 @@ export default function RootLayout({ children }) {
   // useEffect(() => {
   //   GoogleAnalytics.send("pageview");
   // }, []);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      ReactGA.initialize(GA_TRACKING_ID);
-      ReactGA.send("pageview"); // 发送页面浏览事件
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     ReactGA.initialize(GA_TRACKING_ID);
+  //     ReactGA.send("pageview"); // 发送页面浏览事件
+  //   }
+  // }, []);
   /* /wtest ga2 */
   /* wtest ga 1 *
   useEffect(() => {
