@@ -203,37 +203,3 @@ export default withAuth({
 
 export const config = { matcher: ["/dashboard"] }; // 保护 "/dashboard" 页面
 */
-
-
-
-
-
-
-
-
-
-
-
-async session({ session, token }) {
-  console.log('wtest google session ----------> 1 token', token)
-  // session: 传递到前端的会话数据
-  // token: jwt 回调中的 token
-  // session.user.id = token.id; // 传递用户 ID
-  session.user.userId = token.sub // wtest what is it?
-  session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
-  session.user.image = token.picture; // 传递头像
-  /* wtest another *
-  session.user.id = token.id; // 传递用户 ID
-  session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
-  session.user.image = token.picture; // 传递头像
-  /* /wtest another */
-  const access_token = localStorage.getItem('access_token');
-  const refresh_token = localStorage.getItem('refresh_token');
-  if (access_token) {
-    session.access_token = access_token;
-    session.refresh_token = refresh_token;
-  }
-  console.log('when login callback > session in ...nextauth.js', session)
-  
-  return session;
-},
