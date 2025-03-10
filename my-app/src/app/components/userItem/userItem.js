@@ -12,7 +12,7 @@ export const UserItem = ({ data }) => {
             <div className="area-info">
                 <p>name: {data.name}</p>
                 <p>userId: {data.userId}</p>
-                <p>_id: {data._id}</p>
+                {/* <p>_id: {data._id}</p> wtest */}
                 <p>email: {data.email}</p>
                 <p>role: {data.role}</p>
             </div>
