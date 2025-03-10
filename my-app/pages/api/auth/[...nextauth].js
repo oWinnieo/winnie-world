@@ -54,7 +54,7 @@ export const authOptions = {
             token.id = user.id; // 添加用户 ID
             token.picture = user.image; // 头像
           }
-          /* wtest another */
+          /* wtest another *
           if (account) {
             token.accessToken = account.access_token; // 存储 Google 访问令牌
             token.id = profile?.sub; // Google 用户唯一 ID
@@ -126,10 +126,10 @@ export const authOptions = {
           console.log("账户信息:", account);
           // console.log("OAuth 资料:", profile);
           console.log('user wtest >>>>>>>>> 123123', user)
-          if (typeof window !== 'undefined' && account?.access_token) {
-            localStorage.setItem('access_token', account.access_token);
-            localStorage.setItem('refresh_token', account.refresh_token);
-          }
+          // if (typeof window !== 'undefined' && account?.access_token) {
+          //   localStorage.setItem('access_token', account.access_token);
+          //   localStorage.setItem('refresh_token', account.refresh_token);
+          // }
           return true; // 允许登录
           
         },

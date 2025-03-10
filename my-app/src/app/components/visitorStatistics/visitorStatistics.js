@@ -50,7 +50,7 @@ export const VisitorStatistics = () => {
                   console.log('data after fetch', data)
               }
         }
-        fetchData()
+        // fetchData()
       }, [session]);
     
       return (
