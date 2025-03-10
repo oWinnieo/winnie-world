@@ -8,7 +8,8 @@ import { AlertProvider } from '@/app/contexts/AlertContext'
 import { ModalProvider } from '@/app/contexts/ModalContext';
 import AuthProvider from "@/app/components/SessionProvider";
 // import { GoogleAnalytics } from "react-ga4"; // wtest ga wrong import
-import ReactGA from "react-ga4"; // wtest ga
+// import ReactGA from "react-ga4"; // wtest ga
+import { GoogleAnalytics } from "@/app/components/googleAnalytics/googleAnalytics";
 
 import "./globals.css";
 import '@styles/base/base.scss';
@@ -93,6 +94,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+          <GoogleAnalytics />
           <AuthProvider>
             <Navbar></Navbar>
             <ModalProvider>
