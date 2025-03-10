@@ -4740,6 +4740,11 @@ url-template@^2.0.8:
   resolved "https://registry.npmmirror.com/url-template/-/url-template-2.0.8.tgz#fc565a3cccbff7730c775f5641f9555791439f21"
   integrity sha512-XdVKMF4SJ0nP/O7XIPB0JwAEuT9lDIYnNsK8yGVe43y0AWoKeJNdv3ZNWh7ksJ6KqQFjOO6ox/VEitLnaVNufw==
 
+use-local-storage@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmmirror.com/use-local-storage/-/use-local-storage-3.0.0.tgz#ecf90952374150f0c65baf027eaaf2062a4c20c6"
+  integrity sha512-wlPNnBCG3ULIJMr5A+dvWqLiPWCfsN1Kwijq+sAhT5yV4ex0u6XmZuNwP+RerIOfzBuz1pwSZuzhZMiluGQHfQ==
+
 use-sync-external-store@^1:
   version "1.4.0"
   resolved "https://registry.npmmirror.com/use-sync-external-store/-/use-sync-external-store-1.4.0.tgz#adbc795d8eeb47029963016cefdf89dc799fcebc"
