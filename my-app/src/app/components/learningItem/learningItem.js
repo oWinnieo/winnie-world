@@ -30,8 +30,8 @@ const itemDelete = async ({ params, id }) => {
 }
 
 export const LearningItem = ({ title, authorInfo, contentSliced, createdAt, collectionName, id, params }) => {
-    // const { data: session } = useSession(); // wtest auth
-    /* wtest auth mock */
+    const { data: session } = useSession(); // wtest auth
+    /* wtest auth mock *
     const session = {
         user: userInfo
     }
