@@ -15,9 +15,11 @@ export const AlertProvider = ({ children }) => {
             setAlert({ message: "", type: "", visible: false})
         }, 3000)
     }
-
+    const hideAlert = () => {
+        setAlert({ message: "", type: "", visible: false})
+    }
     return (
-        <AlertContext.Provider value={{ showAlert }}>
+        <AlertContext.Provider value={{ showAlert, hideAlert }}>
             {children}
             {alert.visible && <Alert message={alert.message} type={alert.type} />}
         </AlertContext.Provider>

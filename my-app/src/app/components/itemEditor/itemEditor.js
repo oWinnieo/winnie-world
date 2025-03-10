@@ -11,7 +11,7 @@ import './itemEditor.scss';
 // import MyContext from '@/app/contexts/MyContext' // wtest context
 export const ItemEditor = ({ params, type }) => {
     // console.log('wtest ItemEditor params', params)
-    const { data: session } = useSession(); // wtest auth
+    const { data: session } = useSession(); // wtest auth backup
     /* wtest auth mock *
     const session = {
         user: userInfo
@@ -19,7 +19,7 @@ export const ItemEditor = ({ params, type }) => {
     /* /wtest auth mock */
     const [ isAddItem, setIsAddItem ] = useState(false)
     const { showAlert } = useAlert()
-    const { openModal, closeModal } = useModal()
+    const { openModal } = useModal()
     const ToggleAddItem = () => {
         setIsAddItem((val) => !val)
     }
@@ -35,9 +35,10 @@ export const ItemEditor = ({ params, type }) => {
                 {
                     title: 'pw check',
                     content: 'Please enter password for editing.',
-                    childEl: (closeModal) => (
-                        <ModalContent closeModal={closeModal} valueHandler={pwCheck} />
+                    childEl: () => (
+                        <ModalContent valueHandler={pwCheck} />
                     )
+                    // closeModal={closeModal} // wtest backup
                     
                 },
             )

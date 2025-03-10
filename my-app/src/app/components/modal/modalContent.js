@@ -1,15 +1,24 @@
 import { useState } from 'react'
-export const ModalContent = ({ closeModal, valueHandler }) => {
-    const [pw, setPw] = useState("");
+export const ModalContent = ({ valueHandler }) => {
+    const [val, setVal] = useState("");
+    const handleKeyDown = (e) => {
+      // 检查按下的键是否为回车键（keyCode 为 13 或者 key 为 'Enter'）
+      if (e.key === 'Enter') {
+          valueHandler(val);
+      }
+  };
     return (
       <>
         <input
           className="border border-slate-500 px-8 py-2"
           type="text"
-          value={pw}
-          onChange={(e) => setPw(e.target.value)}
+          value={val}
+          onChange={(e) => setVal(e.target.value)}
+          onKeyDown={handleKeyDown} // 添加按键事件监听
         />
-        <button onClick={() => valueHandler(pw)}>Check</button>
+        {/* <p> */}
+        <button onClick={() => valueHandler(val)}>Check</button>
+        {/* </p> */}
       </>
     );
   };

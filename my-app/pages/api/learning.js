@@ -65,8 +65,7 @@ export default async function handler(req, res) {
           res.status(400).json({ success: false });
         }
       } else if (fetchType === 'one') {
-        console.log('wtest waiting --------------->', collectionName, fetchType) // wtest modelTarget
-        console.log('get list colNameMock', colNameMock) // wtest mock
+        // console.log('wtest waiting --------------->', collectionName, fetchType) // wtest modelTarget
         if (collectionName === 'user') {
             const { userId, email } = req.query;
             // console.log('collectionName -----------------> 123', collectionName)
@@ -91,7 +90,7 @@ export default async function handler(req, res) {
                 const learningItem = await modelTarget.findOne({ _id: id }).lean();
                 if (colNameMock.includes(collectionName)) {
                   const user = await modelUser.findOne({ userId: learningItem.authorId })
-                  console.log('user >>>>>>>>>>', user)
+                  // console.log('user >>>>>>>>>>', user)
                   res.status(200).json({ success: true, data: {
                     ...learningItem,
                     authorInfo: user

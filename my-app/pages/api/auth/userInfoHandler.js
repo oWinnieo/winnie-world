@@ -88,3 +88,25 @@ export const userInfoHandler = async ({ user }) => {
         return ({ success, message, data })
     }
 }
+
+/* wtest mock */
+export const userInfoHandlerAfterLogin = async ({ user }) => {
+    const { success, message, data } = await userInfoHandler({ user })
+    // console.log('data wtest >>>>>>>>> 123123', data)
+    console.log('userFromGoogle -> user', user)
+    let resUserHandledRes
+    if (data) {
+        console.log('wtest update >>>')
+        resUserHandledRes = await userCheckedHandler({ user: {
+            ...data,
+            ...user
+        }, type: 'update' })
+    } else {
+        console.log('wtest add >>>')
+        resUserHandledRes = await userCheckedHandler({ user, type: 'add' })
+    }
+    console.log('wtest resUserHandledRes', resUserHandledRes)
+    return resUserHandledRes
+}
+
+/* /wtest mock */

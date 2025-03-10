@@ -1,7 +1,7 @@
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
 import { userFromGoogle } from '../mock/userInfo' // wtest user handler
-import { userInfoHandler, userCheckedHandler } from '../../../pages/api/auth/userInfoHandler' // wtest user handler
+import { userInfoHandler, userCheckedHandler, userInfoHandlerAfterLogin } from '../../../pages/api/auth/userInfoHandler' // wtest user handler
 import Link from 'next/link'
 
 const getListData = async ({ urlDomainListNav, collectionName }) => {
@@ -47,25 +47,20 @@ export default async function Learning () {
         urlDomainListNav,
         collectionName: 'listNav'
     })
-    console.log('listLearningFromApi', listLearningFromApi)
-    console.log('userFromGoogle', userFromGoogle)
-    /* wtest */
-        const { success, message, data } = await userInfoHandler({ user: userFromGoogle })
-        // console.log('data wtest >>>>>>>>> 123123', data)
-        // console.log('userFromGoogle', userFromGoogle)
-        let resUserHandledRes
-        if (data) {
-            console.log('wtest update')
-            resUserHandledRes = await userCheckedHandler({ user: {
-                ...data,
-                ...userFromGoogle
-            }, type: 'update' })
-        } else {
-            console.log('wtest add')
-            resUserHandledRes = await userCheckedHandler({ user: userFromGoogle, type: 'add' })
-        }
-        console.log('wtest resUserHandledRes', resUserHandledRes)
-        /* /wtest */
+    // console.log('listLearningFromApi', listLearningFromApi)
+    // console.log('userFromGoogle', userFromGoogle)
+    /* wtest userInfo handler *
+    console.log('wait for >>> userInfoHandlerAfterLogin <<<')
+    const resUserInfo = await userInfoHandlerAfterLogin({ user: userFromGoogle })
+    console.log('resUserInfo', resUserInfo)
+    /* /wtest userInfo handler */
+        /* wtest ga *
+        
+        const resV = await fetch(process.env.URL_DOMAIN + '/api/visitors', {
+            cache: 'no-store',
+        }).then(res => res.json());
+        console.log('resV', resV)
+        /* /wtest ga */
     return (
         <PageWrap>
             <AreaTitle>Learning Area</AreaTitle>

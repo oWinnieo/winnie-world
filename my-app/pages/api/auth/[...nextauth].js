@@ -85,19 +85,26 @@ export const authOptions = {
       /* /wtest another */
       // console.log('session', session)
 
-      /* wtest */
+      /* wtest *
       const { data } = await userInfoHandler({ user: session.user })
       let resUserHandledRes
       if (data) {
-          resUserHandledRes = await userCheckedHandler({ user: {
-              ...data,
-              ...session.user
-          }, type: 'update' })
+        // wtest waiting for update confirm
+          // resUserHandledRes = await userCheckedHandler({ user: {
+          //     ...data,
+          //     ...session.user
+          // }, type: 'update' })
+          resUserHandledRes = { msg: 'waiting for update confirm' }; // wtest
       } else {
           resUserHandledRes = await userCheckedHandler({ user: session.user, type: 'add' })
       }
       // console.log('wtest resUserHandledRes', resUserHandledRes)
       /* /wtest */
+      /* wtest userInfo handler */
+    console.log('wait for >>> userInfoHandlerAfterLogin <<<')
+    const resUserInfo = await userInfoHandlerAfterLogin({ user: session.user })
+    console.log('resUserInfo', resUserInfo)
+    /* /wtest userInfo handler */
       
       return session;
     },

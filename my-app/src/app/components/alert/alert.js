@@ -2,31 +2,20 @@
 // components/Alert.js
 import React, { useState } from 'react';
 // import styles from './alert.scss';
+import { useAlert } from '@/app/contexts/AlertContext'
 import './alert.scss'
 
 export const Alert = ({ message, type = 'info', onClose }) => {
-    // const [isVisible, setIsVisible] = useState(true);
-
-    // const closeAlert = () => {
-    //     setIsVisible(false);
-    // };
-
-    const closeAlert = () => {
-        setAlertShow(false)
-    }
-
-    // if (!isVisible) return null;
+    const { hideAlert } = useAlert()
 
     return (
-        // <div>alert wtest</div>
         <div className={`alert ${type}`}>
             <span className="message">{message}</span>
-            {/* <button className="closeButtonAlert" onClick={closeAlert}>
+            <button className="closeButtonAlert" onClick={hideAlert}>
                 ×
-            </button> */}
+            </button>
         </div>
     );
-    // return (<div>1</div>)
 };
 
 // export const Alert = ({ message, type }) => {
@@ -49,9 +38,6 @@ export const Alert = ({ message, type = 'info', onClose }) => {
 //         </div>
 //     )
 // }
-/* { alertShow ? <Alert message={alertMsg} type={alertType} onClose={closeAlert} /> : null} */
+/* { alertShow ? <Alert message={alertMsg} type={alertType} onClose={hideAlert} /> : null} */
 
-// const closeAlert = () => {
-    //     setAlertShow(false)
-    // }
     

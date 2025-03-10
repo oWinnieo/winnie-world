@@ -30,8 +30,8 @@ const itemDelete = async ({ params, id }) => {
 }
 
 export const LearningItem = ({ title, authorInfo, contentSliced, createdAt, collectionName, id, params }) => {
-    const { data: session } = useSession(); // wtest auth
-    /* wtest auth mock *
+    // const { data: session } = useSession(); // wtest auth
+    /* wtest auth mock */
     const session = {
         user: userInfo
     }
@@ -46,9 +46,10 @@ export const LearningItem = ({ title, authorInfo, contentSliced, createdAt, coll
             {
                 title: 'del confirm',
                 content: 'Are you sure to delete this item? (If yes, please enter the world \'delete\')',
-                childEl: (closeModal) => (
-                    <ModalContent closeModal={closeModal} valueHandler={enterDelWord} />
+                childEl: () => (
+                    <ModalContent valueHandler={enterDelWord} />
                 )
+                // closeModal={closeModal} // wtest backup
                 
             },
         )
@@ -61,16 +62,17 @@ export const LearningItem = ({ title, authorInfo, contentSliced, createdAt, coll
                 type: "success",
             })
             closeModal()
-            itemDelete({ params, id })
+            console.log('wtest delete >>>>>>>>>>>', 'params', params, 'id', id)
+            // itemDelete({ params, id })
         } else {
             showAlert({
                 message: 'don\'t delete',
                 type: 'danger'
             })
         }
-        let t1 = setTimeout(() => {
-            clearTimeout(t1)
-        }, 3000)
+        // let t1 = setTimeout(() => {
+        //     clearTimeout(t1)
+        // }, 3000)
     }
     /* /enterDelWord */
     /* /wtest pw */
