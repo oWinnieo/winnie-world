@@ -95,7 +95,7 @@ async function getAnalyticsData(token) {
   return response.data;
 }
 
-export async function GET(req, res) {
+export default async function GET(req, res) {
   const { token } = req.query;  // 获取从前端传递的用户令牌
 
   try {
