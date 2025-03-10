@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         res.status(200).json({ success: true, data: data });
       } catch (error) {
         // return NextResponse.json({ error: "无法获取数据" }, { status: 500 });
-        console.log('return err')
+        console.log('return err', error)
         res.status(400).json({ success: false });
       }
 }
