@@ -76,14 +76,14 @@ export const authOptions = {
       // token: jwt 回调中的 token
       // session.user.id = token.id; // 传递用户 ID
       session.user.userId = token.sub // wtest what is it?
-      // session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
+      session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* wtest another *
       session.user.id = token.id; // 传递用户 ID
       session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* /wtest another */
-      console.log('session', session)
+      console.log('when login callback > session in ...nextauth.js', session)
 
       /* wtest *
       const { data } = await userInfoHandler({ user: session.user })
