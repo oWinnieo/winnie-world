@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { userInfoHandler, userCheckedHandler } from './userInfoHandler'
+import { userInfoHandler, userCheckedHandler, userInfoHandlerAfterLogin } from './userInfoHandler'
 
 export const authOptions = {
   providers: [
