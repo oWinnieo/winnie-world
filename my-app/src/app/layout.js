@@ -13,9 +13,9 @@ import ReactGA from "react-ga4"; // wtest ga
 import "./globals.css";
 import '@styles/base/base.scss';
 
-// GoogleAnalytics.initialize("G-9QTB7YVB49"); // wtest ga
-// ReactGA.initialize("G-9QTB7YVB49"); // wtest ga
-const GA_TRACKING_ID = 'G-9QTB7YVB49' // wtest ga
+// GoogleAnalytics.initialize(process.env.GA4_MEASUREMENT_ID); // wtest ga
+// ReactGA.initialize(process.env.GA4_MEASUREMENT_ID); // wtest ga
+const GA_TRACKING_ID = process.env.GA4_MEASUREMENT_ID;// wtest GA4_MEASUREMENT_ID // wtest ga
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,7 +49,7 @@ export default function RootLayout({ children }) {
   /* wtest ga 1 *
   useEffect(() => {
     // 使用正确的 Google Analytics 4 ID
-    ReactGA.initialize('G-9QTB7YVB49');  // 用你自己的 GA4 ID 替换
+    ReactGA.initialize(process.env.GA4_MEASUREMENT_ID);  // 用你自己的 GA4 ID 替换
     // ReactGA.pageview(window.location.pathname + window.location.search);
 
     // 监听路由变化
@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
   // }, []);
   useEffect(() => {
     // 初始化 Google Analytics，替换为你自己的 GA4 ID
-    GoogleAnalytics.initialize("G-9QTB7YVB49");
+    GoogleAnalytics.initialize(process.env.GA4_MEASUREMENT_ID);
 
     // 记录页面视图
     const handleRouteChange = (url) => {

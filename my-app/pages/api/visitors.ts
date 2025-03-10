@@ -1,83 +1,55 @@
 import { google } from "googleapis";
 import type { NextApiRequest, NextApiResponse } from "next";
-import credentials from '../../credentialsForGA-winnie-world-df046111b4bf.json'; // 替换为你的服务账号 JSON 文件路径
+import path from "path";
+import { OAuth2Client } from 'google-auth-library';
 
 const SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"];
-// const analyticsreporting = google.analyticsdata("v1beta"); // wtest backup
 
-const auth = new google.auth.JWT(
-  credentials.client_email,
-  undefined,
-  credentials.private_key,
-  SCOPES
+// 加载OAuth客户端配置
+const OAUTH_REDIRECT_URI_FULL = `${process.env.NEXTAUTH_URL}${process.env.OAUTH_REDIRECT_URI}`
+
+const oauth2Client = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID, // wtest OAUTH_CLIENT_ID,    // 你的 OAuth 客户端 ID
+  process.env.GOOGLE_CLIENT_SECRET, // wtest OAUTH_CLIENT_SECRET, // 你的 OAuth 客户端密钥
+  //   process.env.// wtest OAUTH_REDIRECT_URI  // 重定向 URI
+  OAUTH_REDIRECT_URI_FULL
 );
+console.log('oauth2Client', oauth2Client)
 
 const analyticsreporting = google.analyticsdata({
   version: "v1beta",
-  auth
+  auth: oauth2Client
 });
-
-console.log('auth credentials:', credentials.client_email); // 确保正确
-// console.log('auth initialized:', auth);
-
-
-
-
-// const response = await analyticsData.properties.runReport({
-        //     property: `properties/G-XXXXXXXXXX`,  // 替换为你的 GA4 属性 ID
-        //     requestBody: {
-        //       dimensions: [{ name: 'date' }],
-        //       metrics: [{ name: 'activeUsers' }],
-        //       dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
-        //     },
-        //   });
 
 async function getVisitors() {
   console.log("Starting getVisitors function...");
+
+  // 使用授权获取访问令牌
+  const token = await oauth2Client.getAccessToken();
+  oauth2Client.setCredentials({ access_token: token.token });
+
   try {
-    console.log('au try')
-    await auth.authorize();
-    console.log("Auth successful!");
-  } catch (err) {
-    console.log('au ? err', err)
-  }
-  
-  console.log('auth.email >>>', auth.email)
-// console.log('analyticsreporting', analyticsreporting.properties.runReport)
-  try {
-    console.log('auth.email >>> 1')
     const res = await analyticsreporting.properties.runReport({
-      // auth, // wtest backup
-      property: "properties/10366737933", // 你的 GA4 属性 ID
+      property: `properties/${process.env.GA4_PROPERTY_ID}`, // 你的 GA4 属性 ID
       requestBody: {
         dateRanges: [{ startDate: "today", endDate: "today" }],
         metrics: [{ name: "activeUsers" }],
       },
-    })
-    // .then(ress => {
-      // console.log('ress', ress)
-    // });
-    console.log('res ga -----------------> wtest here', res) // wtest G-9QTB7YVB49
-  
-    // return res.data;
-    return {data: 'wtest ga on waiting try ~~~'}
+    });
+    console.log('GA Response: ', res.data);
+    return res.data;
   } catch (err) {
-    console.log('auth.email >>> 2')
-    return {data: 'wtest ga on waiting catch ---', err}
+    console.error("Error fetching GA data", err);
+    return { error: 'Failed to fetch data' };
   }
-  
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    console.log('ah')
     const data = await getVisitors();
-    // const data = {aa: 1}
-    console.log('data', data)
-
     res.status(200).json(data);
   } catch (error) {
-    console.log('?? 2')
+    console.error("Error in API handler", error);
     res.status(500).json({ error: "Failed to fetch data" });
   }
 }
