@@ -71,7 +71,7 @@ export const authOptions = {
     // 	•	session.user.accessToken: 传递 Google 访问令牌到前端（如调用 Google API 时使用）。
     //   */
     async session({ session, token }) {
-      // console.log('wtest google session ----------> 1')
+      console.log('wtest google session ----------> 1 token', token)
       // session: 传递到前端的会话数据
       // token: jwt 回调中的 token
       // session.user.id = token.id; // 传递用户 ID
@@ -115,11 +115,11 @@ export const authOptions = {
     // 	•	profile: 从 Google 获取的完整用户数据（sub, name, email, picture 等）。
     //   */
         async signIn({ user, account, profile }) {
-          // console.log('wtest google signIn ----------> 2')
+          console.log('wtest google signIn ----------> 2')
           // console.log("用户信息:", user);
-          // console.log("账户信息:", account);
+          console.log("账户信息:", account);
           // console.log("OAuth 资料:", profile);
-          // console.log('user wtest >>>>>>>>> 123123', user)
+          console.log('user wtest >>>>>>>>> 123123', user)
           
           return true; // 允许登录
           
