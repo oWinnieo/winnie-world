@@ -41,11 +41,12 @@ export const VisitorStatistics = () => {
     const { data: session } = useSession();
     const [data, setData] = useState(null);
     console.log('session in visitorStatistics.js >>>', session)
-    useEffect(() => {
+    useEffect(async () => {
         if (session) {
-          fetch(`/api/analytics?token=${session.user.accessToken}`) // wtest session.accessToken -> session.user.accessToken
+          await fetch(`/api/analytics?token=${session.user.accessToken}`) // wtest session.accessToken -> session.user.accessToken
             .then((res) => res.json())
             .then((data) => setData(data));
+            console.log('data after fetch', data)
         }
       }, [session]);
     

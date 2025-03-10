@@ -44,7 +44,7 @@ export const authOptions = {
 
       */
         async jwt({ token, user, account, profile }) {
-          console.log('wtest google session ----------> num token', token)
+          console.log('wtest google session ----------> 222 token', token)
           // user: 用户信息（仅在登录时可用）
           // account: OAuth 账户信息（仅在登录时可用）
           // profile: OAuth 提供的用户信息（仅在登录时可用）
@@ -72,18 +72,24 @@ export const authOptions = {
     // 	•	session.user.accessToken: 传递 Google 访问令牌到前端（如调用 Google API 时使用）。
     //   */
     async session({ session, token }) {
-      console.log('wtest google session ----------> 1 token', token)
+      console.log('wtest google session ----------> 333 token', token)
       // session: 传递到前端的会话数据
       // token: jwt 回调中的 token
       // session.user.id = token.id; // 传递用户 ID
       session.user.userId = token.sub // wtest what is it?
       session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
+      session.user.access_token = token.accessToken;
+      session.user.refresh_token = token.refreshToken;
       /* wtest another *
       session.user.id = token.id; // 传递用户 ID
       session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
       session.user.image = token.picture; // 传递头像
       /* /wtest another */
+      if (account?.access_token) {
+        token.accessToken = account.access_token; // 将 access_token 存入 token
+        token.refreshToken = account.refresh_token; // 将 refresh_token 存入 token
+      }
       console.log('when login callback > session in ...nextauth.js', session)
 
       /* wtest *
@@ -116,12 +122,15 @@ export const authOptions = {
     // 	•	profile: 从 Google 获取的完整用户数据（sub, name, email, picture 等）。
     //   */
         async signIn({ user, account, profile }) {
-          console.log('wtest google signIn ----------> 2')
+          console.log('wtest google signIn ----------> 111')
           // console.log("用户信息:", user);
           console.log("账户信息:", account);
           // console.log("OAuth 资料:", profile);
           console.log('user wtest >>>>>>>>> 123123', user)
-          
+          if (typeof window !== 'undefined' && account?.access_token) {
+            localStorage.setItem('access_token', account.access_token);
+            localStorage.setItem('refresh_token', account.refresh_token);
+          }
           return true; // 允许登录
           
         },

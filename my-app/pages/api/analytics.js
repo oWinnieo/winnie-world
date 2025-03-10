@@ -96,10 +96,13 @@ async function getAnalyticsData(token) {
 }
 
 export default async function GET(req, res) {
+  console.log('ga get ---> 2')
   const { token } = req.query;  // 获取从前端传递的用户令牌
 
   try {
+    console.log('ga get ---> 2')
     const analyticsData = await getAnalyticsData(token);
+    console.log('ga get ---> 3')
     res.status(200).json(analyticsData);
   } catch (error) {
     res.status(500).json({ error: error.message });
