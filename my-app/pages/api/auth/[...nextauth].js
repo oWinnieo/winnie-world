@@ -45,7 +45,7 @@ export const authOptions = {
 
       */
         async jwt({ token, user, account, profile }) {
-          console.log('wtest google session ----------> num token', token)
+          console.log('wtest google jwt ----------> 11 token', token)
           // user: 用户信息（仅在登录时可用）
           // account: OAuth 账户信息（仅在登录时可用）
           // profile: OAuth 提供的用户信息（仅在登录时可用）
@@ -73,7 +73,7 @@ export const authOptions = {
     // 	•	session.user.accessToken: 传递 Google 访问令牌到前端（如调用 Google API 时使用）。
     //   */
     async session({ session, token }) {
-      console.log('wtest google session ----------> 1 token', token)
+      console.log('wtest google session ----------> 22 token', token)
       // session: 传递到前端的会话数据
       // token: jwt 回调中的 token
       // session.user.id = token.id; // 传递用户 ID
@@ -92,22 +92,6 @@ export const authOptions = {
         session.refresh_token = refresh_token;
       }
       console.log('when login callback > session in ...nextauth.js', session)
-
-      /* wtest *
-      const { data } = await userInfoHandler({ user: session.user })
-      let resUserHandledRes
-      if (data) {
-        // wtest waiting for update confirm
-          // resUserHandledRes = await userCheckedHandler({ user: {
-          //     ...data,
-          //     ...session.user
-          // }, type: 'update' })
-          resUserHandledRes = { msg: 'waiting for update confirm' }; // wtest
-      } else {
-          resUserHandledRes = await userCheckedHandler({ user: session.user, type: 'add' })
-      }
-      // console.log('wtest resUserHandledRes', resUserHandledRes)
-      /* /wtest */
       /* wtest userInfo handler */
     console.log('wait for >>> userInfoHandlerAfterLogin <<<')
     const resUserInfo = await userInfoHandlerAfterLogin({ user: session.user })
@@ -225,3 +209,31 @@ export const config = { matcher: ["/dashboard"] }; // 保护 "/dashboard" 页面
 
 
 
+
+
+
+
+
+async session({ session, token }) {
+  console.log('wtest google session ----------> 1 token', token)
+  // session: 传递到前端的会话数据
+  // token: jwt 回调中的 token
+  // session.user.id = token.id; // 传递用户 ID
+  session.user.userId = token.sub // wtest what is it?
+  session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
+  session.user.image = token.picture; // 传递头像
+  /* wtest another *
+  session.user.id = token.id; // 传递用户 ID
+  session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
+  session.user.image = token.picture; // 传递头像
+  /* /wtest another */
+  const access_token = localStorage.getItem('access_token');
+  const refresh_token = localStorage.getItem('refresh_token');
+  if (access_token) {
+    session.access_token = access_token;
+    session.refresh_token = refresh_token;
+  }
+  console.log('when login callback > session in ...nextauth.js', session)
+  
+  return session;
+},
