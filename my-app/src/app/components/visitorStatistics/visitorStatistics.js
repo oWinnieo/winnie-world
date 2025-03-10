@@ -6,8 +6,9 @@ export const VisitorStatistics = () => {
     console.log('wtest -> VisitorStatistics >>>>>>')
     
     const [visitors, setVisitors] = useState({ today: 0, total: 0 });
+    console.log('before useEffect')
     useEffect(() => {
-        fetch("/api/analyticsGet")
+        fetch("/api/analytics")
           .then((res) => res.json())
           .then((data) => {
             console.log('data', data)
