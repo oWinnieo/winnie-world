@@ -9,7 +9,6 @@ import { modelUser } from 'models/users';
 const urlDomainUser = `${process.env.URL_DOMAIN}/api/learning` // wtest users / learning
 
 export const userCheckedHandler = async ({ user, type }) => {
-    // // console.log('wtest user >>>>>>> userCheckedHandler', `>>> ${type} <<<`)
     if (!user) return ({ success: false, message: 'no user '})
         const {
             name,
@@ -41,12 +40,11 @@ export const userCheckedHandler = async ({ user, type }) => {
                     // throw new Error('Failed to create an item.')
                 }
             } catch (err) {
-                // console.log(err)
+                console.log(err)
             }
             break;
         case 'update':
             try {
-                // console.log('-------> updata user', user)
                 const res = await fetch(`${urlDomainUser}?collectionName=user&fetchType=one`, {
                     method: 'PUT',
                     headers: {
@@ -66,7 +64,7 @@ export const userCheckedHandler = async ({ user, type }) => {
                     // throw new Error('Failed to update an item.')
                 }
             } catch (err) {
-                // console.log(err)
+                console.log(err)
             }
             break;
         default:
@@ -92,18 +90,16 @@ export const userInfoHandler = async ({ user }) => {
 /* wtest mock */
 export const userInfoHandlerAfterLogin = async ({ user }) => {
     const { success, message, data } = await userInfoHandler({ user })
-    // console.log('userFromGoogle -> user', user)
     let resUserHandledRes
     if (data) {
-        // console.log('wtest update >>> wait for confirming')
         /* wtest wait for confirming */
         // resUserHandledRes = await userCheckedHandler({ user: {
         //     ...data,
         //     ...user
         // }, type: 'update' })
         /* /wtest wait for confirming */
+        return {res: 'User exists.'}
     } else {
-        // console.log('wtest add >>>')
         resUserHandledRes = await userCheckedHandler({ user, type: 'add' })
     }
     console.log('wtest resUserHandledRes', resUserHandledRes)

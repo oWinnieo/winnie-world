@@ -13,19 +13,16 @@ import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 import './style.scss'
 
 const getOneData = async (params) => {
-  // console.log('wtest_d', wtest_d)
   const { data } = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}`, {
       cache: 'no-store', // 等效于 SSR 的行为
-      }).then(res => res.json()); // wtest backup
-    
-      // console.log('??? wtest >>>>>>>>>>>>', data)
+      }).then(res => res.json());
   return data
 }
 
 export default async function Post({ params }) {
   const paramsArr = await params
   const slug = paramsArr.slug
-  const urlDomainLearning = `${process.env.URL_DOMAIN}/api/learning` // wtest 
+  const urlDomainLearning = `${process.env.URL_DOMAIN}/api/learning`
   const data = await getOneData({
     urlDomainLearning,
     collectionName: slug[0],

@@ -44,25 +44,18 @@ export const authOptions = {
 
       */
         async jwt({ token, user, account, profile }) {
-          console.log('wtest google jwt ----------> 222 token', token)
           // user: 用户信息（仅在登录时可用）
           // account: OAuth 账户信息（仅在登录时可用）
           // profile: OAuth 提供的用户信息（仅在登录时可用）
           // token: 用于会话的 JWT（每次请求都会更新）
           
           if (user) {
-            token.id = user.id; // 添加用户 ID
             token.picture = user.image; // 头像
           }
-          /* wtest another */
           if (account) {
-            // token.accessToken = account.access_token; // 存储 Google 访问令牌
-            // token.picture = profile?.picture; // 用户头像
             token.accessToken = account.access_token; // 将 access_token 存入 token
             token.refreshToken = account.refresh_token; // 将 refresh_token 存入 token
           }
-          /* /wtest another */
-          console.log('token (in jwt)', token)
           return token;
         },
     //     /*
@@ -73,43 +66,16 @@ export const authOptions = {
     // 	•	session.user.accessToken: 传递 Google 访问令牌到前端（如调用 Google API 时使用）。
     //   */
     async session({ session, token }) {
-      console.log('wtest google session ----------> 333 token', token)
       // session: 传递到前端的会话数据
       // token: jwt 回调中的 token
-      // session.user.id = token.id; // 传递用户 ID
-      session.user.userId = token.sub // wtest what is it?
-      session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
+      session.user.userId = token.sub
       session.user.image = token.picture; // 传递头像
-      session.user.access_token = token.accessToken;
-      session.user.refresh_token = token.refreshToken;
-      /* wtest another *
-      session.user.id = token.id; // 传递用户 ID
       session.user.accessToken = token.accessToken; // 传递 Google 访问令牌
-      session.user.image = token.picture; // 传递头像
-      /* /wtest another */
-      
-      console.log('when login callback > session (in session) in ...nextauth.js', session)
-
-      /* wtest *
-      const { data } = await userInfoHandler({ user: session.user })
-      let resUserHandledRes
-      if (data) {
-        // wtest waiting for update confirm
-          // resUserHandledRes = await userCheckedHandler({ user: {
-          //     ...data,
-          //     ...session.user
-          // }, type: 'update' })
-          resUserHandledRes = { msg: 'waiting for update confirm' }; // wtest
-      } else {
-          resUserHandledRes = await userCheckedHandler({ user: session.user, type: 'add' })
-      }
-      // console.log('wtest resUserHandledRes', resUserHandledRes)
-      /* /wtest */
+      session.user.refreshToken = token.refreshToken;
       /* wtest userInfo handler */
-    console.log('wait for >>> userInfoHandlerAfterLogin <<<')
-    const resUserInfo = await userInfoHandlerAfterLogin({ user: session.user })
-    console.log('resUserInfo', resUserInfo)
-    /* /wtest userInfo handler */
+      const resUserInfo = await userInfoHandlerAfterLogin({ user: session.user })
+      console.log('resUserInfo', resUserInfo)
+      /* /wtest userInfo handler */
       
       return session;
     },
@@ -120,12 +86,7 @@ export const authOptions = {
     // 	•	profile: 从 Google 获取的完整用户数据（sub, name, email, picture 等）。
     //   */
         async signIn({ user, account, profile }) {
-          console.log('wtest google signIn ----------> 111')
-          // console.log("用户信息:", user);
-          console.log("账户信息: (in signin)", account);
-          // console.log("OAuth 资料:", profile);
-          console.log('user wtest (in signin) >>>>>>>>>', user)
-          return true; // 允许登录 wtest backup
+          return true; // 允许登录
           
           
         },
