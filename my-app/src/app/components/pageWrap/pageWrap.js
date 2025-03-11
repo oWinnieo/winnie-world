@@ -4,7 +4,7 @@ export const PageWrap = ({ children }) => {
     return (
         <div className="page">
             <div className="page-in">
-                <VisitorStatistics></VisitorStatistics>
+                {/* <VisitorStatistics></VisitorStatistics> */}
                 {children}
             </div>
         </div>

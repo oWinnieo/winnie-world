@@ -54,16 +54,15 @@ export const authOptions = {
             token.id = user.id; // 添加用户 ID
             token.picture = user.image; // 头像
           }
-          /* wtest another *
+          /* wtest another */
           if (account) {
-            token.accessToken = account.access_token; // 存储 Google 访问令牌
-            token.id = profile?.sub; // Google 用户唯一 ID
-            token.picture = profile?.picture; // 用户头像
+            // token.accessToken = account.access_token; // 存储 Google 访问令牌
+            // token.picture = profile?.picture; // 用户头像
             token.accessToken = account.access_token; // 将 access_token 存入 token
             token.refreshToken = account.refresh_token; // 将 refresh_token 存入 token
           }
           /* /wtest another */
-          console.log('token', token)
+          console.log('token (in jwt)', token)
           return token;
         },
     //     /*
@@ -89,7 +88,7 @@ export const authOptions = {
       session.user.image = token.picture; // 传递头像
       /* /wtest another */
       
-      console.log('when login callback > session in ...nextauth.js', session)
+      console.log('when login callback > session (in session) in ...nextauth.js', session)
 
       /* wtest *
       const { data } = await userInfoHandler({ user: session.user })
@@ -123,14 +122,11 @@ export const authOptions = {
         async signIn({ user, account, profile }) {
           console.log('wtest google signIn ----------> 111')
           // console.log("用户信息:", user);
-          console.log("账户信息:", account);
+          console.log("账户信息: (in signin)", account);
           // console.log("OAuth 资料:", profile);
-          console.log('user wtest >>>>>>>>> 123123', user)
-          // if (typeof window !== 'undefined' && account?.access_token) {
-          //   localStorage.setItem('access_token', account.access_token);
-          //   localStorage.setItem('refresh_token', account.refresh_token);
-          // }
-          return true; // 允许登录
+          console.log('user wtest (in signin) >>>>>>>>>', user)
+          return true; // 允许登录 wtest backup
+          
           
         },
     //     /*

@@ -1,5 +1,5 @@
-'use client'
-import React, { useEffect } from 'react'
+// 'use client'
+import React from 'react'
 // import React from 'react'
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@components/navbar/navbar";
@@ -7,16 +7,13 @@ import { Navbar } from "@components/navbar/navbar";
 import { AlertProvider } from '@/app/contexts/AlertContext'
 import { ModalProvider } from '@/app/contexts/ModalContext';
 import AuthProvider from "@/app/components/SessionProvider";
-// import { GoogleAnalytics } from "react-ga4"; // wtest ga wrong import
-// import ReactGA from "react-ga4"; // wtest ga
-import { GoogleAnalytics } from "@/app/components/googleAnalytics/googleAnalytics";
+// import { GoogleAnalytics } from "react-ga4"; // wtest ga wrong importga
+import { AnalyticsProvider } from '@/app/components/analyticsProvider/analyticsProvider'
 
 import "./globals.css";
 import '@styles/base/base.scss';
 
-// GoogleAnalytics.initialize(process.env.GA4_MEASUREMENT_ID); // wtest ga
-// ReactGA.initialize(process.env.GA4_MEASUREMENT_ID); // wtest ga
-const GA_TRACKING_ID = process.env.GA4_MEASUREMENT_ID;// wtest GA4_MEASUREMENT_ID // wtest ga
+const GA4_MEASUREMENT_ID = process.env.GA4_MEASUREMENT_ID;// wtest GA4_MEASUREMENT_ID // wtest ga
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -94,15 +91,18 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-          <GoogleAnalytics />
-          <AuthProvider>
-            <Navbar></Navbar>
-            <ModalProvider>
-              <AlertProvider>
-                {children}
-              </AlertProvider>
-            </ModalProvider>
-          </AuthProvider>
+          {/* <GoogleAnalytics /> */}
+          <AnalyticsProvider
+            gaMeasureId={GA4_MEASUREMENT_ID}>
+            <AuthProvider>
+              <Navbar></Navbar>
+              <ModalProvider>
+                <AlertProvider>
+                  {children}
+                </AlertProvider>
+              </ModalProvider>
+            </AuthProvider>
+          </AnalyticsProvider>
       </body>
     </html>
   );
