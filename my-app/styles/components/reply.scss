@@ -1,0 +1,10 @@
+@mixin area-reply {
+    background: #f1f1f1; // wtest
+    padding: 6px;
+    display: flex;
+    justify-content: space-between;
+    .btn-reply-cancel {
+        width: 26px;
+        height: 26px;
+    }
+}

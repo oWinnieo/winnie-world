@@ -54,7 +54,7 @@ export default async function handler(req, res) {
       try {
         const { _id: id, ...updateData } = req.body;
         if (!id) {
-            return res.status(400).json({ success: false, message: "ID is required" }); // wtest here
+            return res.status(400).json({ success: false, message: "ID is required" });
           }
         let userUpdated = await modelTarget.findByIdAndUpdate(id, updateData, {
           new: true, // 返回更新后的数据
@@ -90,7 +90,7 @@ export default async function handler(req, res) {
       try {
         // if (req.id) {
         //   const learningOneItem = await LearningItem.findOne({ _id: req.id })
-        //   res.status(200).json({ success: true, data: {a: 'aha'}})
+        //   res.status(200).json({ success: true, data: {a: ''}})
         // } else {
           let learningItems
             learningItems = await modelTarget.find({}).sort({ createdAt: -1 }) // 获取所有item

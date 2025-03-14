@@ -1,19 +1,18 @@
 'use client'
 import Link from 'next/link'
-import { timeFormatter } from '../../../../lib/util'
-import { htmlDecode } from '@/lib/utils';
+import { timeFormatter } from '@/lib/utils';
 /* wtest pw */
-import { useAlert } from '@/app/contexts/AlertContext' // wtest alert
+import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 /* /wtest pw */
-import { useSession } from "next-auth/react"; // wtest auth
-import { userInfo } from '@/app/mock/userInfo' // wtest mock
+import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import './learningItem.scss'
 
 const itemDelete = async ({ params, id }) => {
+    console.log('wtest delete >>>>>>>>>>> 111', 'params', params, 'id', id, `${params.urlDomain}?collectionName=${params.collectionName}`)
     // const encodedId = encodeURIComponent(id); // wtest waiting not reason
-    const res = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}`, { // wtest waiting ?id=${encodedId}
+    const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, { // wtest waiting ?id=${encodedId}
         method: 'DELETE',
         headers: {
             "Content-type": 'application/json'
@@ -29,23 +28,19 @@ const itemDelete = async ({ params, id }) => {
     }
 }
 
-export const LearningItem = ({ title, authorInfo, contentSliced, createdAt, collectionName, id, params }) => {
-    const { data: session } = useSession(); // wtest auth
-    /* wtest auth mock *
-    const session = {
-        user: userInfo
-    }
-    // console.log('session', session)
+export const LearningItem = ({ title, authorInfo, contentSliced, createdAt, collectionName, id, params, data }) => {
+    /* wtest auth mock */
+    const session = sessionInfo()
     /* /wtest auth mock */
     const itemUrl = `/learning/${collectionName}/${id}`
     /* wtest pw */
-    const { showAlert } = useAlert() // wtest alert
+    const { showAlert } = useAlert()
     const { openModal, closeModal } = useModal()
-    const confirmDel = () => {
+    const delConfirm = ({ nameForConfrom }) => {
         openModal(
             {
                 title: 'del confirm',
-                content: 'Are you sure to delete this item? (If yes, please enter the world \'delete\')',
+                content: `<${nameForConfrom}>: Are you sure to delete this item? (If yes, please enter the world \'delete\')`,
                 childEl: () => (
                     <ModalContent valueHandler={enterDelWord} />
                 )
@@ -56,46 +51,57 @@ export const LearningItem = ({ title, authorInfo, contentSliced, createdAt, coll
     }
     /* enterDelWord */
     const enterDelWord = (val) => {
-        if (val === 'delete') {
+        if (val === '123') { // wtest delete
             showAlert({
                 message: 'delete confirm',
                 type: "success",
             })
             closeModal()
-            console.log('wtest delete >>>>>>>>>>>', 'params', params, 'id', id)
-            // itemDelete({ params, id })
+            itemDelete({ params, id })
         } else {
             showAlert({
                 message: 'don\'t delete',
                 type: 'danger'
             })
         }
-        // let t1 = setTimeout(() => {
-        //     clearTimeout(t1)
-        // }, 3000)
     }
     /* /enterDelWord */
     /* /wtest pw */
     /* author name display */
     const authorNameDisplay = () => {
-        return authorInfo?.name ?
-            (session?.user?.name && authorInfo.name === session?.user?.name ? <span className="span-me">Me</span> : authorInfo.name)
+        return authorInfo?.userId ?
+            (session?.user?.userId && authorInfo.userId === session?.user?.userId ? <span className="span-me">Me</span> : authorInfo.name)
             : '??'
     }
     /* /author name display */
+    /* check if edit is available */
+    const accessCheck = () => {
+        return (authorInfo && session?.user?.userId && authorInfo?.userId && authorInfo.userId === session.user.userId) ||
+            (session?.user?.userId && session?.user?.role && session.user.role === 'mainAdmin')
+    }
+    /* /check if edit is available */
     return (
         <div className="item-learning">
             {/* <p>wtest userID: {JSON.stringify(session?.user?.userId)}, {JSON.stringify(session?.user?.name)}</p> */}
-            {/* <p>authorInfo: {JSON.stringify(authorInfo.name)}</p> */}
-            <h3 className="item-author">{title} (By: {authorNameDisplay()})</h3>
+            {/* <p>wtest session.user.userId wtest : {JSON.stringify(session?.user?.userId)}</p> */}
+            {/* <p>wtest data.commentCount: {JSON.stringify(data.commentCount)}</p> */}
+            <div className="item-info">
+                <span className="item-info-1">
+                    <span className="item-title">{title}</span>
+                </span>
+                <span className="item-info-2">
+                    {data.commentCount !== 0 && <span>Comments: ({data.commentCount})</span>}
+                    <span>By: <span className="item-author">{authorNameDisplay()}</span></span>
+                </span>
+            </div>
             {/* <p>wtest authorInfo userId, {authorInfo?.userId ? authorInfo.userId : '?'}, session userId, {session?.user?.userId ? session.user.userId : '?'}</p> */}
             <p>{contentSliced}</p>
             <p>{timeFormatter(createdAt)}</p>
             <Link href={itemUrl}>More...</Link>
             {/* <p>wtest {JSON.stringify(session.user.userId)}</p> */}
-            {authorInfo && session?.user?.userId && authorInfo?.userId && authorInfo.userId === session.user.userId && <button
-                className="btnDelete"
-                onClick={confirmDel}
+            {accessCheck() && <button
+                className="btn-delete btn-hover"
+                onClick={() => delConfirm({ nameForConfrom: title })}
             >Delete</button>}
         </div>
     )

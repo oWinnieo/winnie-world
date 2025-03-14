@@ -1,21 +1,47 @@
+'use client'
+import { useState } from "react";
+import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 import './userItem.scss'
-export const UserItem = ({ data }) => {
+export const UserItem = ({ status, item, isEditItem, ToggleAddItem, params, id }) => {
+    /* wtest auth mock */
+    const session = sessionInfo()
+    /* /wtest auth mock */
     return (
         <div className="area-user">
-            <div className="area-avatar">
-                {/* <img className="auth-avatar" src={data.image} alt="User Avatar" /> */}
-                <AvatarOfUser
-                    srcImage={data.image}
-                ></AvatarOfUser>
+            <div className="user-info">
+                <div className="area-avatar">
+                    {/* <img className="auth-avatar" src={item.image} alt="User Avatar" /> */}
+                    <AvatarOfUser
+                        srcImage={item.image}
+                    ></AvatarOfUser>
+                </div>
+                <div className="area-info">
+                    {isEditItem ? <div>editing</div> :
+                    <>
+                        <p>name: {item.name}</p>
+                        <p>userId: {item.userId}</p>
+                        {/* <p>_id: {item._id}</p> wtest */}
+                        <p>email: {item.email}</p>
+                        <p>role: {item.role}</p>
+                        {session?.user?.role === 'mainAdmin' &&
+                        <button className="btnEdit"
+                            onClick={ToggleAddItem}>Edit</button>}
+                    </>}
+                </div>
             </div>
-            <div className="area-info">
-                <p>name: {data.name}</p>
-                <p>userId: {data.userId}</p>
-                {/* <p>_id: {data._id}</p> wtest */}
-                <p>email: {data.email}</p>
-                <p>role: {data.role}</p>
-            </div>
+            
+            {status &&
+                <div className="area-content-tools">
+                    <button className={status ? 'available' : 'disabled'} onClick={ToggleAddItem}>
+                        {/* checkAddStatus wtest */}
+                        {isEditItem ? 'Cancel Edit' : 'Edit Item'
+                        }
+                    </button>
+                    {/* <button
+                        onClick={() => delConfirm({ nameForConfrom: item.title })}>Delete</button> */}
+                </div>
+            }
         </div>
     )
 }

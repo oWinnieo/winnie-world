@@ -1,0 +1,12 @@
+.ul-list-nav {
+    .area-content {
+        border-bottom: 1px dashed #333;
+    }
+}
+.li-list-nav {
+    padding: 10px 0;
+    //  // wtest
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

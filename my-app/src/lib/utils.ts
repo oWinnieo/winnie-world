@@ -57,11 +57,43 @@ export const htmlDecodeSlice = (htmlParsed: React.ReactNode[]) => {
   const htmlDecodedStrStringed = String(htmlDecodedStr)
   return htmlDecodedStrStringed.length > lenLimit ? htmlDecodedStrStringed.slice(0, lenLimit) + '...' : htmlDecodedStrStringed
 }
-// wtest htmlDecodeSlice(htmlDecode(item.content, 'list'))
 
 export const html2txt = (html : string) => {
   // 提取文本内容
-  const htmlRes = convert(he.decode(html))
-  const lenLimit = 200
-  return htmlRes.length > lenLimit ? htmlRes.slice(0, lenLimit) + '...' : htmlRes
+  return html ? convert(he.decode(html)) : ''
+}
+
+export const strSliced = (str: string, lenLimit: number) => {
+  return str.length > lenLimit ? str.slice(0, lenLimit) + '...' : str
+}
+
+export const timeFormatter = (time: string) => {
+  // const timeOri = new Date(time)
+  // const timeFormatted = timeOri.toLocaleString('zh-CN', {
+  //     year: 'numeric',
+  //     month: 'long',
+  //     day: 'numeric',
+  //     hour: '2-digit',
+  //     minite: '2-digit'
+  // })
+
+  const timeFormatted = time ? new Intl.DateTimeFormat("zh-CN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+      timeZone: "Asia/Shanghai", // 时区可改
+    }).format(new Date(time)) : '?';
+
+  return timeFormatted
+}
+
+export const titleDisplay = ({ name, suffix }: { name: string, suffix: string}) => {
+  // scope: colLearning, // wtest
+  const nameFormat = name.charAt(0).toUpperCase() + name.slice(1)
+  const suffixFormat = suffix.charAt(0).toUpperCase() + suffix.slice(1)
+  return `${nameFormat} ${suffixFormat}`
 }

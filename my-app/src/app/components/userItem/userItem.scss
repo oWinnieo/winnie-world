@@ -1,9 +1,16 @@
 @use '@styles/components/avatar.scss' as avatarStyle;
+@use '@styles/components/item.scss' as itemStyle;
+@use '@styles/components/btn.scss' as btnStyle;
 .area-user {
-    padding: 10px 0;
+    padding: 10px;
     border-bottom: 1px dashed #333;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    @include itemStyle.item-hover;
+    .user-info {
+        display: flex;
+    }
     .area-avatar {
         width: 100px;
         height: 100px;
@@ -11,5 +18,8 @@
         img {
             @include avatarStyle.avatar-100
         }
+    }
+    .btnEdit {
+        @include btnStyle.btn-hover;
     }
 }

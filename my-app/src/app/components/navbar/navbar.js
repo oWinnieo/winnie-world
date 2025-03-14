@@ -1,23 +1,16 @@
 'use client'
 import { RouterBtn } from "../routerBtn/routerBtn"
-// import { useSession, signIn, signOut } from 'next-auth/react'; // wtest auth
 import { Auth } from '@components/auth/auth'
+import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import './navbar.scss';
 export const Navbar = () => {
-    // const { data: session } = useSession(); // Access the current session // wtest auth
+    const session = sessionInfo()
+    // wtest ifLoginedAdmin()
     return (
         <div className="navbar">
             <div className="navbar-in">
-                <RouterBtn />
+                <RouterBtn accessStatus={session?.user?.role && session.user.role === 'mainAdmin'} />
                 <Auth></Auth>
-                {/* {session ? (
-                <div>
-                <p>Welcome, {session.user.name}</p>
-                <button onClick={() => signOut()}>Sign Out</button>
-                </div>
-            ) : (
-                <button onClick={() => signIn('google')}>Sign In with Google</button>
-            )} */}
             </div>
         </div>
     )

@@ -7,33 +7,54 @@ import { modelEn,
   modelServer
 } from '../../../../models/learningItem';
 
-import { timeFormatter } from '../../../../lib/util'
+import { timeFormatter } from '@/lib/utils'
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
+import { notFound } from 'next/navigation'
+import { collectionNameForLearning as colLearning, collectionNameManagement as colManagement } from '@/constants/collectionName' // wtest mock
+import { learningItemConfig } from '@/constants/formConfig'
 import './style.scss'
 
 const getOneData = async (params) => {
-  const { data } = await fetch(`${params.urlDomainLearning}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}`, {
+  const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}`, {
       cache: 'no-store', // 等效于 SSR 的行为
       }).then(res => res.json());
+  return data
+}
+const getListData = async (params) => {
+  const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&belongToItemCollection=${params.belongToItemCollection}&belongToItemId=${params.belongToItemId}`, {
+    cache: 'no-store',
+  }).then(res => res.json())
+  // console.log('data', data)
   return data
 }
 
 export default async function Post({ params }) {
   const paramsArr = await params
   const slug = paramsArr.slug
-  const urlDomainLearning = `${process.env.URL_DOMAIN}/api/learning`
+  if (slug.length !== 2 || !colLearning.includes(slug[0])) {
+    return notFound()
+  }
+
+  const urlDomain = `${process.env.URL_DOMAIN}/api/learning`
   const data = await getOneData({
-    urlDomainLearning,
+    urlDomain,
     collectionName: slug[0],
     id: slug[1]
   });
-  console.log('data post wtest >>>>>>>', data)
+  // console.log('data post wtest >>>>>>>', data)
+  const comments = await getListData({
+    urlDomain,
+    collectionName: 'comment',
+    belongToItemCollection: slug[0],
+    belongToItemId: slug[1]
+  })
+  // console.log('comments >>>>>>>>>>>>>>>>>>>...', comments)
 
   return (
     <PageWrap>
       {data && <>
-        <AreaTitle>
+      <AreaTitle>
         <h2>{data.title}</h2>
       </AreaTitle>
       <div className="area-info">
@@ -55,16 +76,19 @@ export default async function Post({ params }) {
         <ItemEditor
             params={
               {
-                urlDomainLearning,
+                group: 'learning',
+                urlDomain,
+                collectionName: slug[0],
+                formConfig: learningItemConfig,
                 data: {
-                    title: data.title,
-                    authorInfo: data.authorInfo,
-                    content: data.content, // wtest htmlSimpleDecode(data.content),
-                    id: slug[1],
-                    createdAt: data.createdAt,
-                    updatedAt: data.updatedAt,
+                  title: data.title,
+                  authorInfo: data.authorInfo,
+                  content: data.content,
+                  id: slug[1],
+                  createdAt: data.createdAt,
+                  updatedAt: data.updatedAt,
+                  comments: comments // wtest
                 },
-                collectionName: slug[0]
               }
             }
         ></ItemEditor>

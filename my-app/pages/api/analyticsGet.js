@@ -18,11 +18,11 @@ export default async function handler(req, res) {
       console.log('getAnalyticsData in <analyticsGet>', getAnalyticsData)
         const data = await getAnalyticsData();
         // return NextResponse.json(data);
-        console.log('data in ga handler', data)
+        // console.log('data in ga handler', data)
         res.status(200).json({ success: true, data: data });
       } catch (error) {
         // return NextResponse.json({ error: "无法获取数据" }, { status: 500 });
-        console.log('return err', error)
+        // console.log('return err', error)
         res.status(400).json({ success: false });
       }
 }

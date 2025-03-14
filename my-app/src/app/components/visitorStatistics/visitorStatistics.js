@@ -12,7 +12,7 @@ export const VisitorStatistics = () => {
         fetch("/api/ga4visitors")
           .then((res) => res.json())
           .then((data) => {
-            console.log('data', data)
+            // console.log('data', data)
             // if (data?.rows?.length > 0) {
             //   setVisitors(parseInt(data.rows[0].metricValues[0].value, 10));
             // }

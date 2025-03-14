@@ -21,7 +21,7 @@ const Home = () => {
         </div>
         <div className="area area-navigation">
             <div className="area-in">
-                <VisitorStatistics></VisitorStatistics>
+                {/* <VisitorStatistics></VisitorStatistics> */}
                 <ul>
                     <li><Link href="/about">About Me</Link></li>
                     <li><Link href="learning">Learning</Link></li>

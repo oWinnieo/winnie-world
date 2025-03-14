@@ -5,9 +5,10 @@ const LearningItemSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true }, // unique: true
   // author: { type: authorSchema, required: true }
-  authorId: { type: String, required: true }
-  // createdAt: { type: Date, default: Date.now },
-  // updatedAt: { type: Date },
+  authorId: { type: String, required: true },
+  tags: { type: [String] },
+  // like: { type: Number },
+  // favorite: { type: Number }
 },{ timestamps: true } // ✅ 启用 `createdAt` & `updatedAt`
 );
 

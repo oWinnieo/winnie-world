@@ -6,9 +6,10 @@ import { Navbar } from "@components/navbar/navbar";
 // import MyProvider from '@/app/components/MyProvider'; // wtest context
 import { AlertProvider } from '@/app/contexts/AlertContext'
 import { ModalProvider } from '@/app/contexts/ModalContext';
-import AuthProvider from "@/app/components/SessionProvider";
+import AuthProvider from "@/app/contexts/SessionProvider";
 // import { GoogleAnalytics } from "react-ga4"; // wtest ga wrong importga
 import { AnalyticsProvider } from '@/app/components/analyticsProvider/analyticsProvider'
+import { GlobalProvider } from "@/app/contexts/GlobalContext";
 
 import "./globals.css";
 import '@styles/base/base.scss';
@@ -85,8 +86,8 @@ export default function RootLayout({ children }) {
     };
   }, []);
   /* /wtest ga */
+  const urlDomain = process.env.URL_DOMAIN + '/api/learning'
   return (
-    
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -94,14 +95,18 @@ export default function RootLayout({ children }) {
           {/* <GoogleAnalytics /> */}
           <AnalyticsProvider
             gaMeasureId={GA4_MEASUREMENT_ID}>
-            <AuthProvider>
-              <Navbar></Navbar>
-              <ModalProvider>
-                <AlertProvider>
-                  {children}
-                </AlertProvider>
-              </ModalProvider>
-            </AuthProvider>
+            <GlobalProvider
+              urlDomain={urlDomain}
+              >
+              <AuthProvider>
+                <Navbar></Navbar>
+                <ModalProvider>
+                  <AlertProvider>
+                    {children}
+                  </AlertProvider>
+                </ModalProvider>
+              </AuthProvider>
+            </GlobalProvider>
           </AnalyticsProvider>
       </body>
     </html>

@@ -1,9 +1,7 @@
 // 'use client'
-// import { useSession } from "next-auth/react"; // wtest auth
 // import dbConnect from '../../../../lib/db';
 /* wtest user */
 import { modelUser } from 'models/users';
-// import { userInfo } from '@/app/mock/userInfo' // wtest mock
 /* /wtest user */
 
 const urlDomainUser = `${process.env.URL_DOMAIN}/api/learning` // wtest users / learning

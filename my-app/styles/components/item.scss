@@ -1,0 +1,8 @@
+@mixin item-hover {
+    &:hover {
+        background: #eee;
+        .btn-hover {
+            display: inline-block;
+        }
+    }
+}

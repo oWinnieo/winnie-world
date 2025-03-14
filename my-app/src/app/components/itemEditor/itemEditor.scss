@@ -1,3 +1,5 @@
+@use '@styles/components/avatar.scss' as avatarStyle;
+@use '@styles/components/reply.scss' as replyStyle;
 .area-form {
     padding: 10px;
     border: 1px dashed #aaa;
@@ -17,7 +19,7 @@
         filter: grayscale(1);
     }
     .tip {
-        color: #f66;
+        color: #66f;
     }
 }
 .area-content {
@@ -25,7 +27,49 @@
     code {
         white-space: pre-wrap;
     }
+    .area-content-tools {
+        display: flex;
+        justify-content:end;
+        button {
+            margin-left: 10px;
+        }
+    }
+    .ul-comment {
+        margin-bottom: 10px;
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px dashed #333;
+            .comment-author {
+                // width: 50px;
+                margin-right: 6px;
+                img {
+                    @include avatarStyle.avatar-26;
+                }
+            }
+            .comment-content {
+                flex-grow: 1;
+                // background: #eee; // wtest
+                .area-reply {
+                    @include replyStyle.area-reply
+                }
+            }
+            .btn-reply,
+            .btn-delete {
+                padding: 0 6px;
+            }
+        }
+    }
 }
 // .wtest-style {
 //     border: 1px solid #aaa;
 // }
+/* wtest */
+.form-wtest {
+    input,
+    textarea {
+        border: 1px solid #00f;
+    }
+}
+/* /wtest */

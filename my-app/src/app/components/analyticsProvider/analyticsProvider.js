@@ -29,10 +29,8 @@ import { useEffect } from "react";
 import ReactGA from "react-ga4";
 import { usePathname } from "next/navigation";
 
-// const GA_MEASUREMENT_ID = "G-XXXXXXXXXX"; // 你的 GA4 ID
-
 export const AnalyticsProvider = ({ gaMeasureId, children }) => {
-  console.log('<AnalyticsProvider> gaMeasureId', gaMeasureId)
+  // console.log('<AnalyticsProvider> gaMeasureId', gaMeasureId)
   const pathname = usePathname();
 
   useEffect(() => {

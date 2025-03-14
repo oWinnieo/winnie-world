@@ -1,14 +1,11 @@
 'use client'
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
-import { userInfo } from '@/app/mock/userInfo' // wtest mock
+import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import './auth.scss'
 export const Auth = () => {
-    const { data: session } = useSession(); // wtest backup
-    /* wtest auth mock *
-    const session = {
-        user: userInfo
-    }
+    /* wtest auth mock */
+    const session = sessionInfo()
     /* /wtest auth mock */
     const getTesting = () => {
         console.log('~~~~~~~~~~~ in getTesting session', session)
@@ -22,11 +19,11 @@ export const Auth = () => {
     return (
         <div className="area-auth">
             {/* <p>session: {session && JSON.stringify(session)}</p> */}
-            <button onClick={getTesting}>get token wtest</button> - 
+            {/* <button onClick={getTesting}>get token wtest</button> -  */}
             {/* <button onClick={signOutHandler}>clear token wtest</button> */}
             {session ? (
                 <>
-                    <p>wtest: {session?.user?.userId ? session.user.userId : '?'} ~~ &nbsp;</p>
+                    {/* <p>wtest: {session?.user?.userId ? session.user.userId : '?'} ~~ &nbsp;</p> */}
                     <p className="auth-welcome">Welcome, {session.user.name}!</p>
                     {/* <img className="auth-avatar" src={session.user.image} alt="User Avatar" /> */}
                     <AvatarOfUser

@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const today = new Date().toISOString().split("T")[0];
 
     // 获取今日访客数 & 总访客数
-    console.log('VIEW_ID in ga4visitors in api', VIEW_ID)
+    // console.log('VIEW_ID in ga4visitors in api', VIEW_ID)
     const response = await analyticsData.properties.runReport({
       property: `properties/${VIEW_ID}`,
       requestBody: {
