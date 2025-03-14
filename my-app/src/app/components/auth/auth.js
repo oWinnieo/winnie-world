@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 // import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import './auth.scss'
 export const Auth = ({ session }) => {
-    console.log('session', session)
+    // console.log('session', session)
     /* wtest auth mock *
     const session = sessionInfo()
     /* /wtest auth mock */
