@@ -37,7 +37,7 @@ export const Auth = ({ session }) => {
             {session ? (
                 <>
                     {/* <p>wtest: {session?.user?.name ? session.user.name : '?'} ~~ &nbsp;</p> */}
-                    <p className="auth-welcome">Welcome, {session.user.name}!</p>
+                    <p className="auth-welcome">Welcome, {session.user.name}({session?.user?.role})!</p>
                     {/* <img className="auth-avatar" src={session.user.image} alt="User Avatar" /> */}
                     <span onClick={toggleNav}>
                         <AvatarOfUser
