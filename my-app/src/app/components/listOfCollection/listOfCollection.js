@@ -9,7 +9,7 @@ export const ListOfCollection = ({
     learningItemConfig,
     listData
 }) => {
-    console.log('group', group)
+    // console.log('group', group)
     /* wtest auth mock */
     const session = sessionInfo()
     /* /wtest auth mock */

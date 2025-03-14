@@ -4,7 +4,7 @@ const ifLogined = ({ session }) => {
 }
 
 // 超级管理员登录
-const ifLoginedAdmin = ({ session }) => {
+const ifLoginedAsAdmin = ({ session }) => {
     return ifLogined({ session }) && session.user.role === 'mainAdmin'
 }
 
@@ -26,13 +26,13 @@ const editOrAddBtnStatusCheck = ({ group, data, authorInfo, session }) => {
             // 如果无数据, 即添加, 只需要已登录
             return data ? userLoginedSameWithAuthor({ session, data, authorInfo }) : ifLogined({ session })
         case 'management':
-            return ifLoginedAdmin({ session })
+            return ifLoginedAsAdmin({ session })
     }
 }
 
 export {
     ifLogined,
-    ifLoginedAdmin,
+    ifLoginedAsAdmin,
     ifWithAuthorInfo,
     userLoginedSameWithAuthor,
     editOrAddBtnStatusCheck

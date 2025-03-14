@@ -15,7 +15,6 @@ const userInfo1 = {
 }
 // userFromGoogle
 const userFromGoogle = {
-    // id: 'aa',
     userId: '323',
     name: 'Ryuuna R 323',
     // email: 'ryuuna2010@gmail.com',
@@ -24,7 +23,6 @@ const userFromGoogle = {
 }// wtest waiting 123的时候无法加入,为什么?
 
 const userFromGoogle1 = {
-    // id: 'aa',
     userId: '69',
     name: 'Ryuuna R 69',
     // email: 'ryuuna2010@gmail.com',

@@ -8,7 +8,7 @@ import { AlertProvider } from '@/app/contexts/AlertContext'
 import { ModalProvider } from '@/app/contexts/ModalContext';
 import AuthProvider from "@/app/contexts/SessionProvider";
 // import { GoogleAnalytics } from "react-ga4"; // wtest ga wrong importga
-import { AnalyticsProvider } from '@/app/components/analyticsProvider/analyticsProvider'
+// import { AnalyticsProvider } from '@/app/components/analyticsProvider/analyticsProvider'
 import { GlobalProvider } from "@/app/contexts/GlobalContext";
 
 import "./globals.css";
@@ -93,8 +93,8 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
           {/* <GoogleAnalytics /> */}
-          <AnalyticsProvider
-            gaMeasureId={GA4_MEASUREMENT_ID}>
+          {/* <AnalyticsProvider */}
+            {/* gaMeasureId={GA4_MEASUREMENT_ID}> */}
             <GlobalProvider
               urlDomain={urlDomain}
               >
@@ -107,7 +107,7 @@ export default function RootLayout({ children }) {
                 </ModalProvider>
               </AuthProvider>
             </GlobalProvider>
-          </AnalyticsProvider>
+          {/* </AnalyticsProvider> */}
       </body>
     </html>
   );

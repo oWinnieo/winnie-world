@@ -26,23 +26,23 @@
 
 "use client";
 import { useEffect } from "react";
-import ReactGA from "react-ga4";
+// import ReactGA from "react-ga4";
 import { usePathname } from "next/navigation";
 
 export const AnalyticsProvider = ({ gaMeasureId, children }) => {
   // console.log('<AnalyticsProvider> gaMeasureId', gaMeasureId)
   const pathname = usePathname();
 
-  useEffect(() => {
-    ReactGA.initialize(gaMeasureId);
-    ReactGA.send("pageview"); // 初始页面加载时发送 pageview
-  }, []);
+  // useEffect(() => {
+  //   ReactGA.initialize(gaMeasureId);
+  //   ReactGA.send("pageview"); // 初始页面加载时发送 pageview
+  // }, []);
 
-  useEffect(() => {
-    if (pathname) {
-      ReactGA.send({ hitType: "pageview", page: pathname });
-    }
-  }, [pathname]);
+  // useEffect(() => {
+  //   if (pathname) {
+  //     ReactGA.send({ hitType: "pageview", page: pathname });
+  //   }
+  // }, [pathname]);
 
   return <>{children}</>;
 }

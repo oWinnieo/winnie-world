@@ -1,8 +1,18 @@
 @use '@styles/components/avatar.scss' as avatarStyle;
 @use '@styles/components/reply.scss' as replyStyle;
+@use '@styles/components/btn.scss' as btnStyle;
+@use '@styles/base/color.scss' as colorStyle;
 .area-form {
-    padding: 10px;
-    border: 1px dashed #aaa;
+    // padding: 10px;
+    // border: 1px dashed #aaa;
+    .area-form-tools {
+        display: flex;
+        justify-content: end;
+    }
+    .btn-submit {
+        @include btnStyle.btn-w-100;
+        @include colorStyle.bg-purple-1;
+    }
     .area-form-item {
         input {
             width: 100%;
@@ -30,12 +40,19 @@
     .area-content-tools {
         display: flex;
         justify-content:end;
+        padding: 10px 0;
         button {
             margin-left: 10px;
         }
     }
+    .area-interaction {
+        @include colorStyle.bg-purple-2;
+        padding: 10px;
+    }
     .ul-comment {
+        background: #fff;
         margin-bottom: 10px;
+        padding: 10px;
         li {
             display: flex;
             justify-content: space-between;

@@ -1,5 +1,7 @@
 .area-editor {
     // border: 1px solid #f00; // wtest
+    max-height: 360px;
+    overflow-y: auto;
     .tiptap {
         // border: 1px solid #00f; // wtest
         min-height: 150px;

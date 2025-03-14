@@ -13,6 +13,7 @@ import { ItemComment } from '@components/itemComment/itemComment';
 import {
     ifLogined,
     userLoginedSameWithAuthor,
+    ifLoginedAsAdmin,
     editOrAddBtnStatusCheck
 } from '@/lib/auth'
 
@@ -170,7 +171,7 @@ export const ItemEditor = ({ params, type }) => {
                         switch (areaName) {
                             case 'comment':
                                 return <>
-                                    <ul className="ul-comment">
+                                    {params?.data?.comments?.length > 0 && <ul className="ul-comment">
                                         {params?.data?.comments?.map(comment =>
                                             <ItemComment
                                             key={comment._id}
@@ -183,19 +184,20 @@ export const ItemEditor = ({ params, type }) => {
                                                     session,
                                                     data: comment,
                                                     authorInfo: comment.authorInfo
-                                                })}></ItemComment>  
+                                                }) || ifLoginedAsAdmin({ session })}></ItemComment>
                                         )}
                                     </ul>
+                                    }
                                     {
                                         ifLogined({ session }) &&
-                                        <p>EditorComment here</p>
-                                        // <EditorComment
-                                        //     params={params}
-                                        //     itemId={params.data.id}
-                                        //     itemColName={params.collectionName}
-                                        //     authorId={session?.user?.userId}
-                                        //     replyCommentInfo={replyCommentInfo}
-                                        // ></EditorComment>
+                                        // <p>EditorComment wtest here fetch -- a</p>
+                                        <EditorComment
+                                            params={params}
+                                            itemId={params.data.id}
+                                            itemColName={params.collectionName}
+                                            authorId={session?.user?.userId}
+                                            replyCommentInfo={replyCommentInfo}
+                                        ></EditorComment>
                                     }
                                 </>
                             case 'like':

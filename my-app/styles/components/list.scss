@@ -2,9 +2,12 @@
     .area-content {
         border-bottom: 1px dashed #333;
     }
+    .area-content-tools {
+        padding: 0;
+    }
 }
 .li-list-nav {
-    padding: 10px 0;
+    // padding: 10px 0;
     //  // wtest
     display: flex;
     align-items: center;

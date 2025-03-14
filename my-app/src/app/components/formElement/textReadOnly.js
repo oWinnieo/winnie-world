@@ -9,7 +9,7 @@ export const TextReadOnly = ({ config, keyName, value}) => {
                     id={keyName}
                     // {...register("title", { required: true })}
                     {...register(keyName)}
-                    className="mt-1 p-2 w-full border rounded"
+                    className="p-2 w-full border rounded"
                     placeholder="Enter title..."
                 /> */}
             </label>

@@ -2,7 +2,7 @@
 import { listNavItemConfig } from '@/constants/formConfig'
 import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import {
-    ifLoginedAdmin
+    ifLoginedAsAdmin
 } from '@/lib/auth'
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
 export const ItemListNav = ({ item, urlDomain }) => {
@@ -25,7 +25,7 @@ export const ItemListNav = ({ item, urlDomain }) => {
                                     }
                                     }
                                 ></ItemEditor> :
-                                (ifLoginedAdmin({ session }) &&
+                                (ifLoginedAsAdmin({ session }) &&
                                 <ItemEditor
                                     params={
                                     {

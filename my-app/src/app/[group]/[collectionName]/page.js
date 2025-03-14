@@ -80,10 +80,10 @@ export default async function LearningArea ({ params }) {
     )
 }
 
-
-export async function generateStaticParams() {
-  const colLearningMapped = colLearning.map(item => ({
-    collectionName: item
-  }))
-  return colLearningMapped
-}
+// wtest DYNAMIC_SERVER_USAGE
+// export async function generateStaticParams() {
+//   const colLearningMapped = colLearning.map(item => ({
+//     collectionName: item
+//   }))
+//   return colLearningMapped
+// }

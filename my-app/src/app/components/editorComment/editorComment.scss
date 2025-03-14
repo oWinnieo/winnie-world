@@ -1,4 +1,6 @@
 @use '@styles/components/reply.scss' as replyStyle;
+@use '@styles/components/btn.scss' as btnStyle;
+@use '@styles/base/color.scss' as colorStyle;
 .comment-send {
     .area-form {
         display: flex;
@@ -9,8 +11,9 @@
             flex-direction: column;
         }
         .btn-submit {
-            width: 100px;
             margin-left: 10px;
+            @include btnStyle.btn-w-100;
+            @include colorStyle.bg-purple-1;
         }
         .area-reply {
             @include replyStyle.area-reply;
