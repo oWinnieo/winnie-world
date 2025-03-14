@@ -61,7 +61,6 @@ export const ListNavItem = ({ status, item, isEditItem, ToggleAddItem, params, i
     return (
         <li className="li-list-nav" key={item.title}>
             <Link href={`/${item?.groupName}/${item.colName}`}>{item.title}</Link>
-            {JSON.stringify(status)}
             {status &&
                 <div className="area-content-tools">
                     <button className={status ? 'available' : 'disabled'} onClick={ToggleAddItem}>
