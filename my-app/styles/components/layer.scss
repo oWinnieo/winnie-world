@@ -1,0 +1,21 @@
+@mixin layer-small {
+    position: absolute;
+    flex-direction: column;
+    background: rgba(0, 0, 0, .7);
+    padding: 10px;
+    z-index: 99;
+    a {
+        padding: 6px 0;
+    }
+}
+@mixin layer-left-top {
+    left: 0;
+    top: 48px;
+}
+@mixin layer-right-top {
+    right: 0;
+    top: 48px;
+    a {
+        text-align: right;
+    }
+}

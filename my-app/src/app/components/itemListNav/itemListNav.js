@@ -12,7 +12,7 @@ export const ItemListNav = ({ item, urlDomain }) => {
     return (
         // <p>ItemListNav</p>
         <>
-            {item?.link ? 
+            {item?.groupName && item?.colName ? 
                             (item.groupName === 'learning' ?
                                 <ItemEditor
                                     params={

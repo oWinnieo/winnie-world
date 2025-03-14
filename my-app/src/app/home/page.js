@@ -1,5 +1,5 @@
 'use client'
-import Image from "next/image";
+// import Image from "next/image"; // wtest
 import { Greet } from '../components/greet'
 import { Counter } from '../components/counter'
 import Link from 'next/link'

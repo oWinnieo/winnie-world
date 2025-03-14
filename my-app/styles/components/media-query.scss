@@ -1,0 +1,22 @@
+@use './btn.scss' as btnStyle;
+@mixin show-for-mobile {
+    display: flex;
+    // border: 2px solid #fa0; // wtest
+    @media (min-width: 769px) {
+        display: none;
+    }
+}
+@mixin show-for-web {
+    display: none;
+    // border: 2px solid #0af; // west
+    @media (min-width: 769px) {
+        display: flex;
+    }
+}
+
+@mixin btn-click-only-for-mobile {
+    @include btnStyle.btn-click;
+    @media (min-width: 769px) {
+        @include btnStyle.btn-click-disabled;
+    }
+}

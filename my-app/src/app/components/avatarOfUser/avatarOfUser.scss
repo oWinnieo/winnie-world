@@ -1,0 +1,4 @@
+@use '@styles/components/media-query.scss' as mediaQuery;
+.auth-avatar {
+    @include mediaQuery.btn-click-only-for-mobile;
+}

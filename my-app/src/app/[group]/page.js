@@ -1,7 +1,5 @@
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
-import { userFromGoogle } from '../../constants/userInfo' // wtest user handler
-import { userInfoHandler, userCheckedHandler, userInfoHandlerAfterLogin } from '../../../pages/api/auth/userInfoHandler' // wtest user handler
 import { listNavItemConfig } from '@/constants/formConfig'
 import { titleDisplay } from '@/lib/utils';
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
@@ -12,20 +10,20 @@ import Link from 'next/link'
 import '../../../styles/components/list.scss'
 
 const getListData = async (params) => { // wtest waiting
-    console.log('params', params)
+    // console.log('params', params)
     // const { AB, ABC } = useGlobal()
     try {
         const { data, success, skipNum, limitNum } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&group=${params.group}`, {
             cache: 'no-store'
         }).then(res => res.json())
-        console.log('data', data)
+        // console.log('data', data)
         const dataNew = data.map(item => (
             {
                 ...item,
                 isEditItem: false
             }
         ))
-        console.log('dataNew ======== group page', dataNew)
+        // console.log('dataNew ======== group page', dataNew)
         if (success) {
             console.log(success)
             return dataNew
@@ -46,8 +44,7 @@ export default async function Area ({ params }) {
         urlDomain,
         collectionName: 'listNav'
     })
-    // window.location.reload()
-    // console.log('userFromGoogle', userFromGoogle)
+
     return (
         <PageWrap>
             <AreaTitle>{titleDisplay({ name: group,  suffix: 'area' })}</AreaTitle>

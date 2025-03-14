@@ -38,8 +38,8 @@ import { collectionNameForLearning as colLearning } from '../../src/constants/co
 import { modelEn,
   modelJp,
   modelServer,
-  LearningItem
-} from '../../models/learningItem'; // wtest LearningItem
+  ModelLearningItem
+} from '../../models/learningItem'; // wtest ModelLearningItem
 import { modelListNav } from "../../models/listNav";
 import { modelComment } from '../../models/comment-Why';
 import { modelabtest } from 'models/abTest'; // wtest
@@ -84,8 +84,6 @@ const getCommentsOf1Item = async ({
   limitNumParam,
   fieldsStrForComment,
   fieldsStrForUser }) => {
-    console.log('??? cc --->>>')
-    // debugger;
   if (gettingType === 'count') {
     const commentCount = await model.countDocuments({
       belongToItemCollection,
@@ -117,7 +115,7 @@ const getCommentCountOf1ListOfItem = async ({
   model,
   collectionName
 }) => {
-  console.log('???')
+  // console.log('???')
   // const infoOf1Item = items.map(item => {
   //   // console.log('item', item)
   //   return ({
@@ -140,7 +138,6 @@ const getCommentCountOf1ListOfItem = async ({
       }
     })
   )
-  console.log('res', res)
   return res
 }
 
@@ -198,7 +195,7 @@ export default async function handler(req, res) {
                   items: learningItemsWithAuthor, model: modelComment,
                   collectionName
                 })
-                console.log('learningItemsWithAuthorWithCommentCount ???', learningItemsWithAuthorWithCommentCount)
+                // console.log('learningItemsWithAuthorWithCommentCount ???', learningItemsWithAuthorWithCommentCount)
                 res.status(200).json({ success: true, data: learningItemsWithAuthorWithCommentCount, skipNum: skipNumParam, limitNum: limitNumParam });
               } else {
                 res.status(200).json({ success: true, data: learningItems, skipNum: skipNumParam, limitNum: limitNumParam });
@@ -211,11 +208,12 @@ export default async function handler(req, res) {
         // console.log('wtest waiting --------------->', collectionName, fetchType) // wtest modelTarget
         if (collectionName === 'user') {
             const { userId, email } = req.query;
-            // console.log('collectionName -----------------> 123', collectionName)
+            console.log('collectionName -----------------> 123', collectionName, fetchType, userId)
             try {
                 // 查询是否存在符合条件的条目
                 // const userExists = await modelTarget.exists({ userId, email });
-                const user = await modelTarget.findOne({ userId, email })
+                const user = await modelTarget.findOne({ userId })
+                console.log('user', user)
                 if (user) {
                     res.status(200).json({ success: true, data: user });
                 } else {

@@ -8,7 +8,7 @@ import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import { ListNavItem } from '@components/listNavItem/listNavItem'
-import { UserItem } from '@/app/components/userItem/userItem';
+import { ItemUser } from '@/app/components/itemUser/itemUser';
 import { ItemComment } from '@components/itemComment/itemComment';
 import {
     ifLogined,
@@ -132,14 +132,14 @@ export const ItemEditor = ({ params, type }) => {
                                                     params={params}
                                                     authorId={session?.user?.userId ? session.user.userId : undefined}></ListNavItem> : null
                                             case 'user':
-                                                return params.data ? <UserItem
+                                                return params.data ? <ItemUser
                                                     id={params.data._id}
                                                     status={editOrAddBtnStatusCheck(accessCheckParams)}
                                                     item={params.data}
                                                     isEditItem={isEditItem}
                                                     ToggleAddItem={ToggleAddItem}
                                                     params={params}
-                                                    authorId={session?.user?.userId ? session.user.userId : undefined}></UserItem> : null
+                                                    authorId={session?.user?.userId ? session.user.userId : undefined}></ItemUser> : null
                                         }   
                                     case 'learning':
                                         return params.data ? <div>{htmlDecode(params.data.content)}</div> : null
@@ -188,13 +188,14 @@ export const ItemEditor = ({ params, type }) => {
                                     </ul>
                                     {
                                         ifLogined({ session }) &&
-                                        <EditorComment
-                                            params={params}
-                                            itemId={params.data.id}
-                                            itemColName={params.collectionName}
-                                            authorId={session?.user?.userId}
-                                            replyCommentInfo={replyCommentInfo}
-                                        ></EditorComment>
+                                        <p>EditorComment here</p>
+                                        // <EditorComment
+                                        //     params={params}
+                                        //     itemId={params.data.id}
+                                        //     itemColName={params.collectionName}
+                                        //     authorId={session?.user?.userId}
+                                        //     replyCommentInfo={replyCommentInfo}
+                                        // ></EditorComment>
                                     }
                                 </>
                             case 'like':

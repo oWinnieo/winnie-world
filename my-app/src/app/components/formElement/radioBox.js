@@ -1,3 +1,4 @@
+'use client'
 import { useState, useEffect } from 'react'
 import './formElement.scss'
 export const RadioBox = ({ config, keyName, value, onChange }) => {

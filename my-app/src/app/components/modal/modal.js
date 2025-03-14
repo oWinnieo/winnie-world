@@ -1,5 +1,5 @@
 // components/Modal.js
-import React, { useState } from 'react';
+import React from 'react';
 // import styles from './modal.scss';
 import { useModal } from '@/app/contexts/ModalContext'
 import './modal.scss';

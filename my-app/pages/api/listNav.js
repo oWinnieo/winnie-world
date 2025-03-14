@@ -1,11 +1,11 @@
 import dbConnect from "../../lib/db";
 import { modelListNav } from "models/listNav";
 
-import { modelEn,
-  modelJp,
-  modelServer,
-  LearningItem
-} from '../../models/learningItem';
+// import { modelEn,
+//   modelJp,
+//   modelServer,
+//   ModelLearningItem
+// } from '../../models/learningItem';
 
 export default async function handler (req, res) {
     const { method } = req

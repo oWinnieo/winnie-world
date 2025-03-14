@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
-import './userItem.scss'
-export const UserItem = ({ status, item, isEditItem, ToggleAddItem, params, id }) => {
+import './itemUser.scss'
+export const ItemUser = ({ status, item, isEditItem, ToggleAddItem, params, id }) => {
     /* wtest auth mock */
     const session = sessionInfo()
     /* /wtest auth mock */

@@ -15,13 +15,13 @@ const LearningItemSchema = new mongoose.Schema({
 const modelEn = mongoose.models.english || mongoose.model('english', LearningItemSchema);
 const modelJp = mongoose.models.japanese || mongoose.model('japanese', LearningItemSchema);
 const modelServer = mongoose.models.server || mongoose.model('server', LearningItemSchema);
-const LearningItem = mongoose.models.LearningItem || mongoose.model('LearningItem', LearningItemSchema);
+const ModelLearningItem = mongoose.models.LearningItem || mongoose.model('LearningItem', LearningItemSchema);
 
 // 防止重复编译模型
 export {
   modelEn,
   modelJp,
   modelServer,
-  LearningItem // wtest
+  ModelLearningItem // wtest
 }
 // export default 

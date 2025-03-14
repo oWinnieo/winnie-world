@@ -1,5 +1,8 @@
 @use '@styles/base/reset.scss' as reset;
 @use '@styles/layouts/layout-main.scss' as layoutMain;
+@use '@styles/components/media-query.scss' as mediaQuery;
+@use '@styles/components/layer.scss' as layerStyle;
+@use '@styles/components/btn.scss' as btnStyle;
 .navbar {
     @include layoutMain.bg-main-ff;
     color: #fff;
@@ -7,24 +10,55 @@
 }
 .navbar-in {
     @include layoutMain.layout-area-in;
+    width: 100%;
     display: flex;
     align-items: center;
     // flex-start;
-    padding: 0;
+    padding: 0 10px 0 0;
     justify-content: space-between;
-    min-height: 48px;
-}
-.navbar a {
-    color: #fff;
-    text-decoration: none;
-    margin-right: 10px;
-    &:hover {
-        text-decoration: underline;
+    height: 48px;
+    position: relative;
+    a {
+        @include btnStyle.btn-for-nav;
+        @include btnStyle.btn-for-nav-left;
+    }
+    .area-nav {
+        display: flex;
+        justify-content: center;
+        padding: 0 10px;
+        position: relative;
+        .area-router-for-mobile {
+            @include layerStyle.layer-small;
+            @include layerStyle.layer-left-top;
+            @include mediaQuery.show-for-mobile;
+            
+        }
+        .area-router-for-web,
+        .btn-signout-web {
+            @include mediaQuery.show-for-web;
+        }
+        .btn-click {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            margin-right: 10px;
+            @include mediaQuery.btn-click-only-for-mobile;
+        }
+        // display: none;
     }
 }
 
 @media (min-width: 769px) {
     .navbar-in {
         @include layoutMain.layout-area-in-gt-768;
+        .area-nav {
+            .area-router-for-web,
+            .btn-signout-web {
+                justify-content: center;
+                align-items: center;
+            }
+        }
     }
 }

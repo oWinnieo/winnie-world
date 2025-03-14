@@ -1,4 +1,4 @@
-const userInfo11 = {
+const userInfo = {
     "name":"Ryuuna R",
             "email":"ryuuna2010@gmail.com",
             userId: 'aa',
@@ -6,7 +6,7 @@ const userInfo11 = {
             role: 'mainAdmin'
 }
 // userInfo
-const userInfo = {
+const userInfo1 = {
     "name":"Ryuuna R wtest",
             "email":"ryuuna2010-wtest@gmail.com",
             userId: 'aa-wtest',
@@ -15,7 +15,7 @@ const userInfo = {
 }
 // userFromGoogle
 const userFromGoogle = {
-    // id: '100402157727233293796',
+    // id: 'aa',
     userId: '323',
     name: 'Ryuuna R 323',
     // email: 'ryuuna2010@gmail.com',
@@ -24,7 +24,7 @@ const userFromGoogle = {
 }// wtest waiting 123的时候无法加入,为什么?
 
 const userFromGoogle1 = {
-    // id: '100402157727233293796',
+    // id: 'aa',
     userId: '69',
     name: 'Ryuuna R 69',
     // email: 'ryuuna2010@gmail.com',

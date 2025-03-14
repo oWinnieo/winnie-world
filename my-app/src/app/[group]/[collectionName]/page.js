@@ -1,52 +1,80 @@
-
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
-import { collectionNameForLearning as colLearning, collectionNameManagement as colManagement } from '@/constants/collectionName'; // wtest mock
+import {
+  collectionNameForLearning as colLearning,
+  collectionNameManagement as colManagement,
+  collectionNameForListNavGroup as colListNavGroup
+} from '@/constants/collectionName'; // wtest mock
 import { titleDisplay } from '@/lib/utils';
 import { learningItemConfig } from '@/constants/formConfig'
 import { ListOfCollection } from '@/app/components/listOfCollection/listOfCollection';
-import { notFound } from 'next/navigation'
+import { htmlDecodeSlice, html2txt, strSliced } from '@/lib/utils';
+// import { notFound } from 'next/navigation' // wtest notfound
 
+const getListData = async (params) => {
+    const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list`, {
+        cache: 'no-store', // 等效于 SSR 的行为
+        }).then(res => res.json());
+        // console.log('data', data)
+    const dataNew = data && data.length > 0 ? data.map(item => {
+        const itemNew = colLearning.includes(params.collectionName) ? {
+            ...item,
+            contentSliced: strSliced(html2txt(item.content), 200)
+        } : (
+            params.collectionName === 'user' ? {
+                ...item,
+                isEditItem: false
+            } : item
+        )
+        return itemNew
+    }) : []
+    // console.log('dataNew ============ itemlist', dataNew)
+    return dataNew
+}
 
 export default async function LearningArea ({ params }) {
   // const { group, collectionName } = useParams()
-    const { collectionName } = await params
-    // console.log('group', group, 'collectionName', collectionName)
-    // console.log('collectionName ---------->', collectionName)
-    const ifNotLearnOrNotManage = () => {
-      return !colLearning.includes(collectionName) && !colManagement.includes(collectionName)
+    const { collectionName, group } = await params
+    // console.log('collectionName', collectionName, 'group', group, 'colListNavGroup', colListNavGroup)
+    const ifGroupOK = () => {
+      return colListNavGroup.includes(group)
     }
-    // const ifManageAndNotAdmin = () => {
-    //   return colManagement.includes(collectionName)
-    // }
-    if (ifNotLearnOrNotManage()) { // wtest
-      return notFound()
+    const ifGroupColNameMatch = () => {
+      return group === 'learning' && colLearning.includes(collectionName) ||
+      group === 'management' && colManagement.includes(collectionName)
     }
-    // const setSuffix = () => {
-    //   if (colLearning.includes(collectionName)) {
-    //     return 'learning'
-    //   } else if (colManagement.includes(collectionName)) {
-    //     return 'management'
-    //   }
-    // }
-    const group = () => {
+    if (!ifGroupOK() || !ifGroupColNameMatch()) {
+      return <div>notFound</div>
+      // wtest notfoundnotFound()
+    }
+
+    const setGroup = () => {
       if (colLearning.includes(collectionName)) {
         return 'learning'
       } else if (colManagement.includes(collectionName)) {
         return 'management'
+      } else { // wtest
+        return 'management'
       }
     }
     const urlDomain = process.env.URL_DOMAIN + '/api/learning'
+    /* wtest list fetch */
+    const listData = await getListData({
+      urlDomain,
+      collectionName
+    });
+    /* /wtest list fetch */
     return (
         <>
             <PageWrap>
-                <AreaTitle>{titleDisplay({ name: collectionName, suffix:  group() })}</AreaTitle>
-                <ListOfCollection
+                <AreaTitle>{titleDisplay({ name: collectionName, suffix:  setGroup() })}</AreaTitle>
+                {<ListOfCollection
                   urlDomain={urlDomain}
-                  group={group()}
+                  group={setGroup()}
                   collectionName={collectionName}
                   learningItemConfig={learningItemConfig}
-                ></ListOfCollection>
+                  listData={listData}
+                ></ListOfCollection>}
             </PageWrap>
         </>
     )

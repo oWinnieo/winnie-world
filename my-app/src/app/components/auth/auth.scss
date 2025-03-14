@@ -1,17 +1,11 @@
+@use '@styles/components/media-query.scss' as mediaQuery;
+@use '@styles/components/layer.scss' as layerStyle;
+@use '@styles/components/btn.scss' as btnStyle;
 .area-auth {
     display: flex;
     align-items: center;
     button {
         text-decoration: none;
-    }
-    .btn-signin,
-    .btn-signout {
-        min-height: 28px;
-        background: #fff;
-        color: #ff0080ff;
-        border-radius: 10px;
-        font-size: 12px;
-        padding: 0 10px;
     }
     .auth-welcome,
     .auth-avatar,
@@ -22,5 +16,29 @@
         width: 36px;
         height: 36px;
         border-radius: 50%;
+    }
+    .btn-signin {
+        @include btnStyle.btn-for-sign-web;
+    }
+    // .area-user-tools-web {
+    //     @include mediaQuery.show-for-web;
+    //     .btn {
+    //         @include btnStyle.btn-for-sign-web;
+    //     }
+    // }
+    .area-user-tools-mobile {
+        
+        @include layerStyle.layer-small;
+        @include layerStyle.layer-right-top;
+        display: flex;
+        .btn {
+            @include btnStyle.btn-for-nav;
+            @include btnStyle.btn-for-nav-right;
+        }
+    }
+}
+@media (min-width: 769px) {
+    .auth-welcome {
+        display: flex;
     }
 }

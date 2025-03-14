@@ -10,12 +10,12 @@ import { modelEn,
 import { timeFormatter } from '@/lib/utils'
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
-import { notFound } from 'next/navigation'
+// import { notFound } from 'next/navigation' // wtest notfound
 import { collectionNameForLearning as colLearning, collectionNameManagement as colManagement } from '@/constants/collectionName' // wtest mock
 import { learningItemConfig } from '@/constants/formConfig'
 import './style.scss'
 
-const getOneData = async (params) => {
+const getOneItem = async (params) => {
   const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}`, {
       cache: 'no-store', // 等效于 SSR 的行为
       }).then(res => res.json());
@@ -33,11 +33,12 @@ export default async function Post({ params }) {
   const paramsArr = await params
   const slug = paramsArr.slug
   if (slug.length !== 2 || !colLearning.includes(slug[0])) {
-    return notFound()
+    return <div>notFound</div>
+    // // wtest notfound notFound()
   }
 
   const urlDomain = `${process.env.URL_DOMAIN}/api/learning`
-  const data = await getOneData({
+  const data = await getOneItem({
     urlDomain,
     collectionName: slug[0],
     id: slug[1]
