@@ -2,9 +2,11 @@
 @use '@styles/components/btn.scss' as btnStyle;
 @use '@styles/base/color.scss' as colorStyle;
 .comment-send {
+    padding-right: 10px;
     .area-form {
         display: flex;
         justify-content: space-between;
+        
         .area-comment-enter {
             flex-grow: 1;
             display: flex;
@@ -18,5 +20,10 @@
         .area-reply {
             @include replyStyle.area-reply;
         }
+    }
+}
+@media (min-width: 769px) {
+    .comment-send {
+        padding-right: 0;
     }
 }

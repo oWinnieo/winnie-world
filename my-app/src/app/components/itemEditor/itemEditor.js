@@ -143,7 +143,7 @@ export const ItemEditor = ({ params, type }) => {
                                                     authorId={session?.user?.userId ? session.user.userId : undefined}></ItemUser> : null
                                         }   
                                     case 'learning':
-                                        return params.data ? <div>{htmlDecode(params.data.content)}</div> : null
+                                        return params.data ? <div className="area-content-in">{htmlDecode(params.data.content)}</div> : null
                                 }
                             })()
                         )
@@ -190,7 +190,7 @@ export const ItemEditor = ({ params, type }) => {
                                     }
                                     {
                                         ifLogined({ session }) &&
-                                        // <p>EditorComment wtest here fetch -- a</p>
+                                        // <p>EditorComment wtest_here_fetch -- a</p>
                                         <EditorComment
                                             params={params}
                                             itemId={params.data.id}

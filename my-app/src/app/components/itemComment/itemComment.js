@@ -1,7 +1,7 @@
 // export const ItemComment = () => {
-//     return <p>ItemComment inside wtest here fetch -- 3</p>
+//     return <p>ItemComment inside wtest_here_fetch -- 3</p>
 // }
-'use client' // wtest here fetch
+'use client' // wtest_here_fetch
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 /* wtest pw */
 import { useAlert } from '@/app/contexts/AlertContext'
@@ -9,6 +9,7 @@ import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 /* /wtest pw */
 import { strSliced } from '@/lib/utils'
+import './itemComment.scss'
 
 const itemDelete = async ({ params, id }) => {
     console.log('wtest delete >>>>>>>>>>>', 'params', params, 'id', id)
@@ -67,15 +68,26 @@ export const ItemComment = ({ comment, makeReply, urlDomain, accessStatus }) => 
     }
     /* /enterDelWord */
     return (
-        <li key={comment._id}>
-            {/* why: {JSON.stringify(comment?.authorInfo?.image)} */}
-            {comment?.authorInfo?.image ?
+        <li className="comment-area" key={comment._id}>
+            <div className="comment-info">
+                {comment?.authorInfo?.image ?
                 <p className="comment-author">
                     <AvatarOfUser
                         srcImage={comment.authorInfo.image}
                     ></AvatarOfUser>
-                    {comment.authorInfo.name}
+                    <span>{comment.authorInfo.name}</span>
                 </p>: 'authorName (wtest)'}
+                <div className="comment-tools">
+                    <button className='btn-reply' onClick={() => makeReply({ commentId: comment._id })}>Reply</button>
+                    {/* <button className="btn-delete" onClick={() => wtest_delete()}>delete</button> */}
+                    {accessStatus && <button
+                        className="btn-delete btn-hover"
+                        onClick={() => delConfirm({ nameForConfrom: strSliced(comment.content, 20) })}
+                    >Delete</button>}
+                    </div>
+            </div>
+            {/* why: {JSON.stringify(comment?.authorInfo?.image)} */}
+            
             <div className="comment-content">
                 {comment.replyToCommentInfo && 
                 <p className="area-reply">{comment.replyToCommentInfo.content} (By: {JSON.stringify(comment.replyToCommentInfo.authorInfo.name)})</p>
@@ -83,12 +95,7 @@ export const ItemComment = ({ comment, makeReply, urlDomain, accessStatus }) => 
                 <p>{comment.content}</p>
                 {/* <p>wtest: {JSON.stringify(comment.replyToCommentInfo)}</p> */}
             </div>
-            <button className='btn-reply' onClick={() => makeReply({ commentId: comment._id })}>Reply</button>
-            {/* <button className="btn-delete" onClick={() => wtest_delete()}>delete</button> */}
-            {accessStatus && <button
-                className="btn-delete btn-hover"
-                onClick={() => delConfirm({ nameForConfrom: strSliced(comment.content, 20) })}
-            >Delete</button>}
+            
             {/* accessCheck() */}
         </li>
     )

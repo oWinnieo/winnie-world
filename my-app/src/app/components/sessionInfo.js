@@ -7,6 +7,7 @@ export const sessionInfo = () => {
             user: userInfo
             // user: {}
         }
+        // console.log('userInfo', userInfo)
         // console.log('session', session)
         /* /wtest auth mock */
     return session

@@ -1,3 +1,4 @@
+@use '@styles/components/media-query.scss' as mediaQuery;
 @mixin page-wrap {
     padding: 10px 0;
 }
@@ -5,6 +6,7 @@
     width: 90%;
     margin: 0 auto;
     padding: 10px;
+    @include mediaQuery.width-for-area;
 }
 @mixin layout-area-in-gt-768 {
     width: 1000px;

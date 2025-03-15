@@ -1,7 +1,7 @@
-@use '@styles/components/avatar.scss' as avatarStyle;
-@use '@styles/components/reply.scss' as replyStyle;
+
 @use '@styles/components/btn.scss' as btnStyle;
 @use '@styles/base/color.scss' as colorStyle;
+@use '@styles/components/media-query.scss' as mediaQuery;
 .area-form {
     // padding: 10px;
     // border: 1px dashed #aaa;
@@ -21,7 +21,7 @@
 }
 .area-tools {
     border-bottom: 1px dashed #aaa;
-    padding: 10px 0;
+    @include mediaQuery.width-for-area-in;
     button.disabled {
         pointer-events: none;
         cursor: not-allowed;
@@ -33,7 +33,8 @@
     }
 }
 .area-content {
-    padding: 10px;
+    @include mediaQuery.width-for-area;
+    padding-bottom: 0;
     code {
         white-space: pre-wrap;
     }
@@ -41,42 +42,47 @@
         display: flex;
         justify-content:end;
         padding: 10px 0;
+        @include mediaQuery.width-for-area-in;
         button {
             margin-left: 10px;
         }
     }
     .area-interaction {
         @include colorStyle.bg-purple-2;
-        padding: 10px;
+        // padding: 10px 0;
+        @include mediaQuery.width-for-area;
     }
     .ul-comment {
         background: #fff;
         margin-bottom: 10px;
         padding: 10px;
-        li {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px dashed #333;
-            .comment-author {
-                // width: 50px;
-                margin-right: 6px;
-                img {
-                    @include avatarStyle.avatar-26;
-                }
-            }
-            .comment-content {
-                flex-grow: 1;
-                // background: #eee; // wtest
-                .area-reply {
-                    @include replyStyle.area-reply
-                }
-            }
-            .btn-reply,
-            .btn-delete {
-                padding: 0 6px;
-            }
-        }
+        // li {
+        //     display: flex;
+        //     justify-content: space-between;
+        //     padding: 10px;
+        //     border-bottom: 1px dashed #333;
+        //     .comment-author {
+        //         // width: 50px;
+        //         margin-right: 6px;
+        //         img {
+        //             @include avatarStyle.avatar-26;
+        //         }
+        //     }
+        //     .comment-content {
+        //         flex-grow: 1;
+        //         // background: #eee; // wtest
+        //         .area-reply {
+        //             @include replyStyle.area-reply
+        //         }
+        //     }
+        //     .btn-reply,
+        //     .btn-delete {
+        //         padding: 0 6px;
+        //     }
+        // }
+    }
+    .area-content-in {
+        @include mediaQuery.width-for-area-in;
     }
 }
 // .wtest-style {
@@ -90,3 +96,10 @@
     }
 }
 /* /wtest */
+
+@media (min-width: 769px) {
+    .area-interaction,
+    .ul-comment {
+        border-radius: 5px;
+    }
+}

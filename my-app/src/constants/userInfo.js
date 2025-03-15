@@ -3,7 +3,7 @@ const userInfo = {
             "email":"ryuuna2010@gmail.com",
             userId: 'aa',
             image: 'https://lh3.googleusercontent.com/a/ACg8ocIjhCKEvHRTFNPuWEhoKJWg-6g4U4BaGSCwu5Zk11RaaTxCBvM=s96-c',
-            role: 'mainAdmin'
+            // role: 'mainAdmin'
 }
 // userInfo
 const userInfo1 = {
@@ -11,7 +11,14 @@ const userInfo1 = {
             "email":"ryuuna2010-wtest@gmail.com",
             userId: 'aa-wtest',
             image: 'https://lh3.googleusercontent.com/a/ACg8ocIjhCKEvHRTFNPuWEhoKJWg-6g4U4BaGSCwu5Zk11RaaTxCBvM=s96-c',
-            role: 'viewer'
+            // role: 'viewer'
+}
+const userInfo11 = {
+    "name":"Ryuuna R 99",
+            "email":"ryuuna2010-99@gmail.com",
+            userId: '99',
+            image: 'https://lh3.googleusercontent.com/a/ACg8ocIjhCKEvHRTFNPuWEhoKJWg-6g4U4BaGSCwu5Zk11RaaTxCBvM=s96-c',
+            // role: 'viewer'
 }
 // userFromGoogle
 const userFromGoogle = {

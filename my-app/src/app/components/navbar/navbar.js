@@ -7,6 +7,7 @@ import './navbar.scss';
 import { useState } from 'react'
 export const Navbar = () => {
     const session = sessionInfo()
+    console.log('session nav', session)
     // wtest ifLoginedAsAdmin()
     const [showNav, setShowNav] = useState(false)
     const toggleNav = () => {

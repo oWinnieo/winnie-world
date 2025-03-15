@@ -210,7 +210,7 @@ export const commentItemConfig = {
     // belongToItemCollection: {
 
     // },
-    replyToCommentId: { // wtest here why
+    replyToCommentId: {
         default: ''
     }
     // authorId: {},
@@ -241,7 +241,7 @@ export const abc_wtest = {
     // belongToItemCollection: {
 
     // },
-    replyToCommentId: { // wtest here why
+    replyToCommentId: {
         default: ''
     }
     // authorId: {},

@@ -1,5 +1,5 @@
 // export const EditorComment = () => {
-//     return <p>EditorComment inside wtest here fetch -- 2</p>
+//     return <p>EditorComment inside wtest_here_fetch -- 2</p>
 // }
 'use client'
 import { useEffect, useState } from 'react';
@@ -30,7 +30,7 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
         watch,
         formState: { errors }
     } = useForm({
-        resolver: zodResolver(abv_wtest), // wtest commentItemValidation / abv_wtest
+        resolver: zodResolver(commentItemValidation), // wtest commentItemValidation / abv_wtest
         defaultValues
     });
     const onSubmit = async (data) => {
@@ -84,7 +84,7 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
                     <button className="btn-reply-cancel" onClick={() => setReplyComInfo(null)}>&times;</button>
                 </div>}
                 <Text
-                    config={abc_wtest.content} // wtest commentItemConfig / abc_wtest
+                    config={commentItemConfig.content} // wtest commentItemConfig / abc_wtest
                     keyName='content'
                     value={watch('content')}
                     onChange={(value) => setValue('content', value)}

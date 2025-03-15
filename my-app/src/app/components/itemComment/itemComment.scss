@@ -1,0 +1,49 @@
+@use '@styles/components/media-query.scss' as mediaQuery;
+@use '@styles/components/avatar.scss' as avatarStyle;
+@use '@styles/components/reply.scss' as replyStyle;
+.comment-area {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px dashed #333;
+    display: flex;
+        flex-direction: column;
+    @include mediaQuery.width-for-area;
+    .comment-author {
+        // width: 50px;
+        margin-right: 6px;
+        img {
+            @include avatarStyle.avatar-26;
+        }
+    }
+    .comment-content {
+        flex-grow: 1;
+        // background: #eee; // wtest
+        .area-reply {
+            @include replyStyle.area-reply
+        }
+    }
+    .btn-reply,
+    .btn-delete {
+        padding: 0 6px;
+    }
+
+    .comment-info {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        .comment-author {
+            display: flex;
+            > span {
+                margin-left: 6px;
+            }
+        }
+    }
+    .comment-content {
+        border: 1px solid #eee;
+        padding: 6px;
+        border-radius: 5px;
+    }
+}
+
+

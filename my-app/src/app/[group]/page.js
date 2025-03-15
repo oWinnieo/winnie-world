@@ -5,6 +5,8 @@ import { titleDisplay } from '@/lib/utils';
 import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
 import { ItemListNav } from '@components/itemListNav/itemListNav'
 import { useGlobal } from "@/app/contexts/GlobalContext";
+import { userInfoHandlerAfterLogin } from '../../../pages/api/auth/userInfoHandler' // wtest
+import { userInfo } from '@/constants/userInfo' // wtest mock
 
 import Link from 'next/link'
 import '../../../styles/components/list.scss'
@@ -37,6 +39,13 @@ const getListData = async (params) => { // wtest waiting
 
 export default async function Area ({ params }) {
     const { group } = await params
+    /* wtest userInfo handler *
+    const session = {
+        user: userInfo
+    }
+    const resUserInfo = await userInfoHandlerAfterLogin({ user: session.user })
+    console.log('resUserInfo', resUserInfo)
+    /* /wtest userInfo handler */
     
     const urlDomain = process.env.URL_DOMAIN + '/api/learning'
     const listLearningFromApi = await getListData({

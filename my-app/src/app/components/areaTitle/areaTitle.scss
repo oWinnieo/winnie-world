@@ -1,5 +1,7 @@
+@use '@styles/components/media-query.scss' as mediaQuery;
 .area-title {
     font-size: 32px;
     color: #000;
     padding-right: 150px; // wtest for visitors area
+    @include mediaQuery.width-for-area-in;
 }

@@ -77,7 +77,10 @@ export const authOptions = {
       console.log('resUserInfo', resUserInfo)
       /* /wtest userInfo handler */
       
-      return session;
+      return {
+        ...session,
+        ...resUserInfo.data
+      };
     },
     //     /*
     //     signIn 回调 (用户登录时触发)
