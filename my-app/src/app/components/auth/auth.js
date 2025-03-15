@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 // import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import './auth.scss'
 export const Auth = ({ session }) => {
-    console.log('session auth', session)
+    // console.log('session auth', session) // wtest
     /* wtest auth mock *
     const session = sessionInfo()
     /* /wtest auth mock */
@@ -37,7 +37,7 @@ export const Auth = ({ session }) => {
             {session ? (
                 <>
                     {/* <p>wtest: {session?.user?.name ? session.user.name : '?'} ~~ &nbsp;</p> */}
-                    <p className="auth-welcome">Welcome, {session.user.name}({session?.user?.role})!</p>
+                    <p className="auth-welcome">Welcome, {session.user.name}!</p>
                     {/* <img className="auth-avatar" src={session.user.image} alt="User Avatar" /> */}
                     <span onClick={toggleNav}>
                         <AvatarOfUser

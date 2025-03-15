@@ -79,7 +79,10 @@ export const authOptions = {
       
       return {
         ...session,
-        ...resUserInfo.data
+        user: {
+          ...session.user,
+          ...resUserInfo.data
+        }
       };
     },
     //     /*
