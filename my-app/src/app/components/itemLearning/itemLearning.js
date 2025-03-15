@@ -54,7 +54,7 @@ export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, coll
     }
     /* enterDelWord */
     const enterDelWord = (val) => {
-        if (val === '123') { // wtest delete
+        if (val === 'delete') { // wtest delete
             showAlert({
                 message: 'delete confirm',
                 type: "success",
