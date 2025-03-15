@@ -7,11 +7,11 @@
     @include layoutMain.bg-main-33;
 }
 .page-in {
-    @include layoutMain.layout-area-in;
     background: #fff;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, .2);
     position: relative;
     padding-bottom: 0;
+    @include layoutMain.layout-area-in;
 }
 
 @media (min-width: 769px) {

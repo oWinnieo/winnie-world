@@ -10,8 +10,8 @@ body .area {
 padding: 20px 50px;
 }
 body .area .area-in {
-    @include layoutMain.layout-area-in; // wtest 1000
     margin: auto;
+    @include layoutMain.layout-area-in; // wtest 1000
 }
 
 body .area-welcome {

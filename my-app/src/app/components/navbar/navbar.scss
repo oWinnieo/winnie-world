@@ -9,7 +9,6 @@
     border-bottom: 1px solid #ffffff33;
 }
 .navbar-in {
-    @include layoutMain.layout-area-in;
     width: 100%;
     display: flex;
     align-items: center;
@@ -18,6 +17,7 @@
     justify-content: space-between;
     height: 48px;
     position: relative;
+    @include layoutMain.layout-area-in;
     a {
         @include btnStyle.btn-for-nav;
         @include btnStyle.btn-for-nav-left;
