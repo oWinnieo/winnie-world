@@ -2,8 +2,8 @@ import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
 import { listNavItemConfig } from '@/constants/formConfig'
 import { titleDisplay } from '@/lib/utils';
-import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
-import { ItemListNav } from '@components/itemListNav/itemListNav'
+import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
+import { ItemListNav } from '@/app/components/item/itemListNav/itemListNav'
 import { useGlobal } from "@/app/contexts/GlobalContext";
 import { userInfoHandlerAfterLogin } from '../../../pages/api/auth/userInfoHandler' // wtest
 import { userInfo } from '@/constants/userInfo' // wtest mock

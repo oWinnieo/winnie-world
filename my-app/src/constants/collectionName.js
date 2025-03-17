@@ -1,11 +1,14 @@
 const collectionNameForListNavGroup = ['learning', 'management']
 const collectionNameForLearning = ['english', 'japanese', 'server']
 const collectionNameManagement = ['user', 'listNav']
-const collectionNameInteraction = ['comment', 'like', 'favorite']
+const collectionNameLikeOrFavorite = ['like', 'favorite']
+const collectionNameInteraction = collectionNameLikeOrFavorite.concat(['comment'])
+
 
 export {
     collectionNameForListNavGroup,
     collectionNameForLearning,
     collectionNameManagement,
-    collectionNameInteraction
+    collectionNameInteraction,
+    collectionNameLikeOrFavorite
 }

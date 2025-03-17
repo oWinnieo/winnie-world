@@ -1,6 +1,7 @@
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
-import { tips } from '@/constants/tips'
+import { tipsConst } from '@/constants/tipsConst'
+// import { sessionInfoServer } from '@/app/components/sessionInfo' // wtest mock
 import Link from 'next/link'
 import dbConnect from '../../../../lib/db';
 import { modelEn,
@@ -9,7 +10,7 @@ import { modelEn,
 } from '../../../../models/learningItem';
 
 import { timeFormatter } from '@/lib/utils'
-import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
+import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 // import { notFound } from 'next/navigation' // wtest notfound
 import { collectionNameForLearning as colLearning, collectionNameManagement as colManagement } from '@/constants/collectionName' // wtest mock
@@ -37,6 +38,10 @@ export default async function Post({ params }) {
     return <div>notFound</div>
     // // wtest notfound notFound()
   }
+  /* wtest *
+  const session = await sessionInfoServer(authOptions);
+  console.log('session', session)
+  /* /wtest */
 
   const urlDomain = `${process.env.URL_DOMAIN}/api/learning`
   const data = await getOneItem({
@@ -90,7 +95,11 @@ export default async function Post({ params }) {
                       id: slug[1],
                       createdAt: data.createdAt,
                       updatedAt: data.updatedAt,
-                      comments: comments // wtest
+                      comments: comments, // wtest,
+                      like: data.like,
+                      favorite: data.favorite,
+                      likeStatus: data.likeStatus,
+                      favoriteStatus: data.favoriteStatus
                     },
                   }
                 }
@@ -101,7 +110,7 @@ export default async function Post({ params }) {
         <p className="mt-4 text-gray-600">Slug Parameters:</p>
         <pre className="bg-gray-100 p-4 rounded-md mt-2">{JSON.stringify(slug, null, 2)}</pre>
       </div> */}
-      </> : <p>{tips.tipDataWrong}</p>}
+      </> : <p>{tipsConst.tipDataWrong}</p>}
       
     </PageWrap>
   );

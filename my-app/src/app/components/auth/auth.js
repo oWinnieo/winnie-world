@@ -7,17 +7,14 @@ import { useRouter } from 'next/navigation';
 // import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import './auth.scss'
 export const Auth = ({ session }) => {
-    // console.log('session auth', session) // wtest
-    /* wtest auth mock *
-    const session = sessionInfo()
-    /* /wtest auth mock */
-    const getTesting = () => {
-        console.log('~~~~~~~~~~~ in getTesting session', session)
-    }
+    // const getTesting = () => {
+    //     console.log('~~~~~~~~~~~ in getTesting session', session)
+    // }
     const signInHandler = async () => {
         const signInRes = await signIn("google")
     }
     const signOutHandler = async () => {
+        setShowNav(false)
         const signOutRes = await signOut()
     }
     const [showNav, setShowNav] = useState(false)
@@ -26,20 +23,18 @@ export const Auth = ({ session }) => {
     }
     const router = useRouter()
     const showProfile = () => {
+        setShowNav(false);
         router.push(`/profile/${session.user.userId}`)
 
     }
     return (
         <div className="area-auth">
-            {/* <p>session: {session && JSON.stringify(session)}</p> */}
             {/* <button onClick={getTesting}>get token wtest</button> -  */}
             {/* <button onClick={signOutHandler}>clear token wtest</button> */}
             {session ? (
                 <>
-                    {/* <p>wtest: {session?.user?.name ? session.user.name : '?'} ~~ &nbsp;</p> */}
                     <p className="auth-welcome">Welcome, {session.user.name}!</p>
-                    {/* <img className="auth-avatar" src={session.user.image} alt="User Avatar" /> */}
-                    <span onClick={toggleNav}>
+                    <span className="btn-auth-avatar" onClick={toggleNav}>
                         <AvatarOfUser
                             srcImage={session.user.image}
                         ></AvatarOfUser>

@@ -4,7 +4,7 @@ import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import {
     ifLoginedAsAdmin
 } from '@/lib/auth'
-import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
+import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 export const ItemListNav = ({ item, urlDomain }) => {
     /* wtest auth mock */
     const session = sessionInfo()

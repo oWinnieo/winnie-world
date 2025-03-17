@@ -1,21 +1,26 @@
+@use '@styles/base/color.scss' as colorStyle;
 @mixin layer-small {
     position: absolute;
     flex-direction: column;
-    background: rgba(0, 0, 0, .7);
+    background: rgba(255, 255, 255, 1);
     padding: 10px;
     z-index: 99;
-    a {
+    a, button {
         padding: 6px 0;
+        @include colorStyle.color-purple-1;
     }
 }
 @mixin layer-left-top {
     left: 0;
     top: 48px;
+    a, button {
+        text-align: left;
+    }
 }
 @mixin layer-right-top {
     right: 0;
     top: 48px;
-    a {
+    a, button {
         text-align: right;
     }
 }

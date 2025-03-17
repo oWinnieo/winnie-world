@@ -83,7 +83,7 @@ export const userItemConfig = {
         required: true
     },
     email: {
-        title: 'eMail',
+        title: 'Email',
         // valueType: 'String',
         editType: 'readOnly',
         default: '',

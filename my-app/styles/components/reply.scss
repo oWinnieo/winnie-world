@@ -1,8 +1,8 @@
 @use '@styles/base/color.scss' as colorStyle;
 @mixin area-reply {
-    @include colorStyle.bg-purple-2;
+    @include colorStyle.bg-purple2pink-3;
     padding: 6px;
-    display: flex;
+    // display: flex;
     justify-content: space-between;
     border-radius: 5px;
     .btn-reply-cancel {

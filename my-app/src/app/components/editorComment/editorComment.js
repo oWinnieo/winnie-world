@@ -8,8 +8,7 @@ import { Text } from '@components/formElement/text'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import './editorComment.scss'
-export const EditorComment = ({ itemId, itemColName, params, authorId, replyCommentInfo }) => { // wtest backup 
-    // console.log('?? wtest', 'replyCommentInfo', replyCommentInfo)
+export const EditorComment = ({ itemId, itemColName, params, authorId, replyCommentInfo, clearReply }) => { // wtest backup 
     const [ replyComInfo, setReplyComInfo ] = useState(replyCommentInfo)
     const defaultValues = {
         content: '',
@@ -22,7 +21,7 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
     }
     
     
-    console.log('defaultValues', defaultValues)
+    // console.log('defaultValues', defaultValues)
     const {
         register,
         handleSubmit,
@@ -66,6 +65,10 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
     const configForComment_wtest = {
 
     }
+    const clearReplyHandler = () => {
+        setReplyComInfo(null)
+        clearReply()
+    }
     useEffect(() => {
         setReplyComInfo(replyCommentInfo)
     }, [replyCommentInfo])
@@ -80,8 +83,8 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
             {/* {JSON.stringify(replyComInfo)} */}
             <div className="area-comment-enter">
                 {replyComInfo?._id && <div className="area-reply">
-                    <p>Reply to: {JSON.stringify(replyComInfo.content)}</p>
-                    <button className="btn-reply-cancel" onClick={() => setReplyComInfo(null)}>&times;</button>
+                    <div>Reply to: {JSON.stringify(replyComInfo.content)}</div>
+                    <button className="btn-reply-cancel" onClick={clearReplyHandler}>&times;</button>
                 </div>}
                 <Text
                     config={commentItemConfig.content} // wtest commentItemConfig / abc_wtest

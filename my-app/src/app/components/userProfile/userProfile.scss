@@ -1,6 +1,51 @@
-.area-user-info {
-    padding: 20px;
+.area-user {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
     > div {
         padding: 6px 0;
+    }
+    .area-user-avatar-img {
+        margin-bottom: 10px;
+    }
+    .area-user-info {
+        margin-left: 10px;
+        .info-title {
+            font-weight: 700;
+        }
+        // display: flex;
+        // flex-direction: column;
+    }
+}
+.area-related {
+    border: 1px solid #aaa;
+    border-left: 0;
+    border-right: 0;
+    padding: 10px;
+    .area-tabs {
+        button {
+            margin-right: 10px;
+            &.btn-strong {
+                font-weight: 700;
+            }
+        }
+    }
+    .ul-interaction-item {
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #aaa;
+        }
+    }
+}
+
+@media (min-width: 769px) {
+    .area-user {
+        display: flex;
+        flex-direction: row;
+        .area-user-info {
+            margin-left: 20px;
+            // display: flex;
+            // align-items: flex-start;
+        }
     }
 }

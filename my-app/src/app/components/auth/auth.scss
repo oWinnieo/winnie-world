@@ -1,6 +1,7 @@
 @use '@styles/components/media-query.scss' as mediaQuery;
 @use '@styles/components/layer.scss' as layerStyle;
 @use '@styles/components/btn.scss' as btnStyle;
+@use '@styles/base/color.scss' as colorStyle;
 .area-auth {
     display: flex;
     align-items: center;
@@ -20,6 +21,9 @@
     .btn-signin {
         @include btnStyle.btn-for-sign-web;
     }
+    .btn-auth-avatar {
+        cursor: pointer;
+    }
     // .area-user-tools-web {
     //     @include mediaQuery.show-for-web;
     //     .btn {
@@ -32,6 +36,7 @@
         @include layerStyle.layer-right-top;
         display: flex;
         .btn {
+            @include colorStyle.color-purple-1;
             @include btnStyle.btn-for-nav;
             @include btnStyle.btn-for-nav-right;
         }

@@ -1,15 +1,16 @@
 'use client'
 import { FormForLearningItem } from "./itemForm"
 import { EditorComment } from '@components/editorComment/editorComment'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { htmlDecode } from '@/lib/utils';
 import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
-import { ListNavItem } from '@components/listNavItem/listNavItem'
-import { ItemUser } from '@/app/components/itemUser/itemUser';
-import { ItemComment } from '@components/itemComment/itemComment';
+import { ListNavItem } from '@components/list/listNavItem/listNavItem'
+import { ItemUser } from '@/app/components/item/itemUser/itemUser';
+import { ItemComment } from '@/app/components/item/itemComment/itemComment';
+import { MessageSquareMore, Heart, Star } from 'lucide-react'
 import {
     ifLogined,
     userLoginedSameWithAuthor,
@@ -20,8 +21,46 @@ import {
 
 import './itemEditor.scss';
 // import MyContext from '@/app/contexts/MyContext' // wtest context
+
+const interactClick = async ({ type, params, session, showAlert }) => {
+    if (!session || !session.user || !session.user.userId) {
+        showAlert({
+            message: 'Please sign in to continue.'
+        })
+        return undefined
+    }
+    const dataUpdated = {
+        belongToItemId: params.data.id,
+        belongToItemCollection: params.collectionName,
+        authorId: session.user.userId
+    }
+    try {
+        // console.log('wtest waiting -----------------------> add', 'type', type, 'dataUpdated', dataUpdated)
+        
+        // debugger;
+        const res = await fetch(`${params.urlDomain}?collectionName=${type}&belongToItemId=${params.belongToItemId}&belongToItemCollection=${params.belongToItemCollection}`, {
+            method: 'POST',
+            headers: {
+                "Content-type": 'application/json'
+            },
+            body: JSON.stringify({ ...dataUpdated }) // wtest user: params.user
+        })
+        // console.log('res', res)
+        // debugger;
+        const dataRes = await res.json();
+        if (dataRes.success) {
+            console.log(dataRes.message)
+            window.location.reload()
+        } else {
+            throw new Error('Failed to create an item.')
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export const ItemEditor = ({ params, type }) => {
-    // console.log('wtest ItemEditor params.urlDomain >>>>>>>>>>>>>', params.urlDomain)
+    // console.log('wtest ItemEditor params >>>>>>>>>>>>>', params)
     // console.log('params.collectionName', params.collectionName)
     // console.log('params.urlDomain', params.urlDomain)
     /* wtest auth mock */
@@ -31,7 +70,6 @@ export const ItemEditor = ({ params, type }) => {
     const { showAlert } = useAlert()
     const { openModal } = useModal()
     const ToggleAddItem = () => {
-        console.log('')
         setIsEditItem((val) => !val)
     }
     /* modal */
@@ -61,14 +99,18 @@ export const ItemEditor = ({ params, type }) => {
     }
     /* /access check */
     /* area-interaction */
+    /* wtest */
     const [areaName, setAreaName] = useState('comment')
     const areaSwitch = ({ areaName }) => {
         setAreaName(areaName)
     }
+    /* /wtest */
     const [replyCommentInfo, setReplyCommentInfo] = useState({})
     const makeReply = ({ commentId }) => {
-        // console.log('commentId', commentId)
         setReplyCommentInfo(params?.data?.comments.find(com => com._id === commentId))
+    }
+    const clearReply = () => {
+        setReplyCommentInfo(null)
     }
     /* /area-interaction */
     const accessCheckParams = {
@@ -77,6 +119,7 @@ export const ItemEditor = ({ params, type }) => {
         authorInfo: params?.data?.authorInfo,
         session
     }
+    
     return (
         <>
             {/* <p>aaa: {JSON.stringify(ifLogined())}, {JSON.stringify(ifWithAuthorInfo())}</p> */}
@@ -85,7 +128,6 @@ export const ItemEditor = ({ params, type }) => {
             {/* <p>wtest params: {JSON.stringify(ifLogined())}</p> */}
             {/* <p>-------</p> */}
             {/* <p>wtest params.data: {JSON.stringify(params.data.authorInfo)}</p> */}
-            {/* <p>wtest session.user.userId 1: {JSON.stringify(session?.user?.userId)}</p> */}
             {/* <p>authorInfo.userId: {params?.data?.authorInfo?.userId}</p> */}
             {/* <p>params.group: {JSON.stringify(params.group)}</p> */}
             {(params.group !== 'management' || !params.data) && <div className="area-tools">
@@ -114,7 +156,7 @@ export const ItemEditor = ({ params, type }) => {
                             <FormForLearningItem params={{
                                 ...params,
                                 // user: session.user
-                                authorId: session?.user?.userId ? session.user.userId : '?? wtest waiting',
+                                authorId: session?.user?.userId ? session.user.userId : undefined,
                             }}></FormForLearningItem>
                         </> : 
                         (
@@ -151,8 +193,18 @@ export const ItemEditor = ({ params, type }) => {
                 {params.data && // wtest params.group === 'management'
                 <div className="area-content-tools">
                     {params.group === 'learning' && (<>
-                        <button onClick={() => areaSwitch({ areaName: 'comment'})}>Comments ({params.data.comments?.length})</button>
-                        <button onClick={() => areaSwitch({ areaName: 'like'})}>Like</button>
+                        <button className="btn-comment">
+                            <MessageSquareMore />
+                            <span className="count">({params.data.comments?.length})</span>
+                        </button>
+                        <button onClick={() => interactClick({ type: 'like', params, session, showAlert })}>
+                            <Heart className={params.data.likeStatus ? 'text-red-500' : ''} />
+                            <span className="count">({params.data.like})</span>
+                        </button>
+                        <button onClick={() => interactClick({ type: 'favorite', params, session, showAlert })}>
+                            <Star className={params.data.favoriteStatus ? 'text-red-500' : ''} />
+                            <span className="count">({params.data.favorite})</span>
+                        </button>
                     </>)}
                     {/* editOrAddBtnStatusCheck: {JSON.stringify(editOrAddBtnStatusCheck(accessCheckParams))} */}
                     {
@@ -179,12 +231,17 @@ export const ItemEditor = ({ params, type }) => {
                                             makeReply={makeReply}
                                             urlDomain={params.urlDomain}
                                             // group={params.group}
-                                            accessStatus={
+                                            accessEditStatus={
                                                 userLoginedSameWithAuthor({
                                                     session,
                                                     data: comment,
                                                     authorInfo: comment.authorInfo
-                                                }) || ifLoginedAsAdmin({ session })}></ItemComment>
+                                                }) || ifLoginedAsAdmin({ session })}
+                                            accessStatus={
+                                                ifLogined({
+                                                    session
+                                                })
+                                            }></ItemComment>
                                         )}
                                     </ul>
                                     }
@@ -197,6 +254,7 @@ export const ItemEditor = ({ params, type }) => {
                                             itemColName={params.collectionName}
                                             authorId={session?.user?.userId}
                                             replyCommentInfo={replyCommentInfo}
+                                            clearReply={clearReply}
                                         ></EditorComment>
                                     }
                                 </>

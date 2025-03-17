@@ -1,7 +1,7 @@
 'use client'
-import { ItemLearning } from '@/app/components/itemLearning/itemLearning'
+import { ItemLearning } from '@/app/components/item/itemLearning/itemLearning'
 import { userItemConfig } from '@/constants/formConfig'
-import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
+import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 
 export const ListLearningItem = ({ params, listData }) => {
     return (

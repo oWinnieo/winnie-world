@@ -7,7 +7,7 @@ import {
 } from '@/constants/collectionName'; // wtest mock
 import { titleDisplay } from '@/lib/utils';
 import { learningItemConfig } from '@/constants/formConfig'
-import { ListOfCollection } from '@/app/components/listOfCollection/listOfCollection';
+import { ListOfCollection } from '@/app/components/list/listOfCollection/listOfCollection';
 import { htmlDecodeSlice, html2txt, strSliced } from '@/lib/utils';
 // import { notFound } from 'next/navigation' // wtest notfound
 

@@ -8,7 +8,10 @@ const commentSchema = new mongoose.Schema({
     authorId: { type: String, required: true },
     like: { type: Number },
     favorite: { type: Number },
-}, {timestamps: true });
+}, {timestamps: true,
+    toJSON: { virtuals: true }, // 允许 JSON 包含虚拟字段
+    toObject: { virtuals: true }
+ });
 
 
 const modelComment = mongoose.models.comment || mongoose.model('comment', commentSchema);

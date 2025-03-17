@@ -8,7 +8,7 @@ import { modelEn,
 } from '../../../../models/learningItem';
 
 import { timeFormatter } from '@/lib/utils'
-import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
+import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 // import { notFound } from 'next/navigation' // wtest notfound
 import { collectionNameForLearning as colLearning, collectionNameManagement as colManagement } from '@/constants/collectionName' // wtest mock

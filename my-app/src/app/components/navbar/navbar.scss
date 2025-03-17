@@ -22,10 +22,13 @@
         @include btnStyle.btn-for-nav;
         @include btnStyle.btn-for-nav-left;
     }
+    button {
+        color: #fff;
+    }
     .area-nav {
         display: flex;
         justify-content: center;
-        padding: 0 10px;
+        padding: 0;
         position: relative;
         .area-router-for-mobile {
             @include layerStyle.layer-small;
@@ -39,7 +42,7 @@
         }
         .btn-click {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             width: 48px;
             height: 48px;
@@ -58,6 +61,11 @@
             .btn-signout-web {
                 justify-content: center;
                 align-items: center;
+            }
+            .area-router-for-web {
+                button {
+                    margin-right: 10px;
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     // const data = await getAnalyticsData();
     
     try {
-      console.log('getAnalyticsData in <analyticsGet>', getAnalyticsData)
+      // console.log('getAnalyticsData in <analyticsGet>', getAnalyticsData)
         const data = await getAnalyticsData();
         // return NextResponse.json(data);
         // console.log('data in ga handler', data)

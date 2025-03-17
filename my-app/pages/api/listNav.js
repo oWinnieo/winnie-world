@@ -20,11 +20,11 @@ export default async function handler (req, res) {
     switch(method) {
         case 'GET':
           if (fetchType === 'list') {
-            console.log('??')
+            // console.log('??')
             try {
                 let listNav
                   listNav = await modelTarget.find({}).sort({ createdAt: -1 }) // 获取所有item
-                  console.log('listNav', listNav)
+                  // console.log('listNav', listNav)
                 res.status(200).json({ success: true, data: listNav });
                           
             } catch (err) {

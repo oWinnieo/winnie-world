@@ -1,6 +1,6 @@
 'use client'
-import { ItemEditor } from '@/app/components/itemEditor/itemEditor'
-import { ListLearningItem } from '@/app/components/listLearningItem/listLearningItem'
+import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
+import { ListLearningItem } from '@/app/components/list/listLearningItem/listLearningItem'
 import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 export const ListOfCollection = ({
     urlDomain,

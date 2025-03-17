@@ -14,7 +14,7 @@ const oauth2Client = new OAuth2Client(
   //   process.env.// wtest OAUTH_REDIRECT_URI  // 重定向 URI
   OAUTH_REDIRECT_URI_FULL
 );
-console.log('oauth2Client', oauth2Client)
+// console.log('oauth2Client', oauth2Client)
 
 const analyticsreporting = google.analyticsdata({
   version: "v1beta",
@@ -22,7 +22,7 @@ const analyticsreporting = google.analyticsdata({
 });
 
 async function getVisitors() {
-  console.log("Starting getVisitors function...");
+  // console.log("Starting getVisitors function...");
 
   // 使用授权获取访问令牌
   const token = await oauth2Client.getAccessToken();
@@ -36,7 +36,7 @@ async function getVisitors() {
         metrics: [{ name: "activeUsers" }],
       },
     });
-    console.log('GA Response: ', res.data);
+    // console.log('GA Response: ', res.data);
     return res.data;
   } catch (err) {
     console.error("Error fetching GA data", err);

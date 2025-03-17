@@ -13,6 +13,9 @@ export const Navbar = () => {
     const toggleNav = () => {
         setShowNav(val => !val)
     }
+    const btnClick = () => {
+        setShowNav(false)
+    }
     return (
         <div className="navbar">
             <div className="navbar-in">
@@ -25,7 +28,8 @@ export const Navbar = () => {
                         showNav &&
                         <RouterBtn
                             className="area-router-for-mobile"
-                            accessStatus={session?.user?.role && session.user.role === 'mainAdmin'} />
+                            accessStatus={session?.user?.role && session.user.role === 'mainAdmin'}
+                            btnClick={btnClick}/>
                     }
                 </div>
                 <Auth

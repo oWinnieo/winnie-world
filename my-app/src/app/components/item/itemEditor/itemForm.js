@@ -23,7 +23,7 @@ const validationGroupCheck = ({ collectionName }) => {
     if (collectionNameForLearning.includes(collectionName)) {
         return learningItemValidation
     } else if (collectionNameManagement.includes(collectionName)) {
-        console.log('collectionName', collectionName)
+        // console.log('collectionName', collectionName)
         switch (collectionName) {
             case 'listNav':
                 return listNavItemValidation
@@ -36,16 +36,12 @@ const validationGroupCheck = ({ collectionName }) => {
 }
 
 export const FormForLearningItem = ({ params }) => {
-    // console.log('wtest -------> params.data', params.data)
     const formConfigKeysArr = Object.keys(params.formConfig).concat(keysDefault)
-    // console.log('formConfigKeysArr', formConfigKeysArr)
-    // console.log('params.formConfig', params.formConfig)
     const keysForDisplayArr = formConfigKeysArr.filter(key => params.formConfig[key]?.editType) // wtest
     const keysForRichTextArr = formConfigKeysArr.filter(key => params.formConfig[key]?.editType === 'richText')
 
     const defaultValues = {}
     const defaultValueSetWithData = (key) => {
-        console.log('key ---------------------------->', key)
         if (key === 'id') {
             return params.data._id || params.data.id
         } else {
@@ -57,9 +53,9 @@ export const FormForLearningItem = ({ params }) => {
             (defaultValueSetWithData(key)) :
             (params.formConfig[key]?.default ? params.formConfig[key]?.default : undefined)
     })
-    console.log('defaultValues', defaultValues)
+    // console.log('defaultValues', defaultValues)
     const validationObj = validationGroupCheck({ collectionName: params.collectionName })
-    console.log('validationObj', validationObj)
+    // console.log('validationObj', validationObj)
     const {
         register,
         handleSubmit,
@@ -76,12 +72,11 @@ export const FormForLearningItem = ({ params }) => {
         // console.log('onSubmit ? data', data, 'params.group')
         // console.log('params.group', params.group)
         // console.log('params.collectionName', params.collectionName)
-        // console.log('params.authorId', params.authorId)
         const dataForUpdate = {
             ...defaultValues,
             ...data
         }
-        console.log('表单提交数据:', dataForUpdate);
+        // console.log('表单提交数据:', dataForUpdate);
         const newData = {
             ...dataForUpdate,
             updatedAt: new Date(),
@@ -89,29 +84,15 @@ export const FormForLearningItem = ({ params }) => {
         if (params.group === 'management' && params.collectionName === 'user') {
             newData.editorId = params.authorId
         }
-        console.log('newData 1', newData) // wtest
-        console.log('dataForUpdate', dataForUpdate)
+        // console.log('newData 1', newData) // wtest
+        // console.log('dataForUpdate', dataForUpdate)
         keysForRichTextArr.forEach(key => {
             newData[key] = htmlEncode(newData[key])
         })
-        // console.log('params --->>> js', params, params)
-        console.log('formConfig', params.formConfig)
-        // console.log('defaultValues', defaultValues)
-        console.log('newData 2', newData) // wtest
-            // debugger;
         // 处理表单提交逻辑
         if (params.data) {
             try {
-                console.log('wtest waiting -----------------------> update', newData)
-                /* wtest here */
-                // wtest ok authorId: "" 因为user是来自谷歌, 查看listNav是否authorId有值, 有,因为是站内创建的
-                // wtest ok 已添加editorId, 接着需要确定为什么valid有问题, 因为valid必须要覆盖到才会更新值
-                // wtest mac键盘怎么输入大于号
-                // wtest http://localhost:3000/management/undefined?collectionName=user
-                // wtest 为啥一直在转? https://lh3.googleusercontent.com/a/ACg8ocIjhCKEvHRTFNPuWEhoKJWg-6g4U4BaGSCwu5Zk11RaaTxCBvM=s96-c
-                /* /wtest here */
-                // console.log('params.urlDomain', params.urlDomain)
-                // debugger;
+                // console.log('wtest waiting -----------------------> update', newData)
                 const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
                     method: 'PUT',
                     headers: {
@@ -131,10 +112,8 @@ export const FormForLearningItem = ({ params }) => {
             }
         } else {
             try {
-                console.log('wtest waiting -----------------------> add', newData)
-                // const wtest_d = { ...dataForUpdate, authorId: params.authorId }
-                // console.log('wtest_d', wtest_d)
-                debugger;
+                // console.log('wtest waiting -----------------------> add', newData)
+                // debugger;
                 const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
                     method: 'POST',
                     headers: {

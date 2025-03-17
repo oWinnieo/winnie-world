@@ -1,7 +1,9 @@
+@use '@styles/base/color.scss' as colorStyle;
 button,
 a {
-    color: #7928ca;
+    // color: #7928ca;
     text-decoration: underline;
+    @include colorStyle.color-purple-1;
 }
 /*
 z-index:

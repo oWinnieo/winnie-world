@@ -10,10 +10,10 @@ import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 /* /wtest pw */
 import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
+import { MessageSquareMore, UserRound, Heart, Star } from 'lucide-react'
 import './itemLearning.scss'
 
 const itemDelete = async ({ params, id }) => {
-    console.log('wtest delete >>>>>>>>>>> 111', 'params', params, 'id', id, `${params.urlDomain}?collectionName=${params.collectionName}`)
     // const encodedId = encodeURIComponent(id); // wtest waiting not reason
     const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, { // wtest waiting ?id=${encodedId}
         method: 'DELETE',
@@ -54,7 +54,7 @@ export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, coll
     }
     /* enterDelWord */
     const enterDelWord = (val) => {
-        if (val === 'delete') { // wtest delete
+        if (val === '123') { // wtest delete
             showAlert({
                 message: 'delete confirm',
                 type: "success",
@@ -86,15 +86,31 @@ export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, coll
     return (
         <div className="item-learning">
             {/* <p>wtest userID: {JSON.stringify(session?.user?.userId)}, {JSON.stringify(session?.user?.name)}</p> */}
-            {/* <p>wtest session.user.userId wtest : {JSON.stringify(session?.user?.userId)}</p> */}
-            {/* <p>wtest data.commentCount: {JSON.stringify(data.commentCount)}</p> */}
+            {/* <p>wtest data.countComment: {JSON.stringify(data.countComment)}</p> */}
             <div className="item-info">
                 <span className="item-info-1">
                     <span className="item-title">{title}</span>
                 </span>
                 <span className="item-info-2">
-                    {data.commentCount !== 0 && <span>Comments: ({data.commentCount})</span>}
-                    <span>By: <span className="item-author">{authorNameDisplay()}</span></span>
+                    {data.countComment !== 0 &&
+                    <span>
+                        <MessageSquareMore />
+                        <span className="count">({data.countComment})</span>
+                    </span>}
+                    {data.countLike !== 0 &&
+                    <span>
+                        <Heart />
+                        <span className="count">({data.countLike})</span>
+                    </span>}
+                    {data.countFavorite !== 0 &&
+                    <span>
+                        <Star />
+                        <span className="count">({data.countFavorite})</span>
+                    </span>}
+                    <span>
+                        <UserRound />
+                        <span className="item-author">{authorNameDisplay()}</span>
+                    </span>
                 </span>
             </div>
             {/* <p>wtest authorInfo userId, {authorInfo?.userId ? authorInfo.userId : '?'}, session userId, {session?.user?.userId ? session.user.userId : '?'}</p> */}

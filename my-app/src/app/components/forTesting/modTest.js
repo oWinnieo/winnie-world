@@ -1,14 +1,14 @@
 'use client'
 import { useModal } from '@/app/contexts/ModalContext' // wtest modTest
 import { ModalContent } from '@/app/components/modal/modalContent'
-import { useAlert } from '@/app/contexts/AlertContext' // wtest alert
+import { useAlert } from '@/app/contexts/AlertContext'
 
 export const ModTest = () => {
     /* wtest modTest */
-    const { showAlert } = useAlert() // wtest alert
+    const { showAlert } = useAlert()
     const { openModal } = useModal()
     const pwCheck = (val) => {
-        console.log('val', val)
+        // console.log('val', val)
         showAlert({
             message: `value = ${val}`,
             type: "success",

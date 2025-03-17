@@ -90,7 +90,7 @@ export const userInfoHandlerAfterLogin = async ({ user }) => {
     const { success, message, data } = await userInfoHandler({ user })
     let resUserHandledRes
     if (data) {
-        console.log('up 1 =============>')
+        // console.log('up 1 =============>')
         /* wtest wait for confirming */
         // resUserHandledRes = await userCheckedHandler({ user: {
         //     ...data,
@@ -98,12 +98,11 @@ export const userInfoHandlerAfterLogin = async ({ user }) => {
         // }, type: 'update' })
         /* /wtest wait for confirming */
         // console.log('data', data, 'user', user)
-        // return {res: 'User exists.'} // wtest here 这里的数据准备处理后,和session结合并存进sessionStorage,时机?登录时?刷新页面是?
         return { success, message, data: {
             ...data
         } }
     } else {
-        console.log('ad 1')
+        // console.log('ad 1')
         resUserHandledRes = await userCheckedHandler({ user, type: 'add' })
     }
     console.log('wtest resUserHandledRes', resUserHandledRes)

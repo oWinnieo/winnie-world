@@ -8,12 +8,14 @@
     .area-form-tools {
         display: flex;
         justify-content: end;
+        padding-right: 10px;
     }
     .btn-submit {
         @include btnStyle.btn-w-100;
         @include colorStyle.bg-purple-1;
     }
     .area-form-item {
+        padding: 0 10px;
         input {
             width: 100%;
         }
@@ -29,12 +31,13 @@
         filter: grayscale(1);
     }
     .tip {
-        color: #66f;
+        @include colorStyle.color-purple-1;
     }
 }
 .area-content {
     padding-bottom: 0;
-    @include mediaQuery.width-for-area;
+    padding-top: 10px;
+    // @include mediaQuery.width-for-area;
     code {
         white-space: pre-wrap;
     }
@@ -45,10 +48,17 @@
         @include mediaQuery.width-for-area-in;
         button {
             margin-left: 10px;
+            display: flex;
+            .count {
+                margin-left: 6px;
+            }
+            &.btn-comment {
+                @include btnStyle.btn-click-disabled;
+            }
         }
     }
     .area-interaction {
-        @include colorStyle.bg-purple-2;
+        @include colorStyle.bg-purple2pink-2;
         // padding: 10px 0;
         @include mediaQuery.width-for-area;
     }
@@ -99,7 +109,16 @@
 
 @media (min-width: 769px) {
     .area-interaction,
-    .ul-comment {
+    .area-content .ul-comment {
         border-radius: 5px;
+        padding: 0;
+    }
+    .area-form {
+        .area-form-tools {
+            padding-right: 0;
+        }
+        .area-form-item {
+            padding: 0;
+        }
     }
 }

@@ -7,3 +7,19 @@
 @mixin bg-purple-1 {
     background-color: #7928ca;
 }
+
+@mixin bg-purple2pink-1 {
+    background: linear-gradient(90deg, #7928caff, #ff0080ff);
+}
+
+@mixin bg-purple2pink-2 {
+    background: linear-gradient(90deg, #7928ca33, #ff008033);
+}
+
+@mixin bg-purple2pink-3 {
+    background: linear-gradient(90deg, #7928ca20, #ff008020);
+}
+
+@mixin color-purple-1 {
+    color: #7928ca;
+}

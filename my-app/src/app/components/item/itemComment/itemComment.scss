@@ -20,12 +20,30 @@
         flex-grow: 1;
         // background: #eee; // wtest
         .area-reply {
-            @include replyStyle.area-reply
+            @include replyStyle.area-reply;
+            .reply-author {
+                display: flex;
+                align-items: center;
+                .lucide {
+                    width: 16px;
+                    height: 16px;
+                    margin-right: 10px;
+                }
+            }
         }
     }
+    .comment-tools {
+        display: flex;
+    }
     .btn-reply,
-    .btn-delete {
+    .btn-delete,
+    .btn-like,
+    .btn-favorite {
         padding: 0 6px;
+        display: flex;
+        .count {
+            margin-left: 6px;
+        }
     }
 
     .comment-info {
@@ -36,6 +54,11 @@
             display: flex;
             > span {
                 margin-left: 6px;
+            }
+        }
+        .comment-tools {
+            .btn-delete {
+                color: #f00;
             }
         }
     }

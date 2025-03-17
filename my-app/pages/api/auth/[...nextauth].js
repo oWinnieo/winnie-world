@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { userInfoHandler, userCheckedHandler, userInfoHandlerAfterLogin } from './userInfoHandler'
 
-export const authOptions = {
+ const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -74,8 +74,9 @@ export const authOptions = {
       session.user.refreshToken = token.refreshToken;
       /* wtest userInfo handler */
       const resUserInfo = await userInfoHandlerAfterLogin({ user: session.user })
-      console.log('resUserInfo', resUserInfo)
+      // console.log('resUserInfo', resUserInfo)
       /* /wtest userInfo handler */
+      // wtest here 这里的数据准备处理后,和session结合并存进sessionStorage,时机?登录时?刷新页面是?
       
       return {
         ...session,
@@ -127,11 +128,13 @@ export const authOptions = {
   baseUrl: process.env.NEXTAUTH_URL, // optional wtest
 };
 
-export default NextAuth(authOptions);
-/* wtest *
+/* wtest */
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST, authOptions };
+// export const aaa = 'aaa wtest';
 /* /wtest */
+export default NextAuth(authOptions);
+
 
 // import NextAuth from "next-auth";
 //   //  import Providers from "next-auth/providers";

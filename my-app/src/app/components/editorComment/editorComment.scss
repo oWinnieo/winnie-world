@@ -18,6 +18,7 @@
             @include colorStyle.bg-purple-1;
         }
         .area-reply {
+            display: flex;
             @include replyStyle.area-reply;
         }
     }

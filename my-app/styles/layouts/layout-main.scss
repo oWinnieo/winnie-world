@@ -1,4 +1,5 @@
 @use '@styles/components/media-query.scss' as mediaQuery;
+@use '@styles/base/color.scss' as colorStyle;
 @mixin page-wrap {
     padding: 10px 0;
 }
@@ -13,9 +14,9 @@
 }
 
 @mixin bg-main-33 {
-    background: linear-gradient(90deg, #7928ca33, #ff008033);
+    @include colorStyle.bg-purple2pink-2;
 }
 
 @mixin bg-main-ff {
-    background: linear-gradient(90deg, #7928caff, #ff0080ff);
+    @include colorStyle.bg-purple2pink-1;
 }
