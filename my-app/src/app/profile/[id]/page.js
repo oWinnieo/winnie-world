@@ -2,11 +2,9 @@ import { PageWrap } from '@components/pageWrap/pageWrap'
 import { UserProfile } from '@components/userProfile/userProfile'
 import { tipsConst } from '@/constants/tipsConst'
 const getOneItem = async (params) => {
-    // console.log('params', params)
     const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=one&userId=${params.id}`, {
         cache: 'no-store',
       }).then(res => res.json())
-    //   console.log('data >>>', data)
     return data
 }
 export default async function Profile ({ params }) {

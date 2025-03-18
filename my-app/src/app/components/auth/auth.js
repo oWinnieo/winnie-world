@@ -33,7 +33,7 @@ export const Auth = ({ session }) => {
             {/* <button onClick={signOutHandler}>clear token wtest</button> */}
             {session ? (
                 <>
-                    <p className="auth-welcome">Welcome, {session.user.name}!</p>
+                    <p className="auth-welcome">Welcome{session?.user?.name ? `, ${session.user.name}` : ''}!</p>
                     <span className="btn-auth-avatar" onClick={toggleNav}>
                         <AvatarOfUser
                             srcImage={session.user.image}

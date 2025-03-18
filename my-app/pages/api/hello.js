@@ -14,16 +14,6 @@
 //   sslKey: '/path/to/client-key.pem'    // 客户端密钥（可选）
 // };
 
-// mongoose.connect(uri, options)
-//   .then(() => {
-//     console.log('Connected to MongoDB with SSL!');
-//   })
-//   .catch(err => {
-//     console.error('SSL connection error:', err);
-//   });
-// ~~~~~~~~~~~
-// const mongoose = require('mongoose');
-// // console.log('mongoose', JSON.stringify(mongoose))
 
 // // wtest mongodb://<username>:<password>@<hostname>:<port>/<database>
 // mongoose.connect('mongodb://learner1:123123@23.158.24.24:22333/learning_english', {

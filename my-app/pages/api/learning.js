@@ -49,12 +49,13 @@ import { modelComment } from '../../models/comment';
 import { modelLike } from 'models/like'; // wtest
 import { modelFavorite } from 'models/favorite'; // wtest
 import { modelUser } from '../../models/users';
-/* wtest auth mock wtest here server session */
+/* wtest auth mock wtest here server *
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
 /* /wtest auth mock */
 /* wtest auth mock */
-import { userInfo } from '@/constants/userInfo' // wtest mock
+// import { userInfo } from '@/constants/userInfo' // wtest mock
+import { getSession } from './getSession'
 /* /wtest auth mock */
 
 const getItemAuthor_Of1ListItem = async ({ items, model, fieldsFor_UserQuery }) => {
@@ -90,7 +91,7 @@ const getCommentRepliedToComment_Of1ListItem = async ({ items, model, fieldsFor_
         interactExistsFavorite } = await getLikeFavoriteStatus_Of1Item_For1User({
         id: item._id,
         collectionName: 'comment',
-        userId: session.user.userId
+        userId: session?.user?.userId
       })
       const {
         countLike,
@@ -100,16 +101,6 @@ const getCommentRepliedToComment_Of1ListItem = async ({ items, model, fieldsFor_
         collectionName: 'comment', // wtest : 'english',
         gettingType: 'count'
       })
-      // console.log(
-      //   'item', item,
-      //   'aha', '??',
-      //   'session', session ? session : '??',
-      //   // 'session.user.userId', session.user.userId
-      //   'interactExistsLike', interactExistsLike,
-      //   'interactExistsFavorite', interactExistsFavorite,
-      //   'countLike', countLike,
-      //   'countFavorite', countFavorite
-      // )
       return {
         ...item,
         likeStatus: !!interactExistsLike,
@@ -164,6 +155,13 @@ const getLikeFavoriteStatus_Of1Item_For1User = async ({
   collectionName,
   userId
 }) => {
+  console.log('wtest fetch item >>>>>>>>>>>>>>>>>>>>>>>>>>>> 2', userId)
+  if (!userId) {
+    return {
+      interactExistsLike: false,
+      interactExistsFavorite: false
+    }
+  }
   const interactExistsLike = await modelLike.exists({
     belongToItemId: id,
     belongToItemCollection: collectionName,
@@ -174,9 +172,6 @@ const getLikeFavoriteStatus_Of1Item_For1User = async ({
     belongToItemCollection: collectionName,
     authorId: userId
    }).lean();
-  //  console.log('interactExists_Like', interactExists_Like,
-  //   'interactExists_Favorite', interactExists_Favorite
-  //  )
    return {
     interactExistsLike,
     interactExistsFavorite
@@ -222,10 +217,6 @@ const getLikeFavorite_Of1Item = async ({
       .limit(limitNumParam)
       .sort({ createdAt: -1 })
       .lean() // 获取所有item
-      // console.log('aha', {
-      //   likeForThisItem,
-      //   favForThisItem
-      // })
       return {
         likeForThisItem,
         favForThisItem
@@ -254,26 +245,14 @@ const getCommentCount_Of1List_OfItem = async ({
         belongToItemId: item._id,
         gettingType: 'count'
       })
-      // if (item.title === 'ABC123') {
-        const {
-          countLike,
-          countFavorite
-        } = await getLikeFavorite_Of1Item({
-          id: item._id,
-          collectionName: collectionName,
-          gettingType: 'count'
-        })
-        // console.log({
-        //   type: 'wtest set value 2 >>>>>>',
-        //   wtest_d,
-        //   collectionName,
-        //   itemId: item?._id,
-        //   itemTitle: item.title,
-        //   countComment,
-        //   // countLike: countLike ? countLike : 0, // wtest likeCount,
-        //   // countFavorite: countFavorite ? countFavorite : 0, // wtest favoriteCount
-        // }) // wtest
-      // }
+      const {
+        countLike,
+        countFavorite
+      } = await getLikeFavorite_Of1Item({
+        id: item._id,
+        collectionName: collectionName,
+        gettingType: 'count'
+      })
       return {
         ...item,
         countComment,
@@ -284,21 +263,6 @@ const getCommentCount_Of1List_OfItem = async ({
   )
   return res
 }
-
-
-// const interactInfoOfInteractor = async ({ params, session }) => {
-//     const resLike = await fetch(`${params.urlDomain}?collectionName=like&belongToItemId=${params.data.id}&belongToItemCollection=${params.collectionName}&interactorId=${session.user.userId}`, {
-//         cache: 'no-store'
-//     }).then(res => res.json())
-//     const resFavorite = await fetch(`${params.urlDomain}?collectionName=favorite&belongToItemId=${params.data.id}&belongToItemCollection=${params.collectionName}&interactorId=${session.user.userId}`, {
-//         cache: 'no-store'
-//     }).then(res => res.json())
-//     console.log('resLike', resLike, 'resFavorite', resFavorite)
-// }
-// useEffect(() => {
-//     const aa = interactInfoOfInteractor({ params, session })
-//     console.log('aa', aa)
-// }, [])
 
 const getLikeCountOf1ListOfItem = async ({
   items,
@@ -315,23 +279,10 @@ const getLikeCountOf1ListOfItem = async ({
 }
 
 export default async function handler(req, res) {
-  console.log('handler')
-  /* wtest auth mock */
-  const session = await getServerSession(req, res, authOptions);
-  /* /wtest auth mock */
-  /* wtest auth mock * // wtest here session 服务端的没有获取到, why
-  const session = {
-    user: userInfo
-    // user: {}
-  }
-  /* /wtest auth mock */
-  console.log('session (from_ getServerSession) >>>>>>>>------------------', session)
-
   const { method } = req;
   const { collectionName, fetchType, id, group, belongToItemCollection, belongToItemId, skipNum, limitNum } = req.query
   let skipNumParam = skipNum ? skipNum : undefined
   let limitNumParam = limitNum ? limitNum : undefined
-  // console.log('wtest req.query >>>>>>>>> 111', req.query)
   let modelTarget
   switch (collectionName) {
     case 'english':
@@ -370,26 +321,22 @@ export default async function handler(req, res) {
                 belongToItemCollection &&
                 belongToItemId
               ) {
-                // console.log('wtest if <<< list, comment, >>>', 'belongToItemCollection', belongToItemCollection, 'belongToItemId', belongToItemId)
+                const session = await getSession({ req, res }) // wtest auth mock
                 const commentReplied = await getComments_Of1Item({
                   model: modelTarget,
                   belongToItemCollection,
                   belongToItemId,
                   session
                 })
-                // console.log('commentReplied', commentReplied)
                 res.status(200).json({ success: true, data: commentReplied, skipNum: skipNumParam, limitNum: limitNumParam });
               } else {
-                // console.log('no 123 ----------- belongToItemCollection', 'collectionName', collectionName)
                 const { userId } = req.query
                 const listOfItem = await modelTarget.find({
                   authorId: userId
                 })
-                // console.log('listOfItem >>>', 'collectionName', collectionName, listOfItem, 'colInteract', colInteract)
                 if(colInteract.includes(collectionName)) {
                   const listOfItemWithBelongToItemInfo = await Promise.all(
                     listOfItem.map(async (item) => {
-                      // console.log('item', item)
                       const itemTemp = item.toObject()
                       let modelItemFor1User
                       switch (itemTemp.belongToItemCollection) {
@@ -419,7 +366,6 @@ export default async function handler(req, res) {
                       return itemNew
                     })
                   )
-                  // console.log('listOfItemWithBelongToItemInfo', listOfItemWithBelongToItemInfo)
                   res.status(200).json({ success: true, data: listOfItemWithBelongToItemInfo, skipNum: skipNumParam, limitNum: limitNumParam });
                 } else {
                   res.status(200).json({ success: true, data: listOfItem, skipNum: skipNumParam, limitNum: limitNumParam });
@@ -471,10 +417,8 @@ export default async function handler(req, res) {
           res.status(400).json({ success: false });
         }
       } else if (fetchType === 'one') {
-        // console.log('wtest waiting --------------->', collectionName, fetchType) // wtest modelTarget
         if (collectionName === 'user') {
             const { userId, email } = req.query;
-            // console.log('collectionName -----------------> 123', collectionName, fetchType, userId)
             try {
                 const user = await modelTarget.findOne({ userId })
                 // console.log('user', user)
@@ -488,17 +432,18 @@ export default async function handler(req, res) {
             }
         } else {
             try {
-              // console.log('wtest fetch item >>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+              console.log('wtest waiting --------------->', collectionName, fetchType) // wtest modelTarget
                 const learningItem = await modelTarget.findOne({ _id: id }).lean();
                 if (colLearning.includes(collectionName)) {
                   const user = await modelUser.findOne({ userId: learningItem.authorId })
                   /* wtest */
-                  // console.log('id', id, 'collectionName', collectionName, 'session', session )
+                  const session = await getSession({ req, res }) // wtest auth mock
+                  console.log('session', session)
                   const { interactExistsLike,
                     interactExistsFavorite } = await getLikeFavoriteStatus_Of1Item_For1User({
                     id,
                     collectionName,
-                    userId: session.user.userId
+                    userId: session?.user?.userId
                   })
                   const {
                     countLike,
@@ -508,28 +453,18 @@ export default async function handler(req, res) {
                     collectionName,
                     gettingType: 'count'
                   })
-                  // console.log(
-                  //   'wtest set value 1 >>>>>>',
-                  //   'id', id,
-                  //   'collectionName', collectionName,
-                  //   'learningItem', learningItem,
-                  //   'countLike', countLike,
-                  //   'countFavorite', countFavorite
-                  // )
                   /* /wtest */
-                  // console.log('learningItem >>>>>>>>>>', learningItem)
                   res.status(200).json({ success: true, data: {
                     ...learningItem,
                     authorInfo: user,
                     likeStatus: !!interactExistsLike,
                     favoriteStatus: !!interactExistsFavorite,
-                    like: countLike,
-                    favorite: countFavorite
+                    like: countLike ? countLike : 0,
+                    favorite: countFavorite ? countFavorite : 0
                   } });
                 } else {
                   res.status(200).json({ success: true, data: learningItem });
                 }
-                // console.log('learningItem', learningItem)
             } catch (err) {
                 res.status(400).json({ success: false });
             }
@@ -541,21 +476,13 @@ export default async function handler(req, res) {
     case 'POST': // wtest here有的时候可以有的时候不行,为什么???
       try {
         const { authorId, belongToItemId, belongToItemCollection } = req.body // wtest here 和上面来自不同的fetch,所以query不同?
-        // console.log('modelTarget ---------->', modelTarget,
-          // 'req.body', req.body,
-          // 'collectionName', collectionName)
         if (colLikeOrFav.includes(collectionName) || collectionName === 'user') {
-            // console.log('wtest -------->>>>>> authorId', authorId,
-              // 'belongToItemId', belongToItemId,
-              // 'belongToItemCollection', belongToItemCollection
-            // )
           // 查询是否存在符合条件的条目
           const interactExists = await modelTarget.exists({
             belongToItemId,
             belongToItemCollection,
             authorId
            }).lean();
-           // console.log('interactExists', interactExists, 'modelTarget', modelTarget)
           const msgSet = collectionName === 'like' ? 'like success' : 'favorite success'
           const msgUnset = collectionName === 'like' ? 'unlike success' : 'unfavorite success'
           if (interactExists) {
