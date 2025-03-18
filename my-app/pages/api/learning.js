@@ -49,13 +49,15 @@ import { modelComment } from '../../models/comment';
 import { modelLike } from 'models/like'; // wtest
 import { modelFavorite } from 'models/favorite'; // wtest
 import { modelUser } from '../../models/users';
-/* wtest auth mock wtest here server *
-import { getServerSession } from "next-auth";
+/* wtest auth mock wtest here server */
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "./auth/[...nextauth]";
 /* /wtest auth mock */
 /* wtest auth mock */
 // import { userInfo } from '@/constants/userInfo' // wtest mock
-import { getSession } from './getSession'
+// import { getSession } from './getSession'
 /* /wtest auth mock */
 
 const getItemAuthor_Of1ListItem = async ({ items, model, fieldsFor_UserQuery }) => {
@@ -321,7 +323,8 @@ export default async function handler(req, res) {
                 belongToItemCollection &&
                 belongToItemId
               ) {
-                const session = await getSession({ req, res }) // wtest auth mock
+                // const session = await getSession({ req, res }) // wtest auth mock
+                const session = await getServerSession(req, res, authOptions) // wtest auth mock
                 const commentReplied = await getComments_Of1Item({
                   model: modelTarget,
                   belongToItemCollection,
@@ -437,7 +440,8 @@ export default async function handler(req, res) {
                 if (colLearning.includes(collectionName)) {
                   const user = await modelUser.findOne({ userId: learningItem.authorId })
                   /* wtest */
-                  const session = await getSession({ req, res }) // wtest auth mock
+                  // const session = await getSession({ req, res }) // wtest auth mock
+                  const session = await getServerSession(req, res, authOptions)
                   console.log('session', session)
                   const { interactExistsLike,
                     interactExistsFavorite } = await getLikeFavoriteStatus_Of1Item_For1User({
