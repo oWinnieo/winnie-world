@@ -52,11 +52,9 @@ import { modelUser } from '../../models/users';
 /* wtest auth mock wtest here server */
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "./auth/[...nextauth]";
 /* /wtest auth mock */
 /* wtest auth mock */
-// import { userInfo } from '@/constants/userInfo' // wtest mock
+import { userInfo } from '@/constants/userInfo' // wtest mock
 // import { getSession } from './getSession'
 /* /wtest auth mock */
 
@@ -74,7 +72,7 @@ const getItemAuthor_Of1ListItem = async ({ items, model, fieldsFor_UserQuery }) 
   return learningItemsWithAuthor
 }
 
-const getCommentRepliedToComment_Of1ListItem = async ({ items, model, fieldsFor_CommentQuery, fieldsFor_UserQuery, session }) => {
+const getCommentRepliedToComment_Of1ListItem = async ({ items, model, fieldsFor_CommentQuery, fieldsFor_UserQuery, sessionUserId }) => {
   const replyToCommentIdArr  = items.map(item => item.replyToCommentId).filter(item1 => item1 !== undefined)
   const replyToCommentArr = await model.find({
     _id: { $in: replyToCommentIdArr }
@@ -93,7 +91,7 @@ const getCommentRepliedToComment_Of1ListItem = async ({ items, model, fieldsFor_
         interactExistsFavorite } = await getLikeFavoriteStatus_Of1Item_For1User({
         id: item._id,
         collectionName: 'comment',
-        userId: session?.user?.userId
+        sessionUserId
       })
       const {
         countLike,
@@ -125,7 +123,7 @@ const getComments_Of1Item = async ({
   limitNumParam,
   fieldsFor_CommentQuery,
   fieldsFor_UserQuery,
-  session }) => {
+  sessionUserId }) => {
   if (gettingType === 'count') {
     const countComment = await model.countDocuments({
       belongToItemCollection,
@@ -148,17 +146,17 @@ const getComments_Of1Item = async ({
     .lean() // 获取所有item
   
   const commentItemsWithAuthor = await getItemAuthor_Of1ListItem({ items: commentItems, model: modelUser, fieldsFor_UserQuery })
-  const commentReplied = await getCommentRepliedToComment_Of1ListItem({ items: commentItemsWithAuthor, model: modelComment, fieldsFor_CommentQuery, session })
+  const commentReplied = await getCommentRepliedToComment_Of1ListItem({ items: commentItemsWithAuthor, model: modelComment, fieldsFor_CommentQuery, sessionUserId })
   return commentReplied
 }
 
 const getLikeFavoriteStatus_Of1Item_For1User = async ({
   id,
   collectionName,
-  userId
+  sessionUserId
 }) => {
   // console.log('wtest fetch item >>>>>>>>>>>>>>>>>>>>>>>>>>>> 2', userId)
-  if (!userId) {
+  if (!sessionUserId) {
     return {
       interactExistsLike: false,
       interactExistsFavorite: false
@@ -167,12 +165,12 @@ const getLikeFavoriteStatus_Of1Item_For1User = async ({
   const interactExistsLike = await modelLike.exists({
     belongToItemId: id,
     belongToItemCollection: collectionName,
-    authorId: userId
+    authorId: sessionUserId
    }).lean();
    const interactExistsFavorite = await modelFavorite.exists({
     belongToItemId: id,
     belongToItemCollection: collectionName,
-    authorId: userId
+    authorId: sessionUserId
    }).lean();
    return {
     interactExistsLike,
@@ -282,7 +280,7 @@ const getLikeCountOf1ListOfItem = async ({
 
 export default async function handler(req, res) {
   const { method } = req;
-  const { collectionName, fetchType, id, group, belongToItemCollection, belongToItemId, skipNum, limitNum } = req.query
+  const { collectionName, fetchType, id, group, belongToItemCollection, belongToItemId, skipNum, limitNum, sessionUserId } = req.query
   let skipNumParam = skipNum ? skipNum : undefined
   let limitNumParam = limitNum ? limitNum : undefined
   let modelTarget
@@ -324,13 +322,13 @@ export default async function handler(req, res) {
                 belongToItemId
               ) {
                 // const session = await getSession({ req, res }) // wtest auth mock
-                const session = await getServerSession(req, res, authOptions) // wtest auth mock
-                console.log('session for list, comment >>> --------------->', session ? session : null)
+                // const session = await getServerSession(req, res, authOptions) // wtest auth mock
+                console.log('sessionUserId for list, comment >>> --------------->', sessionUserId ? sessionUserId : null)
                 const commentReplied = await getComments_Of1Item({
                   model: modelTarget,
                   belongToItemCollection,
                   belongToItemId,
-                  session
+                  sessionUserId
                 })
                 res.status(200).json({ success: true, data: commentReplied, skipNum: skipNumParam, limitNum: limitNumParam });
               } else {
@@ -441,14 +439,13 @@ export default async function handler(req, res) {
                 if (colLearning.includes(collectionName)) {
                   const user = await modelUser.findOne({ userId: learningItem.authorId })
                   /* wtest */
-                  // const session = await getSession({ req, res }) // wtest auth mock
-                  const session = await getServerSession(req, res, authOptions)
-                  console.log('session for one, not user >>> --------------->', session ? session : null)
+                  // const session = await getServerSession(req, res, authOptions)
+                  console.log('sessionUserId for one, not user >>> --------------->', sessionUserId ? sessionUserId : null)
                   const { interactExistsLike,
                     interactExistsFavorite } = await getLikeFavoriteStatus_Of1Item_For1User({
                     id,
                     collectionName,
-                    userId: session?.user?.userId
+                    sessionUserId
                   })
                   const {
                     countLike,

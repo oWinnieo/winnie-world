@@ -18,7 +18,7 @@ import { getSession } from '../../../../pages/api/getSession'
 import './style.scss'
 
 const getOneItem = async (params) => {
-  const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}`, {
+  const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}&sessionUserId=${params.sessionUserId}`, {
       cache: 'no-store', // 等效于 SSR 的行为
       credentials: "include"
       }).then(res => res.json());
@@ -26,7 +26,7 @@ const getOneItem = async (params) => {
   return data
 }
 const getListData = async (params) => {
-  const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&belongToItemCollection=${params.belongToItemCollection}&belongToItemId=${params.belongToItemId}`, {
+  const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&belongToItemCollection=${params.belongToItemCollection}&belongToItemId=${params.belongToItemId}&sessionUserId=${params.sessionUserId}`, {
     cache: 'no-store',
     credentials: "include"
   }).then(res => res.json())
@@ -50,14 +50,16 @@ export default async function Post({ params }) {
   const data = await getOneItem({
     urlDomain,
     collectionName: slug[0],
-    id: slug[1]
+    id: slug[1],
+    sessionUserId: session?.user?.userId
   });
   // console.log('data post wtest >>>>>>>', data) // wtest here 250318 why undefined
   const comments = await getListData({
     urlDomain,
     collectionName: 'comment',
     belongToItemCollection: slug[0],
-    belongToItemId: slug[1]
+    belongToItemId: slug[1],
+    sessionUserId: session?.user?.userId
   })
   // console.log('comments >>>>>>>>>>>>>>>>>>>...', comments)
 
