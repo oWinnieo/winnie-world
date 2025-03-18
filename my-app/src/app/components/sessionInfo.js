@@ -6,12 +6,12 @@ export const sessionInfo = () => {
     const { data: session } = useSession(); // wtest auth
     /* wtest auth mock *
     const session = {
-        // user: userInfo
-        user: {}
+        user: userInfo
+        // user: {}
     }
     // console.log('userInfo', userInfo)
     /* /wtest auth mock */
-    console.log('session (from_ sessionInfo)', session)
+    // console.log('session (from_ sessionInfo)', session)
     return session
 }
 

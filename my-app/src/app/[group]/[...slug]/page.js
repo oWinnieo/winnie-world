@@ -20,12 +20,15 @@ import './style.scss'
 const getOneItem = async (params) => {
   const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}`, {
       cache: 'no-store', // 等效于 SSR 的行为
+      credentials: "include"
       }).then(res => res.json());
+      console.log('aha data', data)
   return data
 }
 const getListData = async (params) => {
   const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&belongToItemCollection=${params.belongToItemCollection}&belongToItemId=${params.belongToItemId}`, {
     cache: 'no-store',
+    credentials: "include"
   }).then(res => res.json())
   // console.log('data', data)
   return data
@@ -49,7 +52,7 @@ export default async function Post({ params }) {
     collectionName: slug[0],
     id: slug[1]
   });
-  // console.log('data post wtest >>>>>>>', data)
+  // console.log('data post wtest >>>>>>>', data) // wtest here 250318 why undefined
   const comments = await getListData({
     urlDomain,
     collectionName: 'comment',

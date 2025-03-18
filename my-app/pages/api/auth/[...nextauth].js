@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { userInfoHandler, userCheckedHandler, userInfoHandlerAfterLogin } from './userInfoHandler'
 
- const authOptions = {
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -130,7 +130,7 @@ import { userInfoHandler, userCheckedHandler, userInfoHandlerAfterLogin } from '
 
 /* wtest */
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST, authOptions };
+export { handler as GET, handler as POST };
 // export const aaa = 'aaa wtest';
 /* /wtest */
 export default NextAuth(authOptions);
