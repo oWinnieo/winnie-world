@@ -315,6 +315,18 @@ const getLikeCountOf1ListOfItem = async ({
 }
 
 export default async function handler(req, res) {
+  console.log('handler')
+  /* wtest auth mock */
+  const session = await getServerSession(req, res, authOptions);
+  /* /wtest auth mock */
+  /* wtest auth mock * // wtest here session 服务端的没有获取到, why
+  const session = {
+    user: userInfo
+    // user: {}
+  }
+  /* /wtest auth mock */
+  console.log('session (from_ getServerSession) >>>>>>>>------------------', session)
+
   const { method } = req;
   const { collectionName, fetchType, id, group, belongToItemCollection, belongToItemId, skipNum, limitNum } = req.query
   let skipNumParam = skipNum ? skipNum : undefined
@@ -349,15 +361,6 @@ export default async function handler(req, res) {
   }
 
   await dbConnect();
-  /* wtest auth mock */
-  const session = await getServerSession(req, res, authOptions);
-  /* /wtest auth mock */
-  /* wtest auth mock *
-  const session = {
-    user: userInfo
-    // user: {}
-  }
-  /* /wtest auth mock */
   switch (method) {
     case 'GET':
       if (fetchType === 'list') {
@@ -367,7 +370,7 @@ export default async function handler(req, res) {
                 belongToItemCollection &&
                 belongToItemId
               ) {
-                console.log('wtest if <<< list, comment, >>>', 'belongToItemCollection', belongToItemCollection, 'belongToItemId', belongToItemId)
+                // console.log('wtest if <<< list, comment, >>>', 'belongToItemCollection', belongToItemCollection, 'belongToItemId', belongToItemId)
                 const commentReplied = await getComments_Of1Item({
                   model: modelTarget,
                   belongToItemCollection,
