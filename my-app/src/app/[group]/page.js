@@ -7,6 +7,10 @@ import { ItemListNav } from '@/app/components/item/itemListNav/itemListNav'
 import { useGlobal } from "@/app/contexts/GlobalContext";
 import { userInfoHandlerAfterLogin } from '../../../pages/api/auth/userInfoHandler' // wtest
 import { userInfo } from '@/constants/userInfo' // wtest mock
+// import { ModTest } from '@components/forTesting/modTest'
+import { getServerSession } from "next-auth";
+import { authOptions } from '../../../pages/api/auth/[...nextauth]'
+// ./auth/[...nextauth]";
 
 import Link from 'next/link'
 import '../../../styles/components/list.scss'
@@ -38,6 +42,9 @@ const getListData = async (params) => { // wtest waiting
 }
 
 export default async function Area ({ params }) {
+    console.log('area page >>>>>>')
+    const session = await getServerSession(authOptions);
+    console.log('session in area page ------>>>', session)
     const { group } = await params
     /* wtest userInfo handler *
     const session = {
@@ -59,6 +66,10 @@ export default async function Area ({ params }) {
             <AreaTitle>{titleDisplay({ name: group,  suffix: 'area' })}</AreaTitle>
             {
                 group === 'management' &&
+                <>
+                wtest
+                {/* <ModTest
+                    urlDomain={urlDomain}></ModTest> */}
                 <ItemEditor
                     params={
                     {
@@ -69,6 +80,7 @@ export default async function Area ({ params }) {
                     }
                     }
                 ></ItemEditor>
+                </>
             }
             <ul className="ul-list-nav">
                 {
