@@ -10,6 +10,8 @@ import { userInfo } from '@/constants/userInfo' // wtest mock
 // import { ModTest } from '@components/forTesting/modTest'
 import { getServerSession } from "next-auth";
 import { authOptions } from '../../../pages/api/auth/[...nextauth]'
+import { getSession } from '../../../pages/api/getSession'
+// './getSession'
 // ./auth/[...nextauth]";
 
 import Link from 'next/link'
@@ -43,8 +45,9 @@ const getListData = async (params) => { // wtest waiting
 
 export default async function Area ({ params }) {
     console.log('area page >>>>>>')
-    const session = await getServerSession(authOptions);
-    console.log('session in area page ------>>>', session)
+    // const session = await getServerSession(authOptions);
+    const session = await getSession() // wtest auth mock
+    console.log('session in area page ------>>> 123', session)
     const { group } = await params
     /* wtest userInfo handler *
     const session = {

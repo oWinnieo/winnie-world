@@ -5,11 +5,9 @@ import { userInfo } from '@/constants/userInfo' // wtest mock
 /* /wtest auth mock */
 
 
-export const getSession = async ({
-    req, res
-}) => {
+export const getSession = async () => {
     /* wtest auth mock */
-    const session = await getServerSession(req, res, authOptions);
+    const session = await getServerSession(authOptions);
     /* /wtest auth mock */
     /* wtest auth mock *
     // wtest here session 服务端的没有获取到, why
