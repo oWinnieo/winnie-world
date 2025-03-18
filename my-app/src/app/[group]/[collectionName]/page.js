@@ -9,6 +9,7 @@ import { titleDisplay } from '@/lib/utils';
 import { learningItemConfig } from '@/constants/formConfig'
 import { ListOfCollection } from '@/app/components/list/listOfCollection/listOfCollection';
 import { htmlDecodeSlice, html2txt, strSliced } from '@/lib/utils';
+import { getSession } from '../../../../pages/api/getSession'
 // import { notFound } from 'next/navigation' // wtest notfound
 
 const getListData = async (params) => {
@@ -33,6 +34,10 @@ const getListData = async (params) => {
 }
 
 export default async function LearningArea ({ params }) {
+  /* wtest auth mock */
+  const session = await getSession() // wtest auth mock
+  console.log('session in area page ------>>> 123', session)
+  /* /wtest auth mock */
   // const { group, collectionName } = useParams()
     const { collectionName, group } = await params
     // console.log('collectionName', collectionName, 'group', group, 'colListNavGroup', colListNavGroup)
@@ -74,6 +79,7 @@ export default async function LearningArea ({ params }) {
                   collectionName={collectionName}
                   learningItemConfig={learningItemConfig}
                   listData={listData}
+                  session={session}
                 ></ListOfCollection>}
             </PageWrap>
         </>

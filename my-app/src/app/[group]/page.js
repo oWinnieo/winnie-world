@@ -5,11 +5,7 @@ import { titleDisplay } from '@/lib/utils';
 import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 import { ItemListNav } from '@/app/components/item/itemListNav/itemListNav'
 import { useGlobal } from "@/app/contexts/GlobalContext";
-import { userInfoHandlerAfterLogin } from '../../../pages/api/auth/userInfoHandler' // wtest
-import { userInfo } from '@/constants/userInfo' // wtest mock
-// import { ModTest } from '@components/forTesting/modTest'
-import { getServerSession } from "next-auth";
-import { authOptions } from '../../../pages/api/auth/[...nextauth]'
+// import { userInfoHandlerAfterLogin } from '../../../pages/api/auth/userInfoHandler' // wtest
 import { getSession } from '../../../pages/api/getSession'
 // './getSession'
 // ./auth/[...nextauth]";
@@ -46,17 +42,12 @@ const getListData = async (params) => { // wtest waiting
 export default async function Area ({ params }) {
     console.log('area page >>>>>>')
     // const session = await getServerSession(authOptions);
+    /* wtest auth mock */
     const session = await getSession() // wtest auth mock
     console.log('session in area page ------>>> 123', session)
+    /* /wtest auth mock */
     const { group } = await params
-    /* wtest userInfo handler *
-    const session = {
-        user: userInfo
-    }
-    const resUserInfo = await userInfoHandlerAfterLogin({ user: session.user })
-    console.log('resUserInfo', resUserInfo)
-    /* /wtest userInfo handler */
-    
+
     const urlDomain = process.env.URL_DOMAIN + '/api/learning'
     const listLearningFromApi = await getListData({
         group,
@@ -82,6 +73,7 @@ export default async function Area ({ params }) {
                         formConfig: listNavItemConfig, // wtest learningItemConfig // wtest listNavItemConfig,
                     }
                     }
+                    session={session}
                 ></ItemEditor>
                 </>
             }
@@ -93,6 +85,7 @@ export default async function Area ({ params }) {
                             key={index}
                             item={item}
                             urlDomain={urlDomain}
+                            session={session}
                         ></ItemListNav>
                     )) :
                     <li>no data</li>

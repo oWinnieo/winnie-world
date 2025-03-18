@@ -1,18 +1,15 @@
 'use client'
 import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 import { ListLearningItem } from '@/app/components/list/listLearningItem/listLearningItem'
-import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 export const ListOfCollection = ({
     urlDomain,
     group,
     collectionName,
     learningItemConfig,
-    listData
-}) => {
+    listData,
+    session
+}) => { // wtest session here
     // console.log('group', group)
-    /* wtest auth mock */
-    const session = sessionInfo()
-    /* /wtest auth mock */
     // const ifManageButNotAdmin = () => {
     //     return group === 'management' &&
     //         (session.user?.role === 'mainAdmin' || !session.user)
@@ -27,7 +24,7 @@ export const ListOfCollection = ({
         <>
             {accessStatus() ?
                 <>
-                    <ItemEditor
+                    <ItemEditor // wtest session
                         params={
                             {
                                 group, // wtest learning -> group
@@ -36,6 +33,7 @@ export const ListOfCollection = ({
                                 formConfig: learningItemConfig,
                             }
                         }
+                        session={session}
                     ></ItemEditor>
                     <ListLearningItem
                         params={
@@ -45,6 +43,7 @@ export const ListOfCollection = ({
                             }
                         }
                         listData={listData}
+                        session={session}
                     ></ListLearningItem>
                 </> :
                 <p>Only admins can see those data.</p>

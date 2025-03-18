@@ -1,12 +1,8 @@
 'use client'
 import { useState } from "react";
-import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 import './itemUser.scss'
-export const ItemUser = ({ status, item, isEditItem, ToggleAddItem, params, id }) => {
-    /* wtest auth mock */
-    const session = sessionInfo()
-    /* /wtest auth mock */
+export const ItemUser = ({ status, item, isEditItem, ToggleAddItem, params, id, session }) => {
     return (
         <div className="area-user">
             <div className="user-info">

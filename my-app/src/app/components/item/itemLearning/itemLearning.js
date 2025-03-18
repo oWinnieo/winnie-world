@@ -9,7 +9,6 @@ import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 /* /wtest pw */
-import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import { MessageSquareMore, UserRound, Heart, Star } from 'lucide-react'
 import './itemLearning.scss'
 
@@ -31,10 +30,7 @@ const itemDelete = async ({ params, id }) => {
     }
 }
 
-export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, collectionName, id, params, data }) => {
-    /* wtest auth mock */
-    const session = sessionInfo()
-    /* /wtest auth mock */
+export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, collectionName, id, params, data, session }) => {
     const itemUrl = `/learning/${collectionName}/${id}`
     /* wtest pw */
     const { showAlert } = useAlert()

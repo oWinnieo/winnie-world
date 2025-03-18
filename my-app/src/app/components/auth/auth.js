@@ -4,7 +4,6 @@ import { signIn, signOut } from "next-auth/react";
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 import { useRouter } from 'next/navigation';
 
-// import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import './auth.scss'
 export const Auth = ({ session }) => {
     // const getTesting = () => {

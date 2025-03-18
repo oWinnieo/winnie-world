@@ -1,7 +1,6 @@
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
 import { tipsConst } from '@/constants/tipsConst'
-// import { sessionInfoServer } from '@/app/components/sessionInfo' // wtest mock
 import Link from 'next/link'
 import dbConnect from '../../../../lib/db';
 import { modelEn,
@@ -15,6 +14,7 @@ import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 // import { notFound } from 'next/navigation' // wtest notfound
 import { collectionNameForLearning as colLearning, collectionNameManagement as colManagement } from '@/constants/collectionName' // wtest mock
 import { learningItemConfig } from '@/constants/formConfig'
+import { getSession } from '../../../../pages/api/getSession'
 import './style.scss'
 
 const getOneItem = async (params) => {
@@ -35,16 +35,16 @@ const getListData = async (params) => {
 }
 
 export default async function Post({ params }) {
+  /* wtest auth mock */
+  const session = await getSession() // wtest auth mock
+  console.log('session in area page ------>>> 123', session)
+  /* /wtest auth mock */
   const paramsArr = await params
   const slug = paramsArr.slug
   if (slug.length !== 2 || !colLearning.includes(slug[0])) {
     return <div>notFound</div>
     // // wtest notfound notFound()
   }
-  /* wtest *
-  const session = await sessionInfoServer(authOptions);
-  console.log('session', session)
-  /* /wtest */
 
   const urlDomain = `${process.env.URL_DOMAIN}/api/learning`
   const data = await getOneItem({
@@ -106,6 +106,7 @@ export default async function Post({ params }) {
                     },
                   }
                 }
+                session={session}
             ></ItemEditor>
           </div>
       {/* <div className="p-6 max-w-2xl mx-auto">

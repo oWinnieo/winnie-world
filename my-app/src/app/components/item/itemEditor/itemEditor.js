@@ -6,7 +6,6 @@ import { htmlDecode } from '@/lib/utils';
 import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
-import { sessionInfo } from '@/app/components/sessionInfo' // wtest mock
 import { ListNavItem } from '@components/list/listNavItem/listNavItem'
 import { ItemUser } from '@/app/components/item/itemUser/itemUser';
 import { ItemComment } from '@/app/components/item/itemComment/itemComment';
@@ -59,13 +58,10 @@ const interactClick = async ({ type, params, session, showAlert }) => {
     }
 }
 
-export const ItemEditor = ({ params, type }) => {
+export const ItemEditor = ({ params, type, session }) => {
     // console.log('wtest ItemEditor params >>>>>>>>>>>>>', params)
     // console.log('params.collectionName', params.collectionName)
     // console.log('params.urlDomain', params.urlDomain)
-    /* wtest auth mock */
-    const session = sessionInfo()
-    /* /wtest auth mock */
     const [ isEditItem, setIsEditItem ] = useState(false)
     const { showAlert } = useAlert()
     const { openModal } = useModal()
@@ -182,7 +178,8 @@ export const ItemEditor = ({ params, type }) => {
                                                     isEditItem={isEditItem}
                                                     ToggleAddItem={ToggleAddItem}
                                                     params={params}
-                                                    authorId={session?.user?.userId ? session.user.userId : undefined}></ItemUser> : null
+                                                    authorId={session?.user?.userId ? session.user.userId : undefined}
+                                                    session={session}></ItemUser> : null
                                         }   
                                     case 'learning':
                                         return params.data ? <div className="area-content-in">{htmlDecode(params.data.content)}</div> : null
@@ -230,6 +227,7 @@ export const ItemEditor = ({ params, type }) => {
                                             comment={comment}
                                             makeReply={makeReply}
                                             urlDomain={params.urlDomain}
+                                            session={session}
                                             // group={params.group}
                                             accessEditStatus={
                                                 userLoginedSameWithAuthor({

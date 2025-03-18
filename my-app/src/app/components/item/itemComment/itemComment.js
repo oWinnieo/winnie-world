@@ -10,7 +10,6 @@ import { ModalContent } from '@/app/components/modal/modalContent'
 /* /wtest pw */
 import { strSliced } from '@/lib/utils'
 import { UserRound, MessageCircleReply, CircleX, Heart, Star } from 'lucide-react'
-import { sessionInfo } from '@/app/components/sessionInfo'
 import './itemComment.scss'
 
 const itemDelete = async ({ params, id }) => {
@@ -69,11 +68,8 @@ const interactClick = async ({ type, params, session, showAlert }) => {
     }
 }
 
-export const ItemComment = ({ comment, makeReply, urlDomain, accessEditStatus, accessStatus }) => {
+export const ItemComment = ({ comment, makeReply, urlDomain, accessEditStatus, accessStatus, session }) => {
     // console.log('itemComment wtest auth', accessEditStatus, 'comment', comment)
-    /* wtest auth mock */
-    const session = sessionInfo()
-    /* /wtest auth mock */
     const { showAlert } = useAlert()
     const { openModal, closeModal } = useModal()
     const delConfirm = ({ nameForConfrom }) => {

@@ -3,7 +3,7 @@ import { ItemLearning } from '@/app/components/item/itemLearning/itemLearning'
 import { userItemConfig } from '@/constants/formConfig'
 import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 
-export const ListLearningItem = ({ params, listData }) => {
+export const ListLearningItem = ({ params, listData, session }) => { // wtest session here
     return (
         <ul>
             {!listData || listData.length === 0 ? <p>No Data</p> : listData.map(i => (
@@ -11,7 +11,7 @@ export const ListLearningItem = ({ params, listData }) => {
                     {/* <p>{JSON.stringify(i)}</p> */}
                     {
                         params.collectionName === 'user' ?
-                            <ItemEditor
+                            <ItemEditor // wtest session
                                 params={
                                     {
                                         group: 'management',
@@ -21,6 +21,7 @@ export const ListLearningItem = ({ params, listData }) => {
                                         data: i,
                                     }
                                 }
+                                session={session}
                             ></ItemEditor>
                             :
                             <ItemLearning
@@ -32,6 +33,7 @@ export const ListLearningItem = ({ params, listData }) => {
                                 id={i._id}
                                 params={params}
                                 data={i}
+                                session={session}
                             ></ItemLearning>
                     }
                 </li>
