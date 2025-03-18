@@ -9,7 +9,7 @@ export const getSession = async ({
     req, res
 }) => {
     /* wtest auth mock */
-    const session = await getServerSession(req, res, authOptions);
+    const session = await getServerSession(authOptions);
     /* /wtest auth mock */
     /* wtest auth mock *
     // wtest here session 服务端的没有获取到, why

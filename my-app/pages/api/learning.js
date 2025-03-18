@@ -155,7 +155,7 @@ const getLikeFavoriteStatus_Of1Item_For1User = async ({
   collectionName,
   userId
 }) => {
-  console.log('wtest fetch item >>>>>>>>>>>>>>>>>>>>>>>>>>>> 2', userId)
+  // console.log('wtest fetch item >>>>>>>>>>>>>>>>>>>>>>>>>>>> 2', userId)
   if (!userId) {
     return {
       interactExistsLike: false,
@@ -432,7 +432,7 @@ export default async function handler(req, res) {
             }
         } else {
             try {
-              console.log('wtest waiting --------------->', collectionName, fetchType) // wtest modelTarget
+              // console.log('wtest waiting --------------->', collectionName, fetchType) // wtest modelTarget
                 const learningItem = await modelTarget.findOne({ _id: id }).lean();
                 if (colLearning.includes(collectionName)) {
                   const user = await modelUser.findOne({ userId: learningItem.authorId })
