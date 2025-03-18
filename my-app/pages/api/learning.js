@@ -325,6 +325,7 @@ export default async function handler(req, res) {
               ) {
                 // const session = await getSession({ req, res }) // wtest auth mock
                 const session = await getServerSession(req, res, authOptions) // wtest auth mock
+                console.log('session for list, comment >>> --------------->', session ? session : null)
                 const commentReplied = await getComments_Of1Item({
                   model: modelTarget,
                   belongToItemCollection,
@@ -442,7 +443,7 @@ export default async function handler(req, res) {
                   /* wtest */
                   // const session = await getSession({ req, res }) // wtest auth mock
                   const session = await getServerSession(req, res, authOptions)
-                  console.log('session', session)
+                  console.log('session for one, not user >>> --------------->', session ? session : null)
                   const { interactExistsLike,
                     interactExistsFavorite } = await getLikeFavoriteStatus_Of1Item_For1User({
                     id,
