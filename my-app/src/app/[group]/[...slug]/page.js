@@ -22,7 +22,7 @@ const getOneItem = async (params) => {
       cache: 'no-store', // 等效于 SSR 的行为
       credentials: "include"
       }).then(res => res.json());
-      console.log('aha data', data)
+      // console.log('aha data', data)
   return data
 }
 const getListData = async (params) => {
@@ -37,7 +37,7 @@ const getListData = async (params) => {
 export default async function Post({ params }) {
   /* wtest auth mock */
   const session = await getSession() // wtest auth mock
-  console.log('session in area page ------>>> 123', session)
+  // console.log('session in area page ------>>> 123', session)
   /* /wtest auth mock */
   const paramsArr = await params
   const slug = paramsArr.slug
@@ -94,17 +94,19 @@ export default async function Post({ params }) {
                     collectionName: slug[0],
                     formConfig: learningItemConfig,
                     data: {
-                      title: data.title,
-                      authorInfo: data.authorInfo,
-                      content: data.content,
+                      ...data,
+                      // title: data.title,
+                      // authorInfo: data.authorInfo,
+                      // content: data.content,
                       id: slug[1],
-                      createdAt: data.createdAt,
-                      updatedAt: data.updatedAt,
+                      // createdAt: data.createdAt,
+                      // updatedAt: data.updatedAt,
                       comments: comments, // wtest,
-                      like: data.like,
-                      favorite: data.favorite,
-                      likeStatus: data.likeStatus,
-                      favoriteStatus: data.favoriteStatus
+                      // like: data.like,
+                      // favorite: data.favorite,
+                      // likeStatus: data.likeStatus,
+                      // favoriteStatus: data.favoriteStatus,
+                      // share: data.share
                     },
                   }
                 }

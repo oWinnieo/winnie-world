@@ -1,4 +1,5 @@
 'use client'
+import { usePathname } from "next/navigation"
 import { FormForLearningItem } from "./itemForm"
 import { EditorComment } from '@components/editorComment/editorComment'
 import { useState, useContext, useEffect } from 'react'
@@ -9,7 +10,7 @@ import { ModalContent } from '@/app/components/modal/modalContent'
 import { ListNavItem } from '@components/list/listNavItem/listNavItem'
 import { ItemUser } from '@/app/components/item/itemUser/itemUser';
 import { ItemComment } from '@/app/components/item/itemComment/itemComment';
-import { MessageSquareMore, Heart, Star } from 'lucide-react'
+import { MessageSquareMore, Heart, Star, Share2 } from 'lucide-react'
 import {
     ifLogined,
     userLoginedSameWithAuthor,
@@ -22,34 +23,43 @@ import './itemEditor.scss';
 // import MyContext from '@/app/contexts/MyContext' // wtest context
 
 const interactClick = async ({ type, params, session, showAlert }) => {
-    if (!session || !session.user || !session.user.userId) {
+    console.log('wtest interactClick ???', params, session, type)
+    // debugger;
+    if ((type === 'like' || type === 'favorite') && (!session || !session.user || !session.user.userId)) {
         showAlert({
             message: 'Please sign in to continue.'
         })
         return undefined
     }
+    const setAuthorId = () => {
+        if (type === 'like' || type === 'favorite') {
+            return session.user.userId
+        } else {
+            return session?.user?.userId ? session.user.userId : 'guest'
+        }
+    }
     const dataUpdated = {
         belongToItemId: params.data.id,
         belongToItemCollection: params.collectionName,
-        authorId: session.user.userId
+        authorId: setAuthorId()
     }
     try {
         // console.log('wtest waiting -----------------------> add', 'type', type, 'dataUpdated', dataUpdated)
-        
         // debugger;
-        const res = await fetch(`${params.urlDomain}?collectionName=${type}&belongToItemId=${params.belongToItemId}&belongToItemCollection=${params.belongToItemCollection}`, {
+        const res = await fetch(`${params.urlDomain}?collectionName=${type}`, {
+            // &belongToItemId=${params.belongToItemId}&belongToItemCollection=${params.belongToItemCollection} wtest
             method: 'POST',
             headers: {
                 "Content-type": 'application/json'
             },
             body: JSON.stringify({ ...dataUpdated }) // wtest user: params.user
         })
-        // console.log('res', res)
-        // debugger;
         const dataRes = await res.json();
+        console.log('dataRes', dataRes)
+        debugger;
         if (dataRes.success) {
             console.log(dataRes.message)
-            window.location.reload()
+            if (type !== 'share') window.location.reload()
         } else {
             throw new Error('Failed to create an item.')
         }
@@ -58,10 +68,26 @@ const interactClick = async ({ type, params, session, showAlert }) => {
     }
 }
 
+
+
 export const ItemEditor = ({ params, type, session }) => {
-    // console.log('wtest ItemEditor params >>>>>>>>>>>>>', params)
-    // console.log('params.collectionName', params.collectionName)
-    // console.log('params.urlDomain', params.urlDomain)
+    const pathName = usePathname()
+    const copyContentOfSharing = async ({ type, params, session, showAlert, url }) => {
+        try {
+            await navigator.clipboard.writeText(`${params?.data?.title ? params.data.title : ''}\n${url}`)
+            showAlert({
+                message: 'Copy successfully!',
+                type: 'success'
+            })
+            interactClick({ type: 'share', params, session, showAlert })
+        } catch(err) {
+            showAlert({
+                message: 'Copy failed!',
+                type: 'danger'
+            })
+        }
+    }
+    // console.log('wtest ItemEditor pathName >>>>>>>>>>>>>', pathName)
     const [ isEditItem, setIsEditItem ] = useState(false)
     const { showAlert } = useAlert()
     const { openModal } = useModal()
@@ -190,6 +216,12 @@ export const ItemEditor = ({ params, type, session }) => {
                 {params.data && // wtest params.group === 'management'
                 <div className="area-content-tools">
                     {params.group === 'learning' && (<>
+                        <button
+                            className="btn-share"
+                            onClick={() => copyContentOfSharing({ type: 'share', params, session, showAlert, url: `${window.location.origin}${pathName}` })}>
+                            <Share2 />
+                            <span className="count">({params.data.share})</span>
+                        </button>
                         <button className="btn-comment">
                             <MessageSquareMore />
                             <span className="count">({params.data.comments?.length})</span>

@@ -36,7 +36,7 @@ const getListData = async (params) => {
 export default async function LearningArea ({ params }) {
   /* wtest auth mock */
   const session = await getSession() // wtest auth mock
-  console.log('session in area page ------>>> 123', session)
+  // console.log('session in area page ------>>> 123', session)
   /* /wtest auth mock */
   // const { group, collectionName } = useParams()
     const { collectionName, group } = await params

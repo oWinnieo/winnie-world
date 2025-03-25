@@ -44,7 +44,7 @@ export default async function Area ({ params }) {
     // const session = await getServerSession(authOptions);
     /* wtest auth mock */
     const session = await getSession() // wtest auth mock
-    console.log('session in area page ------>>> 123', session)
+    // console.log('session in area page ------>>> 123', session)
     /* /wtest auth mock */
     const { group } = await params
 

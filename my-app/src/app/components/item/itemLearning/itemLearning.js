@@ -9,7 +9,7 @@ import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 /* /wtest pw */
-import { MessageSquareMore, UserRound, Heart, Star } from 'lucide-react'
+import { MessageSquareMore, UserRound, Heart, Star, Share2 } from 'lucide-react'
 import './itemLearning.scss'
 
 const itemDelete = async ({ params, id }) => {
@@ -88,6 +88,11 @@ export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, coll
                     <span className="item-title">{title}</span>
                 </span>
                 <span className="item-info-2">
+                    {data.countShare !== 0 &&
+                    <span>
+                        <Share2 />
+                        <span className="count">({data.countShare})</span>
+                    </span>}
                     {data.countComment !== 0 &&
                     <span>
                         <MessageSquareMore />

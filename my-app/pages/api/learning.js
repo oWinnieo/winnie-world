@@ -37,7 +37,8 @@ import dbConnect from '../../lib/db';
 import {
   collectionNameForLearning as colLearning,
   collectionNameLikeOrFavorite as colLikeOrFav,
-  collectionNameInteraction as colInteract
+  collectionNameInteraction as colInteract,
+  collectionNameShare as colShare
 } from '../../src/constants/collectionName' // wtest mock
 import { modelEn,
   modelJp,
@@ -48,6 +49,7 @@ import { modelListNav } from "../../models/listNav";
 import { modelComment } from '../../models/comment';
 import { modelLike } from 'models/like'; // wtest
 import { modelFavorite } from 'models/favorite'; // wtest
+import { modelShare } from 'models/share'; // wtest
 import { modelUser } from '../../models/users';
 /* wtest auth mock wtest here server */
 import { getServerSession } from "next-auth/next";
@@ -95,7 +97,8 @@ const getCommentRepliedToComment_Of1ListItem = async ({ items, model, fieldsFor_
       })
       const {
         countLike,
-        countFavorite
+        countFavorite,
+        countShare
       } = await getLikeFavorite_Of1Item({
         id: item._id, // wtest : '67d2ee5454aafd63f8cc1e76',
         collectionName: 'comment', // wtest : 'english',
@@ -106,7 +109,8 @@ const getCommentRepliedToComment_Of1ListItem = async ({ items, model, fieldsFor_
         likeStatus: !!interactExistsLike,
         favoriteStatus: !!interactExistsFavorite,
         like: countLike,
-        favorite: countFavorite
+        favorite: countFavorite,
+        share: countShare
       }
       
     })
@@ -172,6 +176,11 @@ const getLikeFavoriteStatus_Of1Item_For1User = async ({
     belongToItemCollection: collectionName,
     authorId: sessionUserId
    }).lean();
+  //  const interactExistsShare = await modelShare.exists({
+  //   belongToItemId: id,
+  //   belongToItemCollection: collectionName,
+  //   authorId: sessionUserId
+  //  }).lean();
    return {
     interactExistsLike,
     interactExistsFavorite
@@ -182,7 +191,7 @@ const getLikeFavorite_Of1Item = async ({
   id,
   collectionName,
   gettingType,
-  fieldsFor_LikeFavQuery,
+  fieldsFor_LikeFavShareQuery,
   skipNumParam,
   limitNumParam
 }) => {
@@ -195,16 +204,21 @@ const getLikeFavorite_Of1Item = async ({
       belongToItemId: id,
       belongToItemCollection: collectionName
     })
+    const countShare = await modelShare.countDocuments({
+      belongToItemId: id,
+      belongToItemCollection: collectionName
+    })
     return {
       countLike,
-      countFavorite
+      countFavorite,
+      countShare
     }
   } else {
-    if (fieldsFor_LikeFavQuery === '_id') {
+    if (fieldsFor_LikeFavShareQuery === '_id') {
       const likeForThisItem = await modelLike.find({
         belongToItemCollection: collectionName,
         belongToItemId: id
-      }, fieldsFor_LikeFavQuery)
+      }, fieldsFor_LikeFavShareQuery)
       .skip(skipNumParam)
       .limit(limitNumParam)
       .sort({ createdAt: -1 })
@@ -212,14 +226,23 @@ const getLikeFavorite_Of1Item = async ({
       const favForThisItem = await modelFavorite.find({
         belongToItemCollection: collectionName,
         belongToItemId: id
-      }, fieldsFor_LikeFavQuery)
+      }, fieldsFor_LikeFavShareQuery)
+      .skip(skipNumParam)
+      .limit(limitNumParam)
+      .sort({ createdAt: -1 })
+      .lean() // 获取所有item
+      const shareForThisItem = await modelShare.find({
+        belongToItemCollection: collectionName,
+        belongToItemId: id
+      }, fieldsFor_LikeFavShareQuery)
       .skip(skipNumParam)
       .limit(limitNumParam)
       .sort({ createdAt: -1 })
       .lean() // 获取所有item
       return {
         likeForThisItem,
-        favForThisItem
+        favForThisItem,
+        shareForThisItem
       }
     }
   }
@@ -232,7 +255,7 @@ const getLikeFavorite_Of1Item__wtest = async ({
 
 }
 
-const getCommentCount_Of1List_OfItem = async ({
+const getInteractionCount_Of1List_OfItem = async ({
   items,
   // model, // wtest
   collectionName
@@ -247,7 +270,8 @@ const getCommentCount_Of1List_OfItem = async ({
       })
       const {
         countLike,
-        countFavorite
+        countFavorite,
+        countShare
       } = await getLikeFavorite_Of1Item({
         id: item._id,
         collectionName: collectionName,
@@ -257,7 +281,8 @@ const getCommentCount_Of1List_OfItem = async ({
         ...item,
         countComment,
         countLike,
-        countFavorite
+        countFavorite,
+        countShare
       }
     })
   )
@@ -323,7 +348,7 @@ export default async function handler(req, res) {
               ) {
                 // const session = await getSession({ req, res }) // wtest auth mock
                 // const session = await getServerSession(req, res, authOptions) // wtest auth mock
-                console.log('sessionUserId for list, comment >>> --------------->', sessionUserId ? sessionUserId : null)
+                // console.log('sessionUserId for list, comment >>> --------------->', sessionUserId ? sessionUserId : null)
                 const commentReplied = await getComments_Of1Item({
                   model: modelTarget,
                   belongToItemCollection,
@@ -336,7 +361,7 @@ export default async function handler(req, res) {
                 const listOfItem = await modelTarget.find({
                   authorId: userId
                 })
-                if(colInteract.includes(collectionName)) {
+                if (colInteract.includes(collectionName)) {
                   const listOfItemWithBelongToItemInfo = await Promise.all(
                     listOfItem.map(async (item) => {
                       const itemTemp = item.toObject()
@@ -404,7 +429,7 @@ export default async function handler(req, res) {
               // console.log('collectionName', collectionName, 'learningItems', learningItems)
               if (colLearning.includes(collectionName)) {
                 const learningItemsWithAuthor = await getItemAuthor_Of1ListItem({ items: learningItems, model: modelUser })
-                const learningItemsWithAuthorWithCommentCount = await getCommentCount_Of1List_OfItem({
+                const learningItemsWithAuthorWithCommentCount = await getInteractionCount_Of1List_OfItem({
                   items: learningItemsWithAuthor,
                   // model: modelComment, // wtest
                   collectionName
@@ -440,7 +465,7 @@ export default async function handler(req, res) {
                   const user = await modelUser.findOne({ userId: learningItem.authorId })
                   /* wtest */
                   // const session = await getServerSession(req, res, authOptions)
-                  console.log('sessionUserId for one, not user >>> --------------->', sessionUserId ? sessionUserId : null)
+                  // console.log('sessionUserId for one, not user >>> --------------->', sessionUserId ? sessionUserId : null)
                   const { interactExistsLike,
                     interactExistsFavorite } = await getLikeFavoriteStatus_Of1Item_For1User({
                     id,
@@ -449,7 +474,8 @@ export default async function handler(req, res) {
                   })
                   const {
                     countLike,
-                    countFavorite
+                    countFavorite,
+                    countShare
                   } = await getLikeFavorite_Of1Item({
                     id,
                     collectionName,
@@ -462,7 +488,8 @@ export default async function handler(req, res) {
                     likeStatus: !!interactExistsLike,
                     favoriteStatus: !!interactExistsFavorite,
                     like: countLike ? countLike : 0,
-                    favorite: countFavorite ? countFavorite : 0
+                    favorite: countFavorite ? countFavorite : 0,
+                    share: countShare ? countShare : 0
                   } });
                 } else {
                   res.status(200).json({ success: true, data: learningItem });
@@ -494,6 +521,9 @@ export default async function handler(req, res) {
             const resLike = await modelTarget.create(req.body);
             res.status(200).json({ success: true, message: msgSet, data: resLike });
           }
+        } else if (colShare.includes(collectionName)) {
+          const resShare = await modelShare.create(req.body);
+          res.status(200).json({ sucess: true, message: 'share success', data: resShare})
         } else {
           const learningItem = await modelTarget.create(req.body);
           res.status(200).json({ success: true, data: learningItem });
@@ -559,11 +589,12 @@ export default async function handler(req, res) {
         }
         const {
           likeForThisItem,
-          favForThisItem
+          favForThisItem,
+          shareForThisItem
         } = await getLikeFavorite_Of1Item({
           id,
           collectionName,
-          fieldsFor_LikeFavQuery: '_id'
+          fieldsFor_LikeFavShareQuery: '_id'
         })
         // console.log('like and fav', {
         //   likeForThisItem,
@@ -574,6 +605,9 @@ export default async function handler(req, res) {
         }
         if (favForThisItem?.length > 0) {
           const resultForFavDelete = await modelFav.deleteMany({ _id: { $in: favForThisItem } });
+        }
+        if (shareForThisItem?.length > 0) {
+          const resultForShareDelete = await modelShare.deleteMany({ _id: { $in: shareForThisItem } })
         }
         /* /wtest related delete */
         res.status(200).json({ success: true, message: 'Item deleted successfully wtest >>>>>>>>>>>>>' });
