@@ -2,8 +2,8 @@
 import { usePathname } from "next/navigation"
 import { FormForLearningItem } from "./itemForm"
 import { EditorComment } from '@components/editorComment/editorComment'
-import { useState, useContext, useEffect } from 'react'
-import { htmlDecode } from '@/lib/utils';
+import { useState } from 'react'
+import { htmlDecode, strSliced, html2txt } from '@/lib/utils';
 import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
@@ -17,14 +17,10 @@ import {
     ifLoginedAsAdmin,
     editOrAddBtnStatusCheck
 } from '@/lib/auth'
-
-
 import './itemEditor.scss';
-// import MyContext from '@/app/contexts/MyContext' // wtest context
 
 const interactClick = async ({ type, params, session, showAlert }) => {
-    console.log('wtest interactClick ???', params, session, type)
-    // debugger;
+    // console.log('wtest interactClick ???', params, session, type)
     if ((type === 'like' || type === 'favorite') && (!session || !session.user || !session.user.userId)) {
         showAlert({
             message: 'Please sign in to continue.'
@@ -44,19 +40,15 @@ const interactClick = async ({ type, params, session, showAlert }) => {
         authorId: setAuthorId()
     }
     try {
-        // console.log('wtest waiting -----------------------> add', 'type', type, 'dataUpdated', dataUpdated)
-        // debugger;
         const res = await fetch(`${params.urlDomain}?collectionName=${type}`, {
             // &belongToItemId=${params.belongToItemId}&belongToItemCollection=${params.belongToItemCollection} wtest
             method: 'POST',
             headers: {
                 "Content-type": 'application/json'
             },
-            body: JSON.stringify({ ...dataUpdated }) // wtest user: params.user
+            body: JSON.stringify({ ...dataUpdated })
         })
         const dataRes = await res.json();
-        console.log('dataRes', dataRes)
-        debugger;
         if (dataRes.success) {
             console.log(dataRes.message)
             if (type !== 'share') window.location.reload()
@@ -68,13 +60,13 @@ const interactClick = async ({ type, params, session, showAlert }) => {
     }
 }
 
-
-
 export const ItemEditor = ({ params, type, session }) => {
     const pathName = usePathname()
     const copyContentOfSharing = async ({ type, params, session, showAlert, url }) => {
+        const title = params?.data?.title ? params.data.title : ''
+        const contentSliced = strSliced(html2txt(params.data.content), 20)
         try {
-            await navigator.clipboard.writeText(`${params?.data?.title ? params.data.title : ''}\n${url}`)
+            await navigator.clipboard.writeText(`${title}\n${contentSliced}\n${url}`)
             showAlert({
                 message: 'Copy successfully!',
                 type: 'success'
@@ -87,7 +79,6 @@ export const ItemEditor = ({ params, type, session }) => {
             })
         }
     }
-    // console.log('wtest ItemEditor pathName >>>>>>>>>>>>>', pathName)
     const [ isEditItem, setIsEditItem ] = useState(false)
     const { showAlert } = useAlert()
     const { openModal } = useModal()
@@ -144,14 +135,6 @@ export const ItemEditor = ({ params, type, session }) => {
     
     return (
         <>
-            {/* <p>aaa: {JSON.stringify(ifLogined())}, {JSON.stringify(ifWithAuthorInfo())}</p> */}
-            {/* <p>ccc: {JSON.stringify(params.data)}</p> */}
-            {/* <p>wtest params: {session?.user?.userId}, {JSON.stringify(editOrAddBtnStatusCheck(accessCheckParams))}</p> */}
-            {/* <p>wtest params: {JSON.stringify(ifLogined())}</p> */}
-            {/* <p>-------</p> */}
-            {/* <p>wtest params.data: {JSON.stringify(params.data.authorInfo)}</p> */}
-            {/* <p>authorInfo.userId: {params?.data?.authorInfo?.userId}</p> */}
-            {/* <p>params.group: {JSON.stringify(params.group)}</p> */}
             {(params.group !== 'management' || !params.data) && <div className="area-tools">
                 {
                     editOrAddBtnStatusCheck(accessCheckParams) ?
@@ -166,18 +149,11 @@ export const ItemEditor = ({ params, type, session }) => {
                 }
             </div>}
             <div className="area-content">
-                {/* {
-                    params.data && <>
-                        <p>wtest params.data.content, {JSON.stringify(params.data.content)}</p>
-                        <p>--- wtest</p>
-                    </>
-                } */}
                 {
                     editOrAddBtnStatusCheck(accessCheckParams) && isEditItem ?
                         <>
                             <FormForLearningItem params={{
                                 ...params,
-                                // user: session.user
                                 authorId: session?.user?.userId ? session.user.userId : undefined,
                             }}></FormForLearningItem>
                         </> : 
@@ -185,7 +161,6 @@ export const ItemEditor = ({ params, type, session }) => {
                             (() => {
                                 switch(params.group) {
                                     case 'management':
-                                        // console.log('wtest authorId', session?.user?.userId ? session?.user?.userId : '??')
                                         switch (params.collectionName) {
                                             case 'listNav':
                                                 return params.data ? <ListNavItem
@@ -235,7 +210,6 @@ export const ItemEditor = ({ params, type, session }) => {
                             <span className="count">({params.data.favorite})</span>
                         </button>
                     </>)}
-                    {/* editOrAddBtnStatusCheck: {JSON.stringify(editOrAddBtnStatusCheck(accessCheckParams))} */}
                     {
                         editOrAddBtnStatusCheck(accessCheckParams) && (params.group === 'learning' || (params.group === 'management' && isEditItem)) &&
                         <button className={editOrAddBtnStatusCheck(accessCheckParams) ? 'available' : 'disabled'} onClick={ToggleAddItem}>
@@ -260,7 +234,6 @@ export const ItemEditor = ({ params, type, session }) => {
                                             makeReply={makeReply}
                                             urlDomain={params.urlDomain}
                                             session={session}
-                                            // group={params.group}
                                             accessEditStatus={
                                                 userLoginedSameWithAuthor({
                                                     session,
@@ -296,7 +269,6 @@ export const ItemEditor = ({ params, type, session }) => {
                     })()}
                 </div>
                 }
-                
             </div>
         </>)
 }

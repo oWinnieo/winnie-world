@@ -2,12 +2,6 @@ import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
 import { tipsConst } from '@/constants/tipsConst'
 import Link from 'next/link'
-import dbConnect from '../../../../lib/db';
-import { modelEn,
-  modelJp,
-  modelServer
-} from '../../../../models/learningItem';
-
 import { timeFormatter } from '@/lib/utils'
 import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
@@ -19,10 +13,9 @@ import './style.scss'
 
 const getOneItem = async (params) => {
   const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}&sessionUserId=${params.sessionUserId}`, {
-      cache: 'no-store', // 等效于 SSR 的行为
-      credentials: "include"
-      }).then(res => res.json());
-      // console.log('aha data', data)
+    cache: 'no-store', // 等效于 SSR 的行为
+    credentials: "include"
+    }).then(res => res.json());
   return data
 }
 const getListData = async (params) => {
@@ -30,14 +23,12 @@ const getListData = async (params) => {
     cache: 'no-store',
     credentials: "include"
   }).then(res => res.json())
-  // console.log('data', data)
   return data
 }
 
 export default async function Post({ params }) {
   /* wtest auth mock */
   const session = await getSession() // wtest auth mock
-  // console.log('session in area page ------>>> 123', session)
   /* /wtest auth mock */
   const paramsArr = await params
   const slug = paramsArr.slug
@@ -61,7 +52,6 @@ export default async function Post({ params }) {
     belongToItemId: slug[1],
     sessionUserId: session?.user?.userId
   })
-  // console.log('comments >>>>>>>>>>>>>>>>>>>...', comments)
 
   return (
     <PageWrap>
@@ -77,7 +67,6 @@ export default async function Post({ params }) {
               <div className="author-info">
                 <p>Author: {data?.authorInfo?.name ? data.authorInfo.name : '??'}</p>
                 {data?.authorInfo?.image &&
-                  // <img className="auth-avatar" src={data.authorInfo.image} alt="User Avatar" />
                   <AvatarOfUser
                       srcImage={data.authorInfo.image}
                   ></AvatarOfUser>
@@ -85,7 +74,6 @@ export default async function Post({ params }) {
               </div>
           </div>
           <div className="page-details">
-            {/* <p>wtest data: {JSON.stringify(data)}</p> */}
             <ItemEditor
                 params={
                   {
@@ -95,29 +83,14 @@ export default async function Post({ params }) {
                     formConfig: learningItemConfig,
                     data: {
                       ...data,
-                      // title: data.title,
-                      // authorInfo: data.authorInfo,
-                      // content: data.content,
                       id: slug[1],
-                      // createdAt: data.createdAt,
-                      // updatedAt: data.updatedAt,
-                      comments: comments, // wtest,
-                      // like: data.like,
-                      // favorite: data.favorite,
-                      // likeStatus: data.likeStatus,
-                      // favoriteStatus: data.favoriteStatus,
-                      // share: data.share
+                      comments: comments,
                     },
                   }
                 }
                 session={session}
             ></ItemEditor>
           </div>
-      {/* <div className="p-6 max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold">Post Page</h1>
-        <p className="mt-4 text-gray-600">Slug Parameters:</p>
-        <pre className="bg-gray-100 p-4 rounded-md mt-2">{JSON.stringify(slug, null, 2)}</pre>
-      </div> */}
       </> : <p>{tipsConst.tipDataWrong}</p>}
       
     </PageWrap>

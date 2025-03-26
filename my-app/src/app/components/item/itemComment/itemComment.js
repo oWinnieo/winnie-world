@@ -1,6 +1,3 @@
-// export const ItemComment = () => {
-//     return <p>ItemComment inside wtest_here_fetch -- 3</p>
-// }
 'use client' // wtest_here_fetch
 import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 /* wtest pw */
@@ -13,19 +10,17 @@ import { UserRound, MessageCircleReply, CircleX, Heart, Star } from 'lucide-reac
 import './itemComment.scss'
 
 const itemDelete = async ({ params, id }) => {
-    // console.log('wtest delete >>>>>>>>>>>', 'params', params, 'id', id)
-    // const encodedId = encodeURIComponent(id); // wtest waiting not reason
-    const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, { // wtest waiting ?id=${encodedId}
+    const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
         method: 'DELETE',
         headers: {
             "Content-type": 'application/json'
         },
-        body: JSON.stringify({ id }) // wtest waiting
+        body: JSON.stringify({ id })
     })
     const dataRes = await res.json();
     if (dataRes.success) {
         console.log(dataRes.message)
-        window.location.reload() // wtest backup
+        window.location.reload()
     } else {
         throw new Error('Failed to delete an item.')
     }
@@ -44,9 +39,6 @@ const interactClick = async ({ type, params, session, showAlert }) => {
         authorId: session.user.userId
     }
     try {
-        // console.log('wtest waiting -----------------------> add', 'type', type, 'dataUpdated', dataUpdated)
-        
-        // debugger;
         const res = await fetch(`${params.urlDomain}?collectionName=${type}&belongToItemId=${params.belongToItemId}&belongToItemCollection=${params.belongToItemCollection}`, {
             method: 'POST',
             headers: {
@@ -54,8 +46,6 @@ const interactClick = async ({ type, params, session, showAlert }) => {
             },
             body: JSON.stringify({ ...dataUpdated }) // wtest user: params.user
         })
-        // console.log('res', res)
-        // debugger;
         const dataRes = await res.json();
         if (dataRes.success) {
             console.log(dataRes.message)
@@ -69,7 +59,6 @@ const interactClick = async ({ type, params, session, showAlert }) => {
 }
 
 export const ItemComment = ({ comment, makeReply, urlDomain, accessEditStatus, accessStatus, session }) => {
-    // console.log('itemComment wtest auth', accessEditStatus, 'comment', comment)
     const { showAlert } = useAlert()
     const { openModal, closeModal } = useModal()
     const delConfirm = ({ nameForConfrom }) => {
@@ -87,7 +76,7 @@ export const ItemComment = ({ comment, makeReply, urlDomain, accessEditStatus, a
     }
     /* enterDelWord */
     const enterDelWord = (val) => {
-        if (val === 'delete') { // wtest delete
+        if (val === 'delete') {
             showAlert({
                 message: 'delete confirm',
                 type: "success",
@@ -124,7 +113,6 @@ export const ItemComment = ({ comment, makeReply, urlDomain, accessEditStatus, a
                             collectionName: 'comment',
                             urlDomain
                         }, session, showAlert })}>
-                    {/* params.data.likeStatus wtest */}
                         <Heart className={comment.likeStatus ? 'text-red-500' : ''} />
                         <span className="count">({comment.like})</span>
                     </button>
@@ -136,7 +124,6 @@ export const ItemComment = ({ comment, makeReply, urlDomain, accessEditStatus, a
                             collectionName: 'comment',
                             urlDomain
                         }, session, showAlert })}>
-                    {/* params.data.favoriteStatus wtest */}
                         <Star className={comment.favoriteStatus ? 'text-red-500' : ''} />
                         <span className="count">({comment.favorite})</span>
                     </button>
@@ -144,7 +131,6 @@ export const ItemComment = ({ comment, makeReply, urlDomain, accessEditStatus, a
                         <button
                             className='btn-reply'
                             onClick={() => makeReply({ commentId: comment._id })}><MessageCircleReply /></button>
-                        {/* <button className="btn-delete" onClick={() => wtest_delete()}>delete</button> */}
                         {
                             accessEditStatus && <button
                                 className="btn-delete btn-hover"
@@ -155,8 +141,6 @@ export const ItemComment = ({ comment, makeReply, urlDomain, accessEditStatus, a
                         
                 </div>
             </div>
-            {/* why: {JSON.stringify(comment?.authorInfo?.image)} */}
-            
             <div className="comment-content">
                 {comment.replyToCommentInfo && 
                     <div className="area-reply">
@@ -165,10 +149,7 @@ export const ItemComment = ({ comment, makeReply, urlDomain, accessEditStatus, a
                     </div>
                 }
                 <div>{comment.content}</div>
-                {/* <p>wtest: {JSON.stringify(comment.replyToCommentInfo)}</p> */}
             </div>
-            
-            {/* accessCheck() */}
         </li>
     )
 }

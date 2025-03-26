@@ -16,7 +16,6 @@ const getListData = async (params) => {
     const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list`, {
         cache: 'no-store', // 等效于 SSR 的行为
         }).then(res => res.json());
-        // console.log('data', data)
     const dataNew = data && data.length > 0 ? data.map(item => {
         const itemNew = colLearning.includes(params.collectionName) ? {
             ...item,
@@ -29,18 +28,14 @@ const getListData = async (params) => {
         )
         return itemNew
     }) : []
-    // console.log('dataNew ============ itemlist', dataNew)
     return dataNew
 }
 
 export default async function LearningArea ({ params }) {
   /* wtest auth mock */
   const session = await getSession() // wtest auth mock
-  // console.log('session in area page ------>>> 123', session)
   /* /wtest auth mock */
-  // const { group, collectionName } = useParams()
     const { collectionName, group } = await params
-    // console.log('collectionName', collectionName, 'group', group, 'colListNavGroup', colListNavGroup)
     const ifGroupOK = () => {
       return colListNavGroup.includes(group)
     }

@@ -1,6 +1,3 @@
-// export const ListNavItem = () => {
-//     return <p>ListNavItem inside wtest_here_fetch -- 11</p>
-// }
 'use client'
 import Link from 'next/link'
 import { useAlert } from '@/app/contexts/AlertContext'
@@ -8,18 +5,17 @@ import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 
 const itemDelete = async ({ params, id }) => {
-    // const encodedId = encodeURIComponent(id); // wtest waiting not reason
-    const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, { // wtest waiting ?id=${encodedId}
+    const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
         method: 'DELETE',
         headers: {
             "Content-type": 'application/json'
         },
-        body: JSON.stringify({ id }) // wtest waiting
+        body: JSON.stringify({ id })
     })
     const dataRes = await res.json();
     if (dataRes.success) {
         console.log(dataRes.message)
-        window.location.reload() // wtest backup
+        window.location.reload()
     } else {
         throw new Error('Failed to delete an item.')
     }
@@ -54,7 +50,6 @@ export const ListNavItem = ({ status, item, isEditItem, ToggleAddItem, params, i
                     <ModalContent valueHandler={enterDelWord} />
                 )
                 // closeModal={closeModal} // wtest backup
-                
             },
         )
     }

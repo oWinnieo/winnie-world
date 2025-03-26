@@ -1,6 +1,3 @@
-// export const ItemLearning = () => {
-//     return <p>ItemLearning inside wtest_here_fetch -- 1</p>
-// }
 'use client'
 import Link from 'next/link'
 import { timeFormatter } from '@/lib/utils';
@@ -13,18 +10,17 @@ import { MessageSquareMore, UserRound, Heart, Star, Share2 } from 'lucide-react'
 import './itemLearning.scss'
 
 const itemDelete = async ({ params, id }) => {
-    // const encodedId = encodeURIComponent(id); // wtest waiting not reason
-    const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, { // wtest waiting ?id=${encodedId}
+    const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
         method: 'DELETE',
         headers: {
             "Content-type": 'application/json'
         },
-        body: JSON.stringify({ id }) // wtest waiting
+        body: JSON.stringify({ id })
     })
     const dataRes = await res.json();
     if (dataRes.success) {
         console.log(dataRes.message)
-        window.location.reload() // wtest backup
+        window.location.reload()
     } else {
         throw new Error('Failed to delete an item.')
     }
@@ -32,7 +28,6 @@ const itemDelete = async ({ params, id }) => {
 
 export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, collectionName, id, params, data, session }) => {
     const itemUrl = `/learning/${collectionName}/${id}`
-    /* wtest pw */
     const { showAlert } = useAlert()
     const { openModal, closeModal } = useModal()
     const delConfirm = ({ nameForConfrom }) => {
@@ -50,7 +45,7 @@ export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, coll
     }
     /* enterDelWord */
     const enterDelWord = (val) => {
-        if (val === '123') { // wtest delete
+        if (val === 'delete') { // wtest delete
             showAlert({
                 message: 'delete confirm',
                 type: "success",
@@ -65,7 +60,6 @@ export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, coll
         }
     }
     /* /enterDelWord */
-    /* /wtest pw */
     /* author name display */
     const authorNameDisplay = () => {
         return authorInfo?.userId ?
@@ -81,8 +75,6 @@ export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, coll
     /* /check if edit is available */
     return (
         <div className="item-learning">
-            {/* <p>wtest userID: {JSON.stringify(session?.user?.userId)}, {JSON.stringify(session?.user?.name)}</p> */}
-            {/* <p>wtest data.countComment: {JSON.stringify(data.countComment)}</p> */}
             <div className="item-info">
                 <span className="item-info-1">
                     <span className="item-title">{title}</span>
@@ -114,11 +106,9 @@ export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, coll
                     </span>
                 </span>
             </div>
-            {/* <p>wtest authorInfo userId, {authorInfo?.userId ? authorInfo.userId : '?'}, session userId, {session?.user?.userId ? session.user.userId : '?'}</p> */}
             <p>{contentSliced}</p>
             <p>{timeFormatter(createdAt)}</p>
             <Link href={itemUrl}>More...</Link>
-            {/* <p>wtest {JSON.stringify(session.user.userId)}</p> */}
             {accessCheck() && <button
                 className="btn-delete btn-hover"
                 onClick={() => delConfirm({ nameForConfrom: title })}

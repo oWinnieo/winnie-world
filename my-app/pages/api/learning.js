@@ -523,7 +523,7 @@ export default async function handler(req, res) {
           }
         } else if (colShare.includes(collectionName)) {
           const resShare = await modelShare.create(req.body);
-          res.status(200).json({ sucess: true, message: 'share success', data: resShare})
+          res.status(200).json({ success: true, message: 'share success', data: resShare})
         } else {
           const learningItem = await modelTarget.create(req.body);
           res.status(200).json({ success: true, data: learningItem });
@@ -531,8 +531,6 @@ export default async function handler(req, res) {
       } catch (err) {
         res.status(400).json({ success: false });
       }
-
-      // wtest waiting user creating
       break;
     case 'PUT': // edit
       try {
@@ -560,14 +558,6 @@ export default async function handler(req, res) {
     case 'DELETE':
       try {
         const id = req.body._id || req.body.id; // 前端需要在 body 里传 id
-        // console.log('wtest delete >>> collectionName', collectionName)
-        // console.log('group', group)
-        // console.log('id', id)
-        // console.log('belongToItemCollection', belongToItemCollection)
-        // console.log('belongToItemId', belongToItemId)
-        // console.log('req.body', req.body)
-        // console.log('result.deletedCount', result?.deletedCount)
-        // debugger;
         if (!id) {
           return res.status(400).json({ success: false, error: 'Missing ID' });
         }
@@ -583,7 +573,6 @@ export default async function handler(req, res) {
           belongToItemId: id,
           fieldsFor_CommentQuery: '_id'
         })
-        // console.log('commentsForDelete', commentsForDelete)
         if (commentsForDelete?.length > 0) {
           const resultForCommentDel = await modelComment.deleteMany({ _id: { $in: commentsForDelete } });
         }
@@ -596,10 +585,6 @@ export default async function handler(req, res) {
           collectionName,
           fieldsFor_LikeFavShareQuery: '_id'
         })
-        // console.log('like and fav', {
-        //   likeForThisItem,
-        //   favForThisItem
-        // })
         if (likeForThisItem?.length > 0) {
           const resultForLikeDelete = await modelLike.deleteMany({ _id: { $in: likeForThisItem } });
         }
