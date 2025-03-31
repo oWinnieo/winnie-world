@@ -10,7 +10,11 @@ const LearningItemSchema = new mongoose.Schema({
   like: { type: Number },
   favorite: { type: Number },
   likeStatus: { type: Boolean },
-  favoriteStatus: { type: Boolean }
+  favoriteStatus: { type: Boolean },
+  status: { type: String, default: 'draft', required: true },
+  releasedAt: { type: Date, default: function () {
+    return this.updatedAt ? this.updatedAt : Date.now
+  } }
 },{ timestamps: true } // ✅ 启用 `createdAt` & `updatedAt`
 );
 

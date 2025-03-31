@@ -13,7 +13,7 @@ import { TextReadOnly } from '@components/formElement/textReadOnly';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { htmlEncode, htmlSimpleDecode } from '@/lib/utils';
 import { FormForLearningItemParams, FormForLearningItemType, FormLearningItemValues } from '@/types/formTypes';
-import { learningItemValidation, listNavItemValidation, userItemValidation, keysDefault } from '@/constants/formConfig'
+import { learningItemValidation, listNavItemValidation, userItemValidation, keysDefault, introValidation } from '@/constants/formConfig'
 import { collectionNameForLearning, collectionNameManagement } from '@/constants/collectionName'
 import { TiptapEditor } from '@/app/components/richTextEditor/TiptapEditor'
 import './itemEditor.scss';
@@ -29,6 +29,8 @@ const validationGroupCheck = ({ collectionName }) => {
                 return listNavItemValidation
             case 'user':
                 return userItemValidation
+            case 'intro':
+                return introValidation
         }
     } else {
         return 'wtest waiting' // wtest
@@ -69,7 +71,7 @@ export const FormForLearningItem = ({ params }) => {
     
     // 处理表单提交的函数
     const onSubmit = async (data) => {
-        // console.log('onSubmit ? data', data, 'params.group')
+        console.log('onSubmit ? data', data, 'defaultValues', defaultValues)
         // console.log('params.group', params.group)
         // console.log('params.collectionName', params.collectionName)
         const dataForUpdate = {
@@ -81,7 +83,7 @@ export const FormForLearningItem = ({ params }) => {
             ...dataForUpdate,
             updatedAt: new Date(),
         };
-        if (params.group === 'management' && params.collectionName === 'user') {
+        if (params.group === 'management' && (params.collectionName === 'user' || params.collectionName === 'intro')) {
             newData.editorId = params.authorId
         }
         // console.log('newData 1', newData) // wtest
@@ -112,7 +114,7 @@ export const FormForLearningItem = ({ params }) => {
             }
         } else {
             try {
-                // console.log('wtest waiting -----------------------> add', newData)
+                console.log('wtest waiting -----------------------> add 123', newData, params)
                 // debugger;
                 const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
                     method: 'POST',
@@ -122,6 +124,7 @@ export const FormForLearningItem = ({ params }) => {
                     body: JSON.stringify({ ...dataForUpdate, authorId: params.authorId }) // wtest user: params.user
                 })
                 const dataRes = await res.json();
+                console.log('dataRes', dataRes)
                 if (dataRes.success) {
                     console.log(dataRes.message)
                     window.location.reload()
@@ -154,6 +157,8 @@ export const FormForLearningItem = ({ params }) => {
         {
             keysForDisplayArr.map(key => (
                 <div key={key} className="area-form-item">
+                    {/* <p>wtest key: {JSON.stringify(Object.keys(params))}</p> */}
+                    {/* <p>{JSON.stringify(Object.keys(params.data))}</p> */}
                     {(() => {
                         switch (params.formConfig[key].editType) {
                             case 'text':

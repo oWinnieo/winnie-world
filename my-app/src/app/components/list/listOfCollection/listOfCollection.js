@@ -24,10 +24,10 @@ export const ListOfCollection = ({
         <>
             {accessStatus() ?
                 <>
-                    <ItemEditor // wtest session
+                    <ItemEditor
                         params={
                             {
-                                group, // wtest learning -> group
+                                group,
                                 urlDomain,
                                 collectionName,
                                 formConfig: learningItemConfig,

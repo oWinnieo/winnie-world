@@ -4,32 +4,13 @@ import {
   collectionNameForLearning as colLearning,
   collectionNameManagement as colManagement,
   collectionNameForListNavGroup as colListNavGroup
-} from '@/constants/collectionName'; // wtest mock
+} from '@/constants/collectionName';
 import { titleDisplay } from '@/lib/utils';
 import { learningItemConfig } from '@/constants/formConfig'
 import { ListOfCollection } from '@/app/components/list/listOfCollection/listOfCollection';
-import { htmlDecodeSlice, html2txt, strSliced } from '@/lib/utils';
 import { getSession } from '../../../../pages/api/getSession'
+import { getListDataOfItems } from '@/lib/getData'
 // import { notFound } from 'next/navigation' // wtest notfound
-
-const getListData = async (params) => {
-    const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list`, {
-        cache: 'no-store', // 等效于 SSR 的行为
-        }).then(res => res.json());
-    const dataNew = data && data.length > 0 ? data.map(item => {
-        const itemNew = colLearning.includes(params.collectionName) ? {
-            ...item,
-            contentSliced: strSliced(html2txt(item.content), 200)
-        } : (
-            params.collectionName === 'user' ? {
-                ...item,
-                isEditItem: false
-            } : item
-        )
-        return itemNew
-    }) : []
-    return dataNew
-}
 
 export default async function LearningArea ({ params }) {
   /* wtest auth mock */
@@ -59,7 +40,7 @@ export default async function LearningArea ({ params }) {
     }
     const urlDomain = process.env.URL_DOMAIN + '/api/learning'
     /* wtest list fetch */
-    const listData = await getListData({
+    const listData = await getListDataOfItems({
       urlDomain,
       collectionName
     });

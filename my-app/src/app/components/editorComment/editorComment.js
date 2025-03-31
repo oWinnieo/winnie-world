@@ -3,7 +3,7 @@
 // }
 'use client'
 import { useEffect, useState } from 'react';
-import { commentItemConfig, commentItemValidation, abc_wtest, abv_wtest } from '@/constants/formConfig'
+import { commentItemConfig, commentItemValidation } from '@/constants/formConfig'
 import { Text } from '@components/formElement/text'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -29,7 +29,7 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
         watch,
         formState: { errors }
     } = useForm({
-        resolver: zodResolver(commentItemValidation), // wtest commentItemValidation / abv_wtest
+        resolver: zodResolver(commentItemValidation),
         defaultValues
     });
     const onSubmit = async (data) => {
@@ -87,7 +87,7 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
                     <button className="btn-reply-cancel" onClick={clearReplyHandler}>&times;</button>
                 </div>}
                 <Text
-                    config={commentItemConfig.content} // wtest commentItemConfig / abc_wtest
+                    config={commentItemConfig.content}
                     keyName='content'
                     value={watch('content')}
                     onChange={(value) => setValue('content', value)}

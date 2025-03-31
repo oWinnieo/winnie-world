@@ -1,9 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from 'zod';
+
 export const keysDefault = [
     'createdAt',
     'updatedAt',
     'id'
+]
+const statusOfLearningItem = [
+    {
+        name: 'draft',
+        lvl: 0
+    },
+    {
+        name: 'released',
+        lvl: 1
+    }
 ]
 export const learningItemConfig = {
     title: {
@@ -12,6 +23,13 @@ export const learningItemConfig = {
         editType: 'text',
         default: '',
         required: true,
+    },
+    status: {
+        title: 'Status',
+        editType: 'radioBox',
+        default: 'draft',
+        required: true,
+        options: statusOfLearningItem
     },
     content: {
         title: 'Content',
@@ -48,6 +66,7 @@ export const learningItemValidation = zod.object({
     // title: zod.string().min(1, 'Title is required'),
     title: zod.string().min(1, { message: 'Title is required' }),
     content: zod.string().min(1, { message: 'Content is required' }),
+    status: zod.enum(['draft', 'released']),
     // authorInfo: zod.object() // wtest waiting
     // tags: zod.array(string).optional() // wtest waiting
 
@@ -228,37 +247,16 @@ export const commentItemValidation = zod.object({
     favorite: zod.number().optional()
 })
 
-export const abc_wtest = {
+export const introConfig = {
     content: {
-        // title: 'Content',
-        editType: 'text',
-        default: '',
-        required: true
-    },
-    // belongToItemId: {
-
-    // },
-    // belongToItemCollection: {
-
-    // },
-    replyToCommentId: {
+        title: 'About Me',
+        editType: 'richText',
         default: ''
     }
-    // authorId: {},
-    // like: {},
-    // favorite: {}
 }
-export const abv_wtest = zod.object({
-    content: zod.string().min(1, {message: 'content is required'}),
-    belongToItemId: zod.string().min(1, {message: 'belongToItemId is required'}),
-    belongToItemCollection: zod.string().min(1, {message: 'belongToItemCollection is required'}),
-    replyToCommentId: zod.string().optional(),
-    // aha: zod.string().min(1, {message: 'aha wtest'}),
-    authorId: zod.string().min(1, {message: 'belongToItemCollection is required'}),
-    like: zod.number().optional(),
-    favorite: zod.number().optional()
+export const introValidation = zod.object({
+    content: zod.string()
 })
-
 
 
 

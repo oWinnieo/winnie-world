@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import './modal.scss'
 export const ModalContent = ({ valueHandler }) => {
     const [val, setVal] = useState("");
     const handleKeyDown = (e) => {
@@ -9,7 +10,7 @@ export const ModalContent = ({ valueHandler }) => {
       }
   };
     return (
-      <>
+      <div className="modal-content">
         {/* <p>wtest</p> */}
         <input
           className="border border-slate-500 px-8 py-2"
@@ -21,6 +22,6 @@ export const ModalContent = ({ valueHandler }) => {
         <p>
           <button onClick={() => valueHandler(val)}>Check</button>
         </p>
-      </>
+      </div>
     );
   };

@@ -9,22 +9,8 @@ import { AvatarOfUser } from '@/app/components/avatarOfUser/avatarOfUser'
 import { collectionNameForLearning as colLearning, collectionNameManagement as colManagement } from '@/constants/collectionName' // wtest mock
 import { learningItemConfig } from '@/constants/formConfig'
 import { getSession } from '../../../../pages/api/getSession'
+import { getOneItem, getListDataOfComments } from '@/lib/getData'
 import './style.scss'
-
-const getOneItem = async (params) => {
-  const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=one&id=${params.id}&sessionUserId=${params.sessionUserId}`, {
-    cache: 'no-store', // 等效于 SSR 的行为
-    credentials: "include"
-    }).then(res => res.json());
-  return data
-}
-const getListData = async (params) => {
-  const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&belongToItemCollection=${params.belongToItemCollection}&belongToItemId=${params.belongToItemId}&sessionUserId=${params.sessionUserId}`, {
-    cache: 'no-store',
-    credentials: "include"
-  }).then(res => res.json())
-  return data
-}
 
 export default async function Post({ params }) {
   /* wtest auth mock */
@@ -45,7 +31,7 @@ export default async function Post({ params }) {
     sessionUserId: session?.user?.userId
   });
   // console.log('data post wtest >>>>>>>', data) // wtest here 250318 why undefined
-  const comments = await getListData({
+  const comments = await getListDataOfComments({
     urlDomain,
     collectionName: 'comment',
     belongToItemCollection: slug[0],

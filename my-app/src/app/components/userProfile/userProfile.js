@@ -8,14 +8,16 @@ import { html2txt, strSliced } from '@/lib/utils';
 import Link from 'next/link'
 import './userProfile.scss'
 export const UserProfile = ({ dataUser, urlDomain }) => {
-    const [areaName, setAreaName] = useState('comment')
+    const [areaName, setAreaName] = useState('item')
     const [listData, setListData] = useState([])
     // console.log('dataUser', dataUser)
     const dataSwitchHandler = async ({ urlDomain, dataType }) => {
+        console.log('dataType', dataType)
         setListData([])
         const { data } = await fetch(`${urlDomain}?collectionName=${dataType}&fetchType=list&userId=${dataUser.userId}`, {
             cache: 'no-store'
         }).then(res => res.json())
+        console.log('data', data)
         setListData(data)
     }
 
@@ -62,6 +64,9 @@ export const UserProfile = ({ dataUser, urlDomain }) => {
                         className="btn-recent"
                         onClick={() => setAreaName('recent')}>Recent Posts</button> */}
                     <button
+                        className={`btn-item ${areaName === 'item' && 'btn-strong'}`}
+                        onClick={() => setAreaName('item')}>Posts</button>
+                    <button
                         className={`btn-comment ${areaName === 'comment' && 'btn-strong'}`}
                         onClick={() => setAreaName('comment')}>Comments</button>
                     <button
@@ -72,24 +77,43 @@ export const UserProfile = ({ dataUser, urlDomain }) => {
                         onClick={() => setAreaName('favorite')}>favorites</button>
                 </div>
                 <div className="area-list">
+                    <p>wtest: listData: {JSON.stringify(listData.length)}</p>
                     {listData?.length > 0 &&
                         <ul className="ul-interaction-item">
                             {listData.map(item => (
                                 (() => {
                                     let itemUrl
+                                    console.log('areaName', areaName, 'item', item)
+                                    debugger;
                                     switch (areaName) {
-                                        case 'comment':
-                                            itemUrl = `/learning/${item.belongToItemInfo.itemType}/${item.belongToItemInfo._id}`
+                                        case 'item':
                                             return <li
                                                 key={`${areaName}-${item._id}`}
-                                            ><Link href={itemUrl}>{item.content} to: {strSliced(html2txt(item.belongToItemInfo.content))}</Link></li>
+                                            >
+                                                <p>&gt;&gt;&gt;&gt;&gt;&gt; area: {item.area}</p>
+                                                <ul>
+                                                    {item.list?.map(subItem => (
+                                                        <li>
+                                                            <Link href={`/learning/${item.area}/${subItem._id}`}>{subItem.title}{subItem.status === 'draft' ? ' (Draft)' : ''}</Link>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </li>
+                                        case 'comment':
+                                            console.log('item', item)
+                                            itemUrl = item.belongToItemInfo ? `/learning/${item.belongToItemInfo.itemType}/${item.belongToItemInfo._id}` : ''
+                                            // return <li key={`${areaName}-${item._id}`}>comment wtest</li>
+                                            return <li
+                                                key={`${areaName}-${item._id}`}
+                                            ><Link href={itemUrl}>{item.content} to: {item.belongToItemInfo?.content ?
+                                                strSliced(html2txt(item.belongToItemInfo.content)) : '?'}</Link></li>
                                         case 'like':
-                                            itemUrl = `/learning/${item.belongToItemInfo.itemType}/${item.belongToItemInfo._id}`
+                                            itemUrl = item.belongToItemInfo ? `/learning/${item.belongToItemInfo.itemType}/${item.belongToItemInfo._id}` : ''
                                             return <li
                                                 key={`${areaName}-${item._id}`}
                                             ><Link href={itemUrl}>{strSliced(html2txt(item.belongToItemInfo.content), 200)}</Link></li>
                                         case 'favorite':
-                                            itemUrl = `/learning/${item.belongToItemInfo.itemType}/${item.belongToItemInfo._id}`
+                                            itemUrl = item.belongToItemInfo ? `/learning/${item.belongToItemInfo.itemType}/${item.belongToItemInfo._id}` : ''
                                             return <li
                                                 key={`${areaName}-${item._id}`}
                                             ><Link href={itemUrl}>{strSliced(html2txt(item.belongToItemInfo.content), 200)}</Link></li>

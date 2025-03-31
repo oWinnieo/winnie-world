@@ -6,11 +6,10 @@ import {
 import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 export const ItemListNav = ({ item, urlDomain, session }) => { // wtest session here
     return (
-        // <p>ItemListNav</p>
         <>
             {item?.groupName && item?.colName ? 
                             (item.groupName === 'learning' ?
-                                <ItemEditor // wtest session
+                                <ItemEditor
                                     params={
                                         {
                                             group: 'management',
@@ -23,7 +22,7 @@ export const ItemListNav = ({ item, urlDomain, session }) => { // wtest session 
                                     session={session}
                                 ></ItemEditor> :
                                 (ifLoginedAsAdmin({ session }) &&
-                                <ItemEditor // wtest session
+                                <ItemEditor
                                     params={
                                         {
                                             group: 'management',

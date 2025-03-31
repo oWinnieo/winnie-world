@@ -3,7 +3,14 @@ import { useModal } from '@/app/contexts/ModalContext' // wtest modTest
 import { ModalContent } from '@/app/components/modal/modalContent'
 import { useAlert } from '@/app/contexts/AlertContext'
 
-export const ModTest = () => {
+export const ModTest = ({ urlDomain }) => {
+    // fetch(urlDomain + "/api/listNav", {
+    //     method: "GET",
+    //     credentials: "include", // 重要！确保带上 Cookie
+    // })
+    // .then(res => res.json())
+    // .then(data => console.log(data))
+    // .catch(err => console.error(err));
     /* wtest modTest */
     const { showAlert } = useAlert()
     const { openModal } = useModal()
@@ -29,7 +36,8 @@ export const ModTest = () => {
       }
       /* /wtest modTest */
     return (
-        <p className="modTest">111
+        <p className="modTest">
+            {/* <p>wtest {JSON.stringify(session)}</p> */}
             <button onClick={test}>123</button>
         </p>
     )

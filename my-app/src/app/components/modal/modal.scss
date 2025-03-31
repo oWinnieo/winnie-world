@@ -24,6 +24,14 @@
     input {
         width: 100%;
     }
+    .area-for-child-el {
+        display: flex;
+        justify-content: center;
+    }
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .closeButtonModal {

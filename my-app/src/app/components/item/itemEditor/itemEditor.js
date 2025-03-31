@@ -10,17 +10,17 @@ import { ModalContent } from '@/app/components/modal/modalContent'
 import { ListNavItem } from '@components/list/listNavItem/listNavItem'
 import { ItemUser } from '@/app/components/item/itemUser/itemUser';
 import { ItemComment } from '@/app/components/item/itemComment/itemComment';
-import { MessageSquareMore, Heart, Star, Share2 } from 'lucide-react'
+import { MessageSquareMore, Heart, Star, Share2, QrCode } from 'lucide-react'
 import {
     ifLogined,
     userLoginedSameWithAuthor,
     ifLoginedAsAdmin,
     editOrAddBtnStatusCheck
 } from '@/lib/auth'
+import { QRCodeCanvas } from "qrcode.react"; // wtest qrcode
 import './itemEditor.scss';
 
 const interactClick = async ({ type, params, session, showAlert }) => {
-    // console.log('wtest interactClick ???', params, session, type)
     if ((type === 'like' || type === 'favorite') && (!session || !session.user || !session.user.userId)) {
         showAlert({
             message: 'Please sign in to continue.'
@@ -71,7 +71,7 @@ export const ItemEditor = ({ params, type, session }) => {
                 message: 'Copy successfully!',
                 type: 'success'
             })
-            interactClick({ type: 'share', params, session, showAlert })
+            interactClick({ type, params, session, showAlert })
         } catch(err) {
             showAlert({
                 message: 'Copy failed!',
@@ -79,32 +79,26 @@ export const ItemEditor = ({ params, type, session }) => {
             })
         }
     }
+    const openQRCode = async ({ type, params, session, showAlert, url }) => {
+        interactClick({ type, params, session, showAlert })
+        openModal(
+            {
+                title: 'Share by QRCode',
+                content: 'You can share this post using this QRCode',
+                childEl: () => (
+                    <div className="area-for-child-el">
+                        <QRCodeCanvas value={url} size={200} />
+                    </div>
+                )
+            },
+        )
+    }
     const [ isEditItem, setIsEditItem ] = useState(false)
     const { showAlert } = useAlert()
     const { openModal } = useModal()
     const ToggleAddItem = () => {
         setIsEditItem((val) => !val)
     }
-    /* modal */
-    const checkAddStatus = () => {
-        if (!isEditItem) {
-            openModal(
-                {
-                    title: 'pw check',
-                    content: 'Please enter password for editing.',
-                    childEl: () => (
-                        <ModalContent valueHandler={pwCheck} />
-                    )
-                    // closeModal={closeModal} // wtest backup
-                    
-                },
-            )
-        } else {
-            ToggleAddItem()
-        }
-        
-    };
-    /* /modal */
     
     /* access check */
     const editTip = () => {
@@ -135,7 +129,9 @@ export const ItemEditor = ({ params, type, session }) => {
     
     return (
         <>
-            {(params.group !== 'management' || !params.data) && <div className="area-tools">
+            {/* <p>wtest {JSON.stringify(params)}</p> */}
+            {/* <p>wtest {JSON.stringify(session)}</p> */}
+            {(params.group !== 'management' || !params.data || (params.collectionName === 'intro' && session?.user?.role === 'mainAdmin')) && <div className="area-tools">
                 {
                     editOrAddBtnStatusCheck(accessCheckParams) ?
                         <button className={editOrAddBtnStatusCheck(accessCheckParams) ? 'available' : 'disabled'} onClick={ToggleAddItem}>
@@ -191,6 +187,11 @@ export const ItemEditor = ({ params, type, session }) => {
                 {params.data && // wtest params.group === 'management'
                 <div className="area-content-tools">
                     {params.group === 'learning' && (<>
+                        <button
+                            className="btn-qrcode"
+                            onClick={() => openQRCode({ type: 'share', params, session, showAlert, url: `${window.location.origin}${pathName}`})}>
+                            <QrCode />
+                        </button>
                         <button
                             className="btn-share"
                             onClick={() => copyContentOfSharing({ type: 'share', params, session, showAlert, url: `${window.location.origin}${pathName}` })}>
