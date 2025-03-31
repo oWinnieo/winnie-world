@@ -1,8 +1,17 @@
+@use '@styles/components/btn.scss' as btnStyle;
+@use '@styles/base/color.scss' as colorStyle;
 .area-routerBtn {
     display: inline-block;
-    .btn-activated {
-        cursor: not-allowed;
-        pointer-events: none;
-        font-weight: 700;
+    button {
+        text-decoration: none;
+        padding: 0 6px;
     }
+    .btn-activated {
+        background: #fff;
+        @include colorStyle.color-purple-1;
+    }
+    .btn-disabled {
+        @include btnStyle.btn-click-disabled;
+    }
+    
 }
