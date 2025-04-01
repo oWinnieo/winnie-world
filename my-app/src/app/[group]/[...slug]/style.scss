@@ -8,6 +8,12 @@
     p {
         font-size: 16px;
     }
+    .area-content {
+        .area-content-tools {
+            // padding: 10px 0; // wtest backup
+            @include mediaQuery.width-for-area-in; // wtest backup
+        }
+    }
 }
 .area-info {
     border-top: 1px solid #aaa;

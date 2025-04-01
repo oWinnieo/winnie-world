@@ -4,9 +4,10 @@
 @use '@styles/components/layer.scss' as layerStyle;
 @use '@styles/components/btn.scss' as btnStyle;
 .navbar {
-    @include layoutMain.bg-main-ff;
+    // @include layoutMain.bg-main-ff;
     color: #fff;
     border-bottom: 1px solid #ffffff33;
+    @include layoutMain.bg-main-ff;
 }
 .navbar-in {
     width: 100%;

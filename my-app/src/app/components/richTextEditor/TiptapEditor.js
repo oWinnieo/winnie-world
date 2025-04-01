@@ -1,6 +1,7 @@
 "use client"; // 只在前端运行
 
 import { useEditor, EditorContent } from "@tiptap/react";
+import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import { html2txt } from "@/lib/utils";
@@ -18,7 +19,17 @@ import './TiptapEditor.scss'
 // }
 export const TiptapEditor = ({ config, keyName, value, onChange, register }) => {
     const editor = useEditor({
-        extensions: [StarterKit],
+        // extensions: [StarterKit.configure({
+        //     history: false,
+        //     heading: {
+        //         levels: [1, 2]
+        //     }
+        // })],
+        extensions: [
+            StarterKit,
+            Placeholder.configure({ // wtest config: https://tiptap.dev/docs/editor/extensions/functionality/placeholder
+                placeholder: 'Write something …',
+            })],
         content: "<p>Hello <strong>Tiptap</strong> in Next.js! 🚀</p>",
         onUpdate: ({ editor }) => {
             const val = editor.getHTML()

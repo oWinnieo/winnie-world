@@ -1,4 +1,5 @@
 @use '@styles/layouts/layout-main.scss' as layoutMain;
+// @use '@styles/base/color.scss' as colorStyle;
 html, body, body .page-home {
     height: 100%;
 }
@@ -7,7 +8,7 @@ html, body, body .page-home {
     margin: auto;
 }
 body .area {
-padding: 20px 50px;
+padding: 20px;
 }
 body .area .area-in {
     margin: auto;
@@ -16,19 +17,23 @@ body .area .area-in {
 
 body .area-welcome {
     height: 50%;
-    background: linear-gradient(90deg, #7928ca, #ff0080);
+    // background: linear-gradient(90deg, #7928ca, #ff0080);
     color: #fff;
     font-weight: 700;
     font-size: 30px;
     white-space: pre-wrap;
     display: flex;
     align-items: center;
+    @include layoutMain.bg-main-aa;
 }
 .area-welcome h2 {
     // padding-top: 100px;
 }
 
 @media (min-width: 769px) {
+    body .area {
+        padding: 20px 50px;
+    }
     body .area .area-in {
         position: relative;
         @include layoutMain.layout-area-in-gt-768;

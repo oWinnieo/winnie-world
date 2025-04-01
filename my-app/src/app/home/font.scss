@@ -1,0 +1,237 @@
+@import url("https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css");
+
+@import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;500;700;800;900&display=swap");
+
+.svg-style {
+    height: 0;
+    width: 0;
+}
+.font-svg {
+    .noto-serif-jp {
+        font-family: "Noto Serif JP", serif;
+      }
+      
+      .alegreya-sans-sc {
+        font-family: "Alegreya Sans SC", sans-serif;
+        font-style: normal;
+      }
+      
+      body, html {
+        // background: #444;
+      }
+      
+      .fire {
+        color: transparent;
+        background: linear-gradient(
+          to top,
+          #999900,
+          #999900,
+          #ff6600,
+          #ff0000,
+          #660000,
+          #000,
+          #000,
+          #000,
+          #000
+        );
+        display: inline;
+        -webkit-background-clip: text;
+        background-clip: text;
+        filter: url(#fire);
+      }
+      
+      .h0 {
+        height: 0;
+      }
+      
+      .w0 {
+        width: 0;
+      }
+      
+      /* MB Styles */
+      .text-stroke-black * {
+        filter: url(#text-stroke-black);
+//         -webkit-text-stroke-color: black; /* Sets the stroke color to black */
+//   -webkit-text-stroke-width: 2px; /* Sets the stroke width to 2 pixels */
+      }
+      
+      .cascading-letters {
+        --baseZIndex: 100;
+      }
+      
+      .cascading-letters * {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .cascading-letters :nth-child(1) {
+        z-index: calc(var(--baseZIndex) - 1);
+        transform: rotate(5deg);
+      }
+      
+      .cascading-letters :nth-child(2) {
+        z-index: calc(var(--baseZIndex) - 2);
+      }
+      
+      .cascading-letters :nth-child(3) {
+        z-index: calc(var(--baseZIndex) - 3);
+        transform: rotate(-5deg);
+      }
+      
+      .cascading-letters :nth-child(4) {
+        z-index: calc(var(--baseZIndex) - 4);
+        transform: rotate(5deg);
+      }
+      
+      .cascading-letters :nth-child(5) {
+        z-index: calc(var(--baseZIndex) - 5);
+        transform: rotate(-5deg);
+      }
+      
+      .cascading-letters :nth-child(6) {
+        z-index: calc(var(--baseZIndex) - 6);
+        transform: rotate(0deg);
+      }
+      
+      .cascading-letters :nth-child(7) {
+        z-index: calc(var(--baseZIndex) - 7);
+        transform: rotate(5deg);
+      }
+      
+      .cascading-letters :nth-child(8) {
+        z-index: calc(var(--baseZIndex) - 8);
+        transform: rotate(0deg);
+      }
+      
+      .cascading-letters :nth-child(9) {
+        z-index: calc(var(--baseZIndex) - 9);
+        transform: rotate(-5deg);
+      }
+      
+      .cascading-letters :nth-child(10) {
+        z-index: calc(var(--baseZIndex) - 10);
+        transform: rotate(0deg);
+      }
+      
+      .kern {
+        letter-spacing: -10px;
+      }
+      
+      .text-shadow {
+        filter: url(#text-shadow);
+      }
+      
+      .noto-sans-jp {
+        font-family: "Noto Sans JP", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+      }
+      .f0 {
+        font-size: 0;
+      }
+      .word1 :nth-child(5n + 1),
+      .word2 :nth-child(5n + 4) {
+        color: #009bd9; /*blue*/
+      }
+      .word1 :nth-child(5n + 2),
+      .word1 :nth-child(5n + 5),
+      .word2 :nth-child(5n + 3) {
+        color: #fccf00; /*yellow*/
+      }
+      .word1 :nth-child(5n + 3),
+      .word2 :nth-child(5n + 1) {
+        color: #e62310; /*red*/
+      }
+      .word1 :nth-child(5n + 4),
+      .word2 :nth-child(5n + 2),
+      .word2 :nth-child(5n + 5) {
+        color: #44af35;
+        /*green*/
+      }
+      
+      /* PM Styles */
+      .cascading-letters2 {
+        --baseZIndex: 100;
+      }
+      
+      .cascading-letters2 * {
+        position: relative;
+        display: inline-block;
+        transition: 0.25s ease-in-out;
+      }
+      
+      .cascading-letters2 :nth-child(1) {
+        z-index: calc(var(--baseZIndex) - 1);
+        transform: rotate(-10deg);
+      }
+      
+      .cascading-letters2 :nth-child(2) {
+        z-index: calc(var(--baseZIndex) - 2);
+        transform: rotate(-5deg);
+      }
+      
+      .cascading-letters2 :nth-last-child(1) {
+        transform: rotate(10deg);
+      }
+      
+      .cascading-letters2 :nth-last-child(2) {
+        transform: rotate(5deg);
+      }
+      
+      .cascading-letters2:hover * {
+        transform: rotate(0deg);
+      }
+      
+      .kern2 {
+        letter-spacing: -12px;
+        transition: 0.25s ease-in-out;
+      }
+      
+      .kern2:hover {
+        letter-spacing: 0;
+      }
+      
+      .extrudeEffect {
+        filter: url(#extrudeEffect);
+      }
+      
+      .textOutlineShadow * {
+        filter: url(#textOutlineShadow);
+      }
+      
+      .textOutlineShadow :nth-child(2n) {
+        z-index: 110;
+        vertical-align: 2px;
+      }
+      
+      .textOutlineShadow:hover :nth-child(2n) {
+        vertical-align: 0;
+        transition: 0.25s ease-in-out;
+      }
+      
+      /* NT Styles */
+      .extrudeEffect2 {
+        filter: url(#extrudeEffect2);
+      }
+      
+      .textOutlineShadow2 * {
+        filter: url(#textOutlineShadow2);
+      }
+      
+      .gradientText * {
+        background: linear-gradient(to right, yellow, red);
+        -webkit-background-clip: text;
+        color: transparent; /* Hide the text color, show the background */
+        display: inline-block; /* Necessary for the background size to fit the text */
+      }
+      
+      /* HS Styles */
+      
+      .filter3 {
+        filter: url(#combinedFilter);
+      }
+      
+      .kern3 {
+        letter-spacing: 2px;
+      }
+}

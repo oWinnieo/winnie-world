@@ -5,6 +5,7 @@ import { Counter } from '../components/counter'
 import Link from 'next/link'
 import { VisitorStatistics } from '@/app/components/visitorStatistics/visitorStatistics';
 // import Hello from '@components/hello'; // wtest ts
+import { FontSvg } from './fontSvg';
 import './style.scss'
 
 // export const Home = () => { // wtest wrong?
@@ -15,8 +16,10 @@ const Home = () => {
     {/* <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start"> */}
         <div className="area area-welcome">
             <div className="area-in">
-                <h2>Welcome to Winnie&apos;s World 1st Page</h2>
+                {/* <h2>Welcome to Winnie&apos;s World 1st Page</h2> */}
                 {/* <Hello name="TypeScript"></Hello> */}
+                {/* <!-- 定义SVG滤镜 --> */}
+                <h2>Welcome to </h2><FontSvg />
             </div>
         </div>
         <div className="area area-navigation">

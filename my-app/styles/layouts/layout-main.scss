@@ -20,3 +20,7 @@
 @mixin bg-main-ff {
     @include colorStyle.bg-purple2pink-1;
 }
+
+@mixin bg-main-aa {
+    @include colorStyle.bg-purple2pink-5;
+}

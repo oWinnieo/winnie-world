@@ -83,8 +83,8 @@ export const UserProfile = ({ dataUser, urlDomain }) => {
                             {listData.map(item => (
                                 (() => {
                                     let itemUrl
-                                    console.log('areaName', areaName, 'item', item)
-                                    debugger;
+                                    // console.log('areaName', areaName, 'item', item)
+                                    // debugger; // wtest
                                     switch (areaName) {
                                         case 'item':
                                             return <li
