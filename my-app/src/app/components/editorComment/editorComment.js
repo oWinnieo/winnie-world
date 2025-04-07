@@ -19,9 +19,6 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
         like: 0,
         favorite: 0
     }
-    
-    
-    // console.log('defaultValues', defaultValues)
     const {
         register,
         handleSubmit,
@@ -33,15 +30,11 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
         defaultValues
     });
     const onSubmit = async (data) => {
-        // console.log('onSubmit ? data', data, 'params', params)
         const dataUpdated = {
             ...data,
             replyToCommentId: replyComInfo?._id ? replyComInfo._id : undefined,
         }
         try {
-            // console.log('wtest waiting -----------------------> add', data, 'dataUpdated', dataUpdated)
-            
-            // debugger;
             const res = await fetch(`${params.urlDomain}?collectionName=comment`, {
                 method: 'POST',
                 headers: {
@@ -49,8 +42,6 @@ export const EditorComment = ({ itemId, itemColName, params, authorId, replyComm
                 },
                 body: JSON.stringify({ ...dataUpdated }) // wtest user: params.user
             })
-            // console.log('res', res)
-            // debugger;
             const dataRes = await res.json();
             if (dataRes.success) {
                 console.log(dataRes.message)

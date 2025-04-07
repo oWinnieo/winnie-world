@@ -12,22 +12,23 @@ const LearningItemSchema = new mongoose.Schema({
   likeStatus: { type: Boolean },
   favoriteStatus: { type: Boolean },
   status: { type: String, default: 'draft', required: true },
-  releasedAt: { type: Date, default: function () {
-    return this.updatedAt ? this.updatedAt : Date.now
-  } }
+  // releasedAt: { type: Date, default: function () {
+  //   return this.updatedAt ? this.updatedAt : Date.now
+  // } }
 },{ timestamps: true } // ✅ 启用 `createdAt` & `updatedAt`
 );
 
-const modelEn = mongoose.models.english || mongoose.model('english', LearningItemSchema);
-const modelJp = mongoose.models.japanese || mongoose.model('japanese', LearningItemSchema);
-const modelServer = mongoose.models.server || mongoose.model('server', LearningItemSchema);
-const ModelLearningItem = mongoose.models.LearningItem || mongoose.model('LearningItem', LearningItemSchema);
+// const modelEn = mongoose.models.english || mongoose.model('english', LearningItemSchema);
+// const ModelLearningItem = mongoose.models.LearningItem || mongoose.model('LearningItem', LearningItemSchema);
+
+
 
 // 防止重复编译模型
 export {
-  modelEn,
-  modelJp,
-  modelServer,
-  ModelLearningItem // wtest
+  // modelEn,
+  // modelJp,
+  // modelServer,
+  // modelNextjs,
+  LearningItemSchema
 }
 // export default 

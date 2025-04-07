@@ -14,7 +14,6 @@ const itemDelete = async ({ params, id }) => {
     })
     const dataRes = await res.json();
     if (dataRes.success) {
-        console.log(dataRes.message)
         window.location.reload()
     } else {
         throw new Error('Failed to delete an item.')

@@ -90,19 +90,16 @@ export const userInfoHandlerAfterLogin = async ({ user }) => {
     const { success, message, data } = await userInfoHandler({ user })
     let resUserHandledRes
     if (data) {
-        // console.log('up 1 =============>')
         /* wtest wait for confirming */
         // resUserHandledRes = await userCheckedHandler({ user: {
         //     ...data,
         //     ...user
         // }, type: 'update' })
         /* /wtest wait for confirming */
-        // console.log('data', data, 'user', user)
         return { success, message, data: {
             ...data
         } }
     } else {
-        // console.log('ad 1')
         resUserHandledRes = await userCheckedHandler({ user, type: 'add' })
     }
     console.log('wtest resUserHandledRes', resUserHandledRes)

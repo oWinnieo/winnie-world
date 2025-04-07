@@ -2,9 +2,11 @@ import { PageWrap } from '@components/pageWrap/pageWrap'
 import { ItemEditor } from '@/app/components/item/itemEditor/itemEditor'
 import { introConfig } from '@/constants/formConfig'
 import { getSession } from '../../../pages/api/getSession'
+
 import { getOneItem, getListDataOfItems } from '@/lib/getData'
 
-export default async function About () {
+export default async function About ({ params }) {
+    
     /* wtest auth mock */
     const session = await getSession() // wtest auth mock
     /* /wtest auth mock */
@@ -20,7 +22,6 @@ export default async function About () {
         urlDomain,
         collectionName: 'intro'
     })
-    console.log('listIntro', listIntro)
     return (
         <>
             <PageWrap>

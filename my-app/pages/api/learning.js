@@ -35,16 +35,13 @@ import mongoose from 'mongoose';
 const { ObjectId } = mongoose.Types;
 import dbConnect from '../../lib/db';
 import {
-  collectionNameForLearning as colLearning,
   collectionNameLikeOrFavorite as colLikeOrFav,
   collectionNameInteraction as colInteract,
   collectionNameShare as colShare
 } from '../../src/constants/collectionName' // wtest mock
-import { modelEn,
-  modelJp,
-  modelServer,
-  ModelLearningItem
-} from '../../models/learningItem'; // wtest ModelLearningItem
+import {
+  LearningItemSchema
+} from '../../models/learningItem';
 import { modelListNav } from "models/listNav";
 import { modelComment } from 'models/comment';
 import { modelLike } from 'models/like'; // wtest
@@ -52,6 +49,28 @@ import { modelFavorite } from 'models/favorite'; // wtest
 import { modelShare } from 'models/share'; // wtest
 import { modelUser } from 'models/users';
 import { modelIntro } from 'models/intro'
+
+const getListDataOfNav = async ({
+  modelTarget,
+  skipNumParam,
+  limitNumParam
+}) => {
+  return await modelTarget.find()
+    .skip(skipNumParam)
+    .limit(limitNumParam)
+    .sort({ createdAt: -1 })
+    .lean() // 获取所有item
+}
+
+const getColLearning = (listNav) => {
+  return listNav.map(item => item.colName)
+}
+
+/* model */
+function getModel(modelName, schema) {
+  return mongoose.models[modelName] || mongoose.model(modelName, schema);
+}
+/* /model */
 
 const getItemAuthor_Of1ListItem = async ({ items, model, fieldsFor_UserQuery }) => {
   const authorIdArr = [...new Set(items.map(item => item.authorId))]
@@ -152,7 +171,6 @@ const getLikeFavoriteStatus_Of1Item_For1User = async ({
   collectionName,
   sessionUserId
 }) => {
-  // console.log('wtest fetch item >>>>>>>>>>>>>>>>>>>>>>>>>>>> 2', userId)
   if (!sessionUserId) {
     return {
       interactExistsLike: false,
@@ -303,15 +321,6 @@ export default async function handler(req, res) {
   let limitNumParam = limitNum ? limitNum : undefined
   let modelTarget
   switch (collectionName) {
-    case 'english':
-        modelTarget = modelEn
-        break;
-    case 'japanese':
-        modelTarget = modelJp // wtest modelJp
-        break;
-    case 'server':
-        modelTarget = modelServer
-        break;
     case 'user':
         modelTarget = modelUser
         break;
@@ -330,161 +339,138 @@ export default async function handler(req, res) {
     case 'intro':
         modelTarget = modelIntro
         break;
-
+    default:
+        modelTarget = getModel(collectionName, LearningItemSchema)
   }
 
   await dbConnect();
+
+  const resListNav = await getListDataOfNav({
+    modelTarget: modelListNav,
+    skipNumParam,
+    limitNumParam
+  })
+  const colLearning = getColLearning(resListNav)
+  
   switch (method) {
     case 'GET':
       if (fetchType === 'list') {
         try {
-            if (colInteract.includes(collectionName)) {
-              if (collectionName === 'comment' &&
-                belongToItemCollection &&
-                belongToItemId
-              ) {
-                const commentReplied = await getComments_Of1Item({
-                  model: modelTarget,
-                  belongToItemCollection,
-                  belongToItemId,
-                  sessionUserId
-                })
-                res.status(200).json({ success: true, data: commentReplied, skipNum: skipNumParam, limitNum: limitNumParam });
-              } else {
-                // console.log('wtest ???', collectionName, modelTarget)
-                const { userId } = req.query
-                if (collectionName === 'item') {
-                  const listOfItemsByThisAuthor = await Promise.all(
-                    colLearning.map(async (colName) => {
-                      console.log('colName ??? 123', colName)
-                      let modelItemFor1User
-                      switch (colName) {
-                        case 'english':
-                          modelItemFor1User = modelEn
-                          break;
-                        case 'japanese':
-                          modelItemFor1User = modelJp
-                          break;
-                        case 'server':
-                          modelItemFor1User = modelServer
-                          break;
-                      }
-                      const itemData = await modelItemFor1User.find({
-                        authorId: userId
-                      })
-                      return {
-                        area: colName,
-                        list: itemData
-                      }
-                    })
-                  )
-                  res.status(200).json({
-                    success: true,
-                    data: listOfItemsByThisAuthor,
-                    // data: ['1', '2'],
-                    skipNum: skipNumParam,
-                    limitNum: limitNumParam
-                  })
-                } else {
-                  const listOfItem = await modelTarget.find({
-                    authorId: userId
-                  })
+          switch (collectionName) {
+            case 'listNav':
+              res.status(200).json({ success: true, data: resListNav, skipNum: skipNumParam, limitNum: limitNumParam });
+              break;
+            default:
                   if (colInteract.includes(collectionName)) {
-                    const listOfItemWithBelongToItemInfo = await Promise.all(
-                      listOfItem.map(async (item) => {
-                        const itemTemp = item.toObject()
-                        let modelItemFor1User
-                        switch (itemTemp.belongToItemCollection) {
-                          case 'english':
-                            modelItemFor1User = modelEn
-                            break;
-                          case 'japanese':
-                            modelItemFor1User = modelJp
-                            break;
-                          case 'server':
-                            modelItemFor1User = modelServer
-                            break;
-                          case 'comment':
-                            modelItemFor1User = modelComment
-                            break;
-                        }
-                        const itemInfo = await modelItemFor1User.findOne({
-                          _id: itemTemp.belongToItemId
-                        }).lean()
-                        const itemNew = {
-                          ...itemTemp,
-                          belongToItemInfo: {
-                            ...itemInfo,
-                            itemType: itemTemp.belongToItemCollection
-                          },
-                        }
-                        return itemNew
+                    if (collectionName === 'comment' &&
+                      belongToItemCollection &&
+                      belongToItemId
+                    ) {
+                      const commentReplied = await getComments_Of1Item({
+                        model: modelTarget,
+                        belongToItemCollection,
+                        belongToItemId,
+                        sessionUserId
                       })
-                    )
-                    res.status(200).json({ success: true, data: listOfItemWithBelongToItemInfo, skipNum: skipNumParam, limitNum: limitNumParam });
+                      res.status(200).json({ success: true, data: commentReplied, skipNum: skipNumParam, limitNum: limitNumParam });
+                    } else {
+                      const { userId } = req.query
+                      if (collectionName === 'item') {
+                        const listOfItemsByThisAuthor = await Promise.all(
+                          colLearning.map(async (colName) => {
+                            let modelItemFor1User = getModel(colName, LearningItemSchema)
+                            
+                            const itemData = await modelItemFor1User.find({
+                              authorId: userId
+                            })
+                            return {
+                              area: colName,
+                              list: itemData
+                            }
+                          })
+                        )
+                        res.status(200).json({
+                          success: true,
+                          data: listOfItemsByThisAuthor,
+                          // data: ['1', '2'],
+                          skipNum: skipNumParam,
+                          limitNum: limitNumParam
+                        })
+                      } else {
+                        const listOfItem = await modelTarget.find({
+                          authorId: userId
+                        })
+                        if (colInteract.includes(collectionName)) {
+                          const listOfItemWithBelongToItemInfo = await Promise.all(
+                            listOfItem.map(async (item) => {
+                              const itemTemp = item.toObject()
+                              let modelItemFor1User
+                              switch (itemTemp.belongToItemCollection) {
+                                case 'comment':
+                                  modelItemFor1User = modelComment
+                                  break;
+                                default:
+                                  modelItemFor1User = getModel(collectionName, LearningItemSchema)
+                                  break;
+                              }
+                              const itemInfo = await modelItemFor1User.findOne({
+                                _id: itemTemp.belongToItemId
+                              }).lean()
+                              const itemNew = {
+                                ...itemTemp,
+                                belongToItemInfo: {
+                                  ...itemInfo,
+                                  itemType: itemTemp.belongToItemCollection
+                                },
+                              }
+                              return itemNew
+                            })
+                          )
+                          res.status(200).json({ success: true, data: listOfItemWithBelongToItemInfo, skipNum: skipNumParam, limitNum: limitNumParam });
+                        } else {
+                          res.status(200).json({ success: true, data: listOfItem, skipNum: skipNumParam, limitNum: limitNumParam });
+                        }
+                      }
+                    }
+                    
                   } else {
-                    res.status(200).json({ success: true, data: listOfItem, skipNum: skipNumParam, limitNum: limitNumParam });
+                    let learningItems
+                    if (collectionName === 'user' || collectionName === 'intro') {
+                      learningItems = await modelTarget.find()
+                      .skip(skipNumParam)
+                      .limit(limitNumParam)
+                      .sort({ createdAt: -1 })
+                      .lean() // 获取所有item
+                    } else {
+                      learningItems = await modelTarget.find({ status })
+                      .skip(skipNumParam)
+                      .limit(limitNumParam)
+                      .sort({ createdAt: -1 })
+                      .lean() // 获取所有item
+                    }
+                    if (colLearning.includes(collectionName)) {
+                      const learningItemsWithAuthor = await getItemAuthor_Of1ListItem({ items: learningItems, model: modelUser })
+                      const learningItemsWithAuthorWithCommentCount = await getInteractionCount_Of1List_OfItem({
+                        items: learningItemsWithAuthor,
+                        // model: modelComment, // wtest
+                        collectionName
+                      })
+                      res.status(200).json({ success: true, data: learningItemsWithAuthorWithCommentCount, skipNum: skipNumParam, limitNum: limitNumParam });
+                    } else {
+                      res.status(200).json({ success: true, data: learningItems, skipNum: skipNumParam, limitNum: limitNumParam });
+                    }
                   }
-                }
-              }
-              /*
-              console.log('no 123 ----------- belongToItemCollection', 'collectionName', collectionName)
-                const { userId } = req.query
-                // let listOfItem
-                const res = await modelTarget.find({
-                  authorId: userId
-                })
-                console.log('res', res)
-                // switch (collectionName) {
-                //   // case 'comment':
-                //   //   listOfItem = res
-                //   //   break;
-                //   case 'like':
-                //     break;
-                //   case 'favorite':
-                //     break;
-                //   default:
-                //     listOfItem = res
-                // }
-                res.status(200).json({ success: true, data: res, skipNum: skipNumParam, limitNum: limitNumParam });
-              */
-            } else {
-              let learningItems
-              if (collectionName === 'user' || collectionName === 'intro') {
-                learningItems = await modelTarget.find()
-                .skip(skipNumParam)
-                .limit(limitNumParam)
-                .sort({ createdAt: -1 })
-                .lean() // 获取所有item
-              } else {
-                learningItems = await modelTarget.find({ status })
-                .skip(skipNumParam)
-                .limit(limitNumParam)
-                .sort({ createdAt: -1 })
-                .lean() // 获取所有item
-              }
-              if (colLearning.includes(collectionName)) {
-                const learningItemsWithAuthor = await getItemAuthor_Of1ListItem({ items: learningItems, model: modelUser })
-                const learningItemsWithAuthorWithCommentCount = await getInteractionCount_Of1List_OfItem({
-                  items: learningItemsWithAuthor,
-                  // model: modelComment, // wtest
-                  collectionName
-                })
-                // console.log('learningItemsWithAuthorWithCommentCount ???', learningItemsWithAuthorWithCommentCount)
-                res.status(200).json({ success: true, data: learningItemsWithAuthorWithCommentCount, skipNum: skipNumParam, limitNum: limitNumParam });
-              } else {
-                res.status(200).json({ success: true, data: learningItems, skipNum: skipNumParam, limitNum: limitNumParam });
-              }
-            }
+          }
         } catch (err) {
           res.status(400).json({ success: false });
         }
+          
+          
       } else if (fetchType === 'one') {
         if (collectionName === 'user') {
             const { userId, email } = req.query;
             try {
                 const user = await modelTarget.findOne({ userId })
-                // console.log('user', user)
                 if (user) {
                     res.status(200).json({ success: true, data: user });
                 } else {
@@ -495,7 +481,6 @@ export default async function handler(req, res) {
             }
         } else {
             try {
-              // console.log('wtest waiting --------------->', collectionName, fetchType) // wtest modelTarget
                 const learningItem = await modelTarget.findOne({ _id: id }).lean();
                 if (colLearning.includes(collectionName)) {
                   const user = await modelUser.findOne({ userId: learningItem.authorId })
@@ -538,7 +523,6 @@ export default async function handler(req, res) {
       try {
         const { authorId, belongToItemId, belongToItemCollection } = req.body // wtest here 和上面来自不同的fetch,所以query不同?
         if (colLikeOrFav.includes(collectionName) || collectionName === 'user') {
-          console.log('wtest ? ~~~~~~~~~~~ 11')
           // 查询是否存在符合条件的条目
           const interactExists = await modelTarget.exists({
             belongToItemId,
@@ -555,13 +539,12 @@ export default async function handler(req, res) {
             res.status(200).json({ success: true, message: msgSet, data: resLike });
           }
         } else if (colShare.includes(collectionName)) {
-          console.log('wtest ? ~~~~~~~~~~~ 22')
           const resShare = await modelShare.create(req.body);
           res.status(200).json({ success: true, message: 'share success', data: resShare})
         } else {
-          console.log('wtest ? ~~~~~~~~~~~ 33', req.body, 'modelTarget', modelTarget)
           const learningItem = await modelTarget.create(req.body);
           res.status(200).json({ success: true, data: learningItem });
+          // res.status(200).json({ success: true, data: {'wtest': '??'} });
         }
       } catch (err) {
         res.status(400).json({ success: false });

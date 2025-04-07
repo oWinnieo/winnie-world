@@ -6,25 +6,11 @@ import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
 import { ModalContent } from '@/app/components/modal/modalContent'
 /* /wtest pw */
+import { itemDelete } from '@/lib/dataOperation';
 import { MessageSquareMore, UserRound, Heart, Star, Share2 } from 'lucide-react'
 import './itemLearning.scss'
 
-const itemDelete = async ({ params, id }) => {
-    const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
-        method: 'DELETE',
-        headers: {
-            "Content-type": 'application/json'
-        },
-        body: JSON.stringify({ id })
-    })
-    const dataRes = await res.json();
-    if (dataRes.success) {
-        console.log(dataRes.message)
-        window.location.reload()
-    } else {
-        throw new Error('Failed to delete an item.')
-    }
-}
+
 
 export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, collectionName, id, params, data, session }) => {
     const itemUrl = `/learning/${collectionName}/${id}`

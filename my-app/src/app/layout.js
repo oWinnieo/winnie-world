@@ -33,7 +33,7 @@ export const metadata = {
 };
 /* /wtest backup can't for use client */
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   /* wtest ga2 */
   // useEffect(() => {
   //   GoogleAnalytics.send("pageview");

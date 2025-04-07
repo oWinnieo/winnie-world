@@ -30,7 +30,6 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 export const AnalyticsProvider = ({ gaMeasureId, children }) => {
-  // console.log('<AnalyticsProvider> gaMeasureId', gaMeasureId)
   const pathname = usePathname();
 
   // useEffect(() => {

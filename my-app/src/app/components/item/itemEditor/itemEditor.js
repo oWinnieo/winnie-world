@@ -1,5 +1,5 @@
 'use client'
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { FormForLearningItem } from "./itemForm"
 import { EditorComment } from '@components/editorComment/editorComment'
 import { useState } from 'react'
@@ -18,6 +18,7 @@ import {
     editOrAddBtnStatusCheck
 } from '@/lib/auth'
 import { QRCodeCanvas } from "qrcode.react"; // wtest qrcode
+import { itemDelete } from '@/lib/dataOperation';
 import './itemEditor.scss';
 
 const interactClick = async ({ type, params, session, showAlert }) => {
@@ -62,6 +63,9 @@ const interactClick = async ({ type, params, session, showAlert }) => {
 
 export const ItemEditor = ({ params, type, session }) => {
     const pathName = usePathname()
+    const router = useRouter()
+    const { showAlert } = useAlert()
+    const { openModal, closeModal } = useModal()
     const copyContentOfSharing = async ({ type, params, session, showAlert, url }) => {
         const title = params?.data?.title ? params.data.title : ''
         const contentSliced = strSliced(html2txt(params.data.content), 20)
@@ -94,10 +98,48 @@ export const ItemEditor = ({ params, type, session }) => {
         )
     }
     const [ isEditItem, setIsEditItem ] = useState(false)
-    const { showAlert } = useAlert()
-    const { openModal } = useModal()
+    
     const ToggleAddItem = () => {
         setIsEditItem((val) => !val)
+    }
+    /* enterDelWord */
+    const enterDelWord = (val, params) => {
+        if (val === 'delete') { // wtest delete
+            showAlert({
+                message: 'delete confirm',
+                type: "success",
+            })
+            closeModal()
+            itemDelete({
+                params: {
+                    urlDomain: params.urlDomain,
+                    collectionName: params.collectionName
+                },
+                id: params.data._id,
+                listPage: params.collectionName
+            }).then(res => {
+                router.push(`/learning/${res}`)
+            })
+        } else {
+            showAlert({
+                message: 'don\'t delete',
+                type: 'danger'
+            })
+        }
+    }
+    /* /enterDelWord */
+    const delConfirm = ({ nameForConfrom, params }) => {
+        openModal(
+            {
+                title: 'del confirm',
+                content: `<${nameForConfrom}>: Are you sure to delete this item? (If yes, please enter the world \'delete\')`,
+                childEl: () => (
+                    <ModalContent valueHandler={enterDelWord} params={params} />
+                )
+                // closeModal={closeModal} // wtest backup
+                
+            },
+        )
     }
     
     /* access check */
@@ -212,12 +254,25 @@ export const ItemEditor = ({ params, type, session }) => {
                         </button>
                     </>)}
                     {
-                        editOrAddBtnStatusCheck(accessCheckParams) && (params.group === 'learning' || (params.group === 'management' && isEditItem)) &&
-                        <button className={editOrAddBtnStatusCheck(accessCheckParams) ? 'available' : 'disabled'} onClick={ToggleAddItem}>
-                            {/* checkAddStatus wtest */}
-                            {isEditItem ? 'Cancel Edit' : 'Edit Item'
-                            }
-                        </button>
+                        editOrAddBtnStatusCheck(accessCheckParams) &&
+                        (params.group === 'learning' || (params.group === 'management' && isEditItem)) &&
+                        (<>
+                            <button className={editOrAddBtnStatusCheck(accessCheckParams) ? 'available' : 'disabled'} onClick={ToggleAddItem}>
+                                {/* checkAddStatus wtest */}
+                                {isEditItem ? 'Cancel Edit' : 'Edit Item'
+                                }
+                            </button>
+                            {/* { wtest
+                                JSON.stringify(Object.keys(params.data))
+                            } */}
+                            <button
+                                className={editOrAddBtnStatusCheck(accessCheckParams) ? 'available' : 'disabled'}
+                                onClick={() => delConfirm({ nameForConfrom: params.data.title, params })}
+                            >
+                            Delete Item
+                            </button>
+                        </>)
+                        
                     }
                     
                 </div>}

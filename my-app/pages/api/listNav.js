@@ -2,9 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]"; // 确保路径正确
 
 export default async function handler(req, res) {
-  console.log('listNav handler')
     // const session = await getServerSession(authOptions);
-    // console.log('session ?', session)
 
     if (!session) {
         return res.status(401).json({ success: false, message: "Unauthorized" });

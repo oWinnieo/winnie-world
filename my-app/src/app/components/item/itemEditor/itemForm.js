@@ -14,16 +14,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { htmlEncode, htmlSimpleDecode } from '@/lib/utils';
 import { FormForLearningItemParams, FormForLearningItemType, FormLearningItemValues } from '@/types/formTypes';
 import { learningItemValidation, listNavItemValidation, userItemValidation, keysDefault, introValidation } from '@/constants/formConfig'
-import { collectionNameForLearning, collectionNameManagement } from '@/constants/collectionName'
+import { collectionNameForManagement } from '@/constants/collectionName'
 import { TiptapEditor } from '@/app/components/richTextEditor/TiptapEditor'
 import './itemEditor.scss';
 
 
 const validationGroupCheck = ({ collectionName }) => {
-    if (collectionNameForLearning.includes(collectionName)) {
-        return learningItemValidation
-    } else if (collectionNameManagement.includes(collectionName)) {
-        // console.log('collectionName', collectionName)
+    if (collectionNameForManagement.includes(collectionName)) {
         switch (collectionName) {
             case 'listNav':
                 return listNavItemValidation
@@ -33,7 +30,8 @@ const validationGroupCheck = ({ collectionName }) => {
                 return introValidation
         }
     } else {
-        return 'wtest waiting' // wtest
+        // return 'wtest waiting' // wtest
+        return learningItemValidation
     }
 }
 
@@ -55,9 +53,7 @@ export const FormForLearningItem = ({ params }) => {
             (defaultValueSetWithData(key)) :
             (params.formConfig[key]?.default ? params.formConfig[key]?.default : undefined)
     })
-    // console.log('defaultValues', defaultValues)
     const validationObj = validationGroupCheck({ collectionName: params.collectionName })
-    // console.log('validationObj', validationObj)
     const {
         register,
         handleSubmit,
@@ -71,14 +67,10 @@ export const FormForLearningItem = ({ params }) => {
     
     // 处理表单提交的函数
     const onSubmit = async (data) => {
-        console.log('onSubmit ? data', data, 'defaultValues', defaultValues)
-        // console.log('params.group', params.group)
-        // console.log('params.collectionName', params.collectionName)
         const dataForUpdate = {
             ...defaultValues,
             ...data
         }
-        // console.log('表单提交数据:', dataForUpdate);
         const newData = {
             ...dataForUpdate,
             updatedAt: new Date(),
@@ -86,8 +78,6 @@ export const FormForLearningItem = ({ params }) => {
         if (params.group === 'management' && (params.collectionName === 'user' || params.collectionName === 'intro')) {
             newData.editorId = params.authorId
         }
-        // console.log('newData 1', newData) // wtest
-        // console.log('dataForUpdate', dataForUpdate)
         keysForRichTextArr.forEach(key => {
             newData[key] = htmlEncode(newData[key])
         })
@@ -104,7 +94,6 @@ export const FormForLearningItem = ({ params }) => {
                 })
                 const dataRes = await res.json();
                 if (dataRes.success) {
-                    console.log(dataRes.message)
                     window.location.reload()
                 } else {
                     throw new Error('Failed to edit an item.')
@@ -114,8 +103,6 @@ export const FormForLearningItem = ({ params }) => {
             }
         } else {
             try {
-                console.log('wtest waiting -----------------------> add 123', newData, params)
-                // debugger;
                 const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
                     method: 'POST',
                     headers: {
@@ -124,9 +111,7 @@ export const FormForLearningItem = ({ params }) => {
                     body: JSON.stringify({ ...dataForUpdate, authorId: params.authorId }) // wtest user: params.user
                 })
                 const dataRes = await res.json();
-                console.log('dataRes', dataRes)
                 if (dataRes.success) {
-                    console.log(dataRes.message)
                     window.location.reload()
                 } else {
                     throw new Error('Failed to create an item.')

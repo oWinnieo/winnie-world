@@ -14,20 +14,13 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       if (fetchType === 'one') {
-        // console.log('user fetchType >>>>>>>>> 1', fetchType)
-        // console.log('collectionName ----------------->', collectionName)
         const { userId, email } = req.query;
-        // console.log('~~userId', userId)
-        // console.log('~~email', email)
-        // debugger;
         try {
             // 查询是否存在符合条件的条目
             // const userExists = await modelTarget.exists({ userId, email });
             const user = await modelTarget.findOne({ userId, email })
             // const user = await modelTarget.find({})
             // const user = await modelTarget.countDocuments({})
-            // console.log('--------->>> userExists', user) // wtest waiting
-            // debugger;
             if (user) {
                 res.status(200).json({ success: true, data: user });
             } else {

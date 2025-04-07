@@ -1,31 +1,39 @@
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
 import {
-  collectionNameForLearning as colLearning,
-  collectionNameManagement as colManagement,
+  collectionNameForManagement as colManagement,
   collectionNameForListNavGroup as colListNavGroup
 } from '@/constants/collectionName';
 import { titleDisplay } from '@/lib/utils';
 import { learningItemConfig } from '@/constants/formConfig'
 import { ListOfCollection } from '@/app/components/list/listOfCollection/listOfCollection';
 import { getSession } from '../../../../pages/api/getSession'
-import { getListDataOfItems } from '@/lib/getData'
-// import { notFound } from 'next/navigation' // wtest notfound
+import { getListDataOfItems, getColLearning } from '@/lib/getData'
+import { notFound } from 'next/navigation' // wtest notfound
 
 export default async function LearningArea ({ params }) {
+  
   /* wtest auth mock */
   const session = await getSession() // wtest auth mock
   /* /wtest auth mock */
     const { collectionName, group } = await params
+    const urlDomain = process.env.URL_DOMAIN + '/api/learning'
     const ifGroupOK = () => {
       return colListNavGroup.includes(group)
     }
+    const colLearning = await getColLearning({
+      group,
+      urlDomain,
+      collectionName: 'listNav'
+    })
+
     const ifGroupColNameMatch = () => {
       return group === 'learning' && colLearning.includes(collectionName) ||
       group === 'management' && colManagement.includes(collectionName)
     }
     if (!ifGroupOK() || !ifGroupColNameMatch()) {
-      return <div>notFound</div>
+      return notFound()
+      // wtest <div>notFound</div>
       // wtest notfoundnotFound()
     }
 
@@ -38,11 +46,11 @@ export default async function LearningArea ({ params }) {
         return 'management'
       }
     }
-    const urlDomain = process.env.URL_DOMAIN + '/api/learning'
     /* wtest list fetch */
     const listData = await getListDataOfItems({
       urlDomain,
-      collectionName
+      collectionName,
+      group
     });
     /* /wtest list fetch */
     return (

@@ -1,6 +1,6 @@
 const collectionNameForListNavGroup = ['learning', 'management']
-const collectionNameForLearning = ['english', 'japanese', 'server']
-const collectionNameManagement = ['user', 'listNav', 'intro']
+// const collectionNameForLearning = ['english', 'japanese', 'server']
+const collectionNameForManagement = ['user', 'listNav', 'intro']
 const collectionNameLikeOrFavorite = ['like', 'favorite']
 const collectionNameShare = ['share']
 const collectionNameComment = ['comment']
@@ -10,8 +10,8 @@ const collectionNameInteraction = collectionNameLikeOrFavorite.concat(collection
 
 export {
     collectionNameForListNavGroup,
-    collectionNameForLearning,
-    collectionNameManagement,
+    // collectionNameForLearning, as colLearning
+    collectionNameForManagement,
     collectionNameInteraction,
     collectionNameLikeOrFavorite,
     collectionNameShare

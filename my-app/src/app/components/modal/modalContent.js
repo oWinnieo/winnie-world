@@ -1,12 +1,12 @@
 'use client'
 import { useState } from 'react'
 import './modal.scss'
-export const ModalContent = ({ valueHandler }) => {
+export const ModalContent = ({ valueHandler, params }) => {
     const [val, setVal] = useState("");
     const handleKeyDown = (e) => {
       // 检查按下的键是否为回车键（keyCode 为 13 或者 key 为 'Enter'）
       if (e.key === 'Enter') {
-          valueHandler(val);
+          valueHandler(val, params);
       }
   };
     return (
@@ -20,7 +20,7 @@ export const ModalContent = ({ valueHandler }) => {
           onKeyDown={handleKeyDown} // 添加按键事件监听
         />
         <p>
-          <button onClick={() => valueHandler(val)}>Check</button>
+          <button onClick={() => valueHandler(val, params)}>Check</button>
         </p>
       </div>
     );

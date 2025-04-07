@@ -2,9 +2,8 @@
 @use '@styles/components/btn.scss' as btnStyle;
 @use '@styles/base/color.scss' as colorStyle;
 @use '@styles/components/media-query.scss' as mediaQuery;
+@use '@styles/components/article.scss' as articleStyle;
 .area-form {
-    // padding: 10px;
-    // border: 1px dashed #aaa;
     .area-form-tools {
         display: flex;
         justify-content: end;
@@ -19,6 +18,10 @@
         input {
             width: 100%;
         }
+    }
+    .button-group {
+        border: 1px dashed #fa0;
+        @include articleStyle.editor;
     }
 }
 .area-tools {
@@ -91,6 +94,7 @@
     }
     .area-content-in {
         @include mediaQuery.width-for-area-in;
+        @include articleStyle.article;
     }
 }
 // .wtest-style {

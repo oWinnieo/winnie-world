@@ -9,11 +9,6 @@ export const ListOfCollection = ({
     listData,
     session
 }) => { // wtest session here
-    // console.log('group', group)
-    // const ifManageButNotAdmin = () => {
-    //     return group === 'management' &&
-    //         (session.user?.role === 'mainAdmin' || !session.user)
-    // }
     const accessStatus = () => {
         return group === 'learning' ||
             // 如果是learning直接显示

@@ -10,14 +10,11 @@ import './userProfile.scss'
 export const UserProfile = ({ dataUser, urlDomain }) => {
     const [areaName, setAreaName] = useState('item')
     const [listData, setListData] = useState([])
-    // console.log('dataUser', dataUser)
     const dataSwitchHandler = async ({ urlDomain, dataType }) => {
-        console.log('dataType', dataType)
         setListData([])
         const { data } = await fetch(`${urlDomain}?collectionName=${dataType}&fetchType=list&userId=${dataUser.userId}`, {
             cache: 'no-store'
         }).then(res => res.json())
-        console.log('data', data)
         setListData(data)
     }
 
@@ -57,7 +54,7 @@ export const UserProfile = ({ dataUser, urlDomain }) => {
                     </div>
                 </div>
             </> : tipsConst.tipDataWrong}
-            <Tips content={tipsConst.beingDecorated}></Tips>
+            {/* <Tips content={tipsConst.beingDecorated}></Tips> */}
             <div className="area-related">
                 <div className="area-tabs">
                     {/* <button
@@ -77,23 +74,23 @@ export const UserProfile = ({ dataUser, urlDomain }) => {
                         onClick={() => setAreaName('favorite')}>favorites</button>
                 </div>
                 <div className="area-list">
-                    <p>wtest: listData: {JSON.stringify(listData.length)}</p>
                     {listData?.length > 0 &&
                         <ul className="ul-interaction-item">
-                            {listData.map(item => (
+                            {listData.map((item, index) => (
                                 (() => {
                                     let itemUrl
-                                    // console.log('areaName', areaName, 'item', item)
-                                    // debugger; // wtest
                                     switch (areaName) {
                                         case 'item':
                                             return <li
-                                                key={`${areaName}-${item._id}`}
+                                                key={`post-${areaName}-${index}`}
                                             >
-                                                <p>&gt;&gt;&gt;&gt;&gt;&gt; area: {item.area}</p>
-                                                <ul>
+                                                <p className='area-name'>&gt;&gt;&gt;&gt;&gt;&gt; Learning Area: {item.area}</p>
+                                                {/* <p>{JSON.stringify(item)}</p> */}
+                                                <ul key={`post-${item.area}`}>
                                                     {item.list?.map(subItem => (
-                                                        <li>
+                                                        <li key={`post-${item.area}-${subItem._id}`}>
+                                                            {/*  */}
+                                                            {/* <p>_id: {subItem._id}</p> */}
                                                             <Link href={`/learning/${item.area}/${subItem._id}`}>{subItem.title}{subItem.status === 'draft' ? ' (Draft)' : ''}</Link>
                                                         </li>
                                                     ))}
@@ -102,20 +99,19 @@ export const UserProfile = ({ dataUser, urlDomain }) => {
                                         case 'comment':
                                             console.log('item', item)
                                             itemUrl = item.belongToItemInfo ? `/learning/${item.belongToItemInfo.itemType}/${item.belongToItemInfo._id}` : ''
-                                            // return <li key={`${areaName}-${item._id}`}>comment wtest</li>
                                             return <li
-                                                key={`${areaName}-${item._id}`}
+                                                key={`comment-${areaName}-${item._id}`}
                                             ><Link href={itemUrl}>{item.content} to: {item.belongToItemInfo?.content ?
                                                 strSliced(html2txt(item.belongToItemInfo.content)) : '?'}</Link></li>
                                         case 'like':
                                             itemUrl = item.belongToItemInfo ? `/learning/${item.belongToItemInfo.itemType}/${item.belongToItemInfo._id}` : ''
                                             return <li
-                                                key={`${areaName}-${item._id}`}
+                                                key={`like-${areaName}-${item._id}`}
                                             ><Link href={itemUrl}>{strSliced(html2txt(item.belongToItemInfo.content), 200)}</Link></li>
                                         case 'favorite':
                                             itemUrl = item.belongToItemInfo ? `/learning/${item.belongToItemInfo.itemType}/${item.belongToItemInfo._id}` : ''
                                             return <li
-                                                key={`${areaName}-${item._id}`}
+                                                key={`favorite-${areaName}-${item._id}`}
                                             ><Link href={itemUrl}>{strSliced(html2txt(item.belongToItemInfo.content), 200)}</Link></li>
                                     }
                                 })()

@@ -49,13 +49,87 @@ export const TiptapEditor = ({ config, keyName, value, onChange, register }) => 
         return null; // 避免编辑器未加载时报错
     }
 
+    const toggleBlockquote = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        editor.chain().focus().toggleBlockquote().run()
+    }
+    const setBlockquote = (event) => {
+        event.preventDefault();
+        editor.chain().focus().setBlockquote().run()
+    }
+    const unsetBlockquote = (event) => {
+        event.preventDefault();
+        editor.chain().focus().unsetBlockquote().run()
+    }
+
+    const toggleCodeBlock = (event) => {
+        event.preventDefault();
+        editor.chain().focus().toggleCodeBlock().run()
+    }
+
+    const setCodeBlock = (event) => {
+        event.preventDefault();
+        editor.chain().focus().setCodeBlock().run()
+    }
+    
+    const handleEditorClick = (event) => {
+        // console.log('handleEditorClick fun >>> ---', event.target)
+        // if ((event.target as HTMLElement).closest(".blockquote-button")) {
+        // return; // 如果点击的是 blockquote 按钮，则不执行
+        // }
+        if (event.target.closest(".tiptap")) {
+            return; // 如果点击的是 blockquote 按钮，则不执行
+        }
+    }
     return (
         <>
             <label className="block">
                 <span className="text-lg font-medium">{config.title}:</span>
                 <div className="border p-4 rounded-md shadow-md mx-auto area-editor">
+                    {/* <div className="control-group">
+                        <div className="button-group"> */}
+                            {/* <button
+                                type="button"
+                                onClick={toggleBlockquote}
+                                className={`blockquote-button ${editor.isActive('blockquote') ? 'is-active' : ''}`}
+                            >
+                                Toggle blockquote
+                            </button>
+                            <button
+                                type="button"
+                                onClick={toggleCodeBlock}
+                                className={editor.isActive('codeBlock') ? 'is-active' : ''}
+                            >
+                                Toggle code block
+                            </button>
+                            <button
+                                type="button"
+                                onClick={setCodeBlock}
+                                disabled={editor.isActive('codeBlock')}
+                            >
+                                Set code block
+                            </button> */}
+                            
+                            {/* <button
+                                onClick={setBlockquote}
+                                disabled={!editor.can().setBlockquote()}
+                            >
+                                Set blockquote
+                            </button>
+                            <button
+                                onClick={unsetBlockquote}
+                                disabled={!editor.can().unsetBlockquote()}
+                            >
+                                Unset blockquote
+                            </button> */}
+                        {/* </div>
+                    </div> */}
                     {/* max-w-2xl */}
-                    <EditorContent editor={editor} className="min-h-[150px]" />
+                    <EditorContent
+                        editor={editor}
+                        className="min-h-[150px]"
+                        onClick={handleEditorClick} />
                 </div>
             </label>
         </>

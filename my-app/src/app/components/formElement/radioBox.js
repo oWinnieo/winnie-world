@@ -13,7 +13,6 @@ export const RadioBox = ({ config, keyName, value, onChange }) => {
     }, [value]);
     /* /wtest */
     useEffect(() => {
-        // console.log('selectedOption changed', selectedOption)
         onChange(selectedOption)
     }, [selectedOption])
     return (
