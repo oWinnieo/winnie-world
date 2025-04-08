@@ -228,7 +228,6 @@ export const ItemEditor = ({ params, type, session }) => {
                 }
                 {params.data && // wtest params.group === 'management'
                 <div className="area-content-tools">
-                    {JSON.stringify(pathName)}
                     {params.group === 'learning' && (<>
                         <button
                             className="btn-qrcode"
