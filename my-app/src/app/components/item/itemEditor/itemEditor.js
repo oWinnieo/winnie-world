@@ -228,10 +228,11 @@ export const ItemEditor = ({ params, type, session }) => {
                 }
                 {params.data && // wtest params.group === 'management'
                 <div className="area-content-tools">
+                    {JSON.stringify(pathName)}
                     {params.group === 'learning' && (<>
                         <button
                             className="btn-qrcode"
-                            onClick={() => openQRCode({ type: 'share', params, session, showAlert, url: `${window.location.origin}${pathName}`})}>
+                            onClick={() => openQRCode({ type: 'share', params, session, showAlert, url: `https://winnie-online.win/${pathName}`})}>
                             <QrCode />
                         </button>
                         <button
