@@ -231,12 +231,12 @@ export const ItemEditor = ({ params, type, session }) => {
                     {params.group === 'learning' && (<>
                         <button
                             className="btn-qrcode"
-                            onClick={() => openQRCode({ type: 'share', params, session, showAlert, url: `https://winnie-online.win/${pathName}`})}>
+                            onClick={() => openQRCode({ type: 'share', params, session, showAlert, url: `https://winnie-online.win${pathName}`})}>
                             <QrCode />
                         </button>
                         <button
                             className="btn-share"
-                            onClick={() => copyContentOfSharing({ type: 'share', params, session, showAlert, url: `${window.location.origin}${pathName}` })}>
+                            onClick={() => copyContentOfSharing({ type: 'share', params, session, showAlert, url: `https://winnie-online.win${pathName}` })}>
                             <Share2 />
                             <span className="count">({params.data.share})</span>
                         </button>
