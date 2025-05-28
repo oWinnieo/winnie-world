@@ -142,51 +142,30 @@ export const FormForLearningItem = ({ params }) => {
         }
             
     };
-
-    /* wtest redux */
-    // console.log('params', params)
-    // const dispatch = useDispatch<AppDispatch>();
-  const dispatch = useDispatch();
-  const handleValue = (data) => {
-    if (params.group === 'learning' && !isJustOpen) {
-        console.log('表单内容发生变化:', data);
-        const { title, status, content } = data
-        if (title !== '' || content !== '') {
-            dispatch(updateEditPost({ title, content, pathName, 'ahaha': 'wtestahaha' }));
-        } else {
-            dispatch(clearEditPost());
+    
+    const dispatch = useDispatch();
+    const handleValue = (data) => {
+        if (params.group === 'learning' && !isJustOpen) {
+            console.log('表单内容发生变化:', data);
+            const { title, status, content } = data
+            if (title !== '' || content !== '') {
+                dispatch(updateEditPost({ title, content, pathName, 'ahaha': 'wtestahaha' }));
+            } else {
+                dispatch(clearEditPost());
+            }
         }
-    }
-        // 这里可以添加你需要执行的逻辑，比如发送请求等
     };
     watch(handleValue);
-
-//   const handleClick = () => {
-//     // 设置为最近查看
-    
-    
-//     // 可选：跳转详情页
-//     // router.push(`/notes/${note.id}`);
-//   };
-  /* /wtest redux */
-  useEffect(() => {
-    console.log('setIsJustOpen just enter =--???', isJustOpen)
-    setIsJustOpen(false)
-  }, [])
+    useEffect(() => {
+        console.log('setIsJustOpen just enter =--???', isJustOpen)
+        setIsJustOpen(false)
+    }, [])
 
   return (
-    // <Form {...form}>
-    /* wtest backup */
     <>
-        isJustOpen, {JSON.stringify(isJustOpen)}
-        {/* <RecentNote></RecentNote> */}
-                        {/* <NoteCard note={note} /> */}
-                        <RecentNote />
-    
     <form
         className="area-form flex flex-col gap-3"
         onSubmit={handleSubmit(onSubmit)}>
-            {/* <p>wtest params.userId: {params.userId}</p> */}
         <div className="area-form-tools">
             <button
                 type="submit"
@@ -195,12 +174,9 @@ export const FormForLearningItem = ({ params }) => {
                 Submit
             </button>
         </div>
-        {/* <p>wtest default ({key}): {JSON.stringify(defaultValues[key])}</p> */}
         {
             keysForDisplayArr.map(key => (
                 <div key={key} className="area-form-item">
-                    {/* <p>wtest key: {JSON.stringify(Object.keys(params))}</p> */}
-                    {/* <p>{JSON.stringify(Object.keys(params.data))}</p> */}
                     {(() => {
                         switch (params.formConfig[key].editType) {
                             case 'text':
@@ -241,7 +217,6 @@ export const FormForLearningItem = ({ params }) => {
                                     ></TextReadOnly>
                                 </>
                                 )
-                                // return <p>wtest default: {key}, {'11' + JSON.stringify(defaultValues[key])}, {'2' + JSON.stringify(params.data[key])}</p>
                         }
                     })()}
                     {errors[key] && <p className="text-red-500">{errors[key].message}</p>}
@@ -250,7 +225,6 @@ export const FormForLearningItem = ({ params }) => {
         }
     </form>
     </>
-    /* /wtest backup */
   );
 }
 
