@@ -4,7 +4,7 @@ import { timeFormatter } from '@/lib/utils';
 /* wtest pw */
 import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
-import { ModalContent } from '@/app/components/modal/modalContent'
+import { ModalContentDelConfirm } from '@/app/components/dialogElement/modal/modalContentDelConfirm'
 /* /wtest pw */
 import { itemDelete } from '@/lib/dataOperation';
 import { MessageSquareMore, UserRound, Heart, Star, Share2 } from 'lucide-react'
@@ -22,7 +22,7 @@ export const ItemLearning = ({ title, authorInfo, contentSliced, createdAt, coll
                 title: 'del confirm',
                 content: `<${nameForConfrom}>: Are you sure to delete this item? (If yes, please enter the world \'delete\')`,
                 childEl: () => (
-                    <ModalContent valueHandler={enterDelWord} />
+                    <ModalContentDelConfirm valueHandler={enterDelWord} />
                 )
                 // closeModal={closeModal} // wtest backup
                 

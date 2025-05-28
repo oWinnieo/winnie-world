@@ -316,9 +316,9 @@ const getLikeCountOf1ListOfItem = async ({
 
 export default async function handler(req, res) {
   const { method } = req;
-  const { collectionName, fetchType, id, group, belongToItemCollection, belongToItemId, skipNum, limitNum, sessionUserId, status } = req.query
-  let skipNumParam = skipNum ? skipNum : undefined
-  let limitNumParam = limitNum ? limitNum : undefined
+  const { collectionName, fetchType, id, group, belongToItemCollection, belongToItemId, sessionUserId, status, page, limit } = req.query
+  let skipNumParam = (page !== 'undefined' && limit !== 'undefined' && page >= 1 && limit) ? (page - 1) * limit : undefined
+  let limitNumParam = limit !== 'undefined' ? limit : undefined
   let modelTarget
   switch (collectionName) {
     case 'user':
@@ -347,8 +347,8 @@ export default async function handler(req, res) {
 
   const resListNav = await getListDataOfNav({
     modelTarget: modelListNav,
-    skipNumParam,
-    limitNumParam
+    skipNumParam: undefined,
+    limitNumParam: undefined
   })
   const colLearning = getColLearning(resListNav)
   
@@ -361,6 +361,7 @@ export default async function handler(req, res) {
               res.status(200).json({ success: true, data: resListNav, skipNum: skipNumParam, limitNum: limitNumParam });
               break;
             default:
+              let totalItems = 0
                   if (colInteract.includes(collectionName)) {
                     if (collectionName === 'comment' &&
                       belongToItemCollection &&
@@ -442,11 +443,21 @@ export default async function handler(req, res) {
                       .sort({ createdAt: -1 })
                       .lean() // 获取所有item
                     } else {
+                      totalItems = await modelTarget.countDocuments({ status });
                       learningItems = await modelTarget.find({ status })
                       .skip(skipNumParam)
                       .limit(limitNumParam)
                       .sort({ createdAt: -1 })
                       .lean() // 获取所有item
+                      // console.log('--->>> wtest',
+                      //   'totalItems', totalItems,
+                      //   'limit', limit,
+                      //   'page', page,
+                      //   'totalPages', Math.ceil(totalItems / limit),
+                      //   'currentPage', page,
+                      //   't1', Number(Math.ceil(totalItems / limit)),
+                      //   't2', Number(page)
+                      // )
                     }
                     if (colLearning.includes(collectionName)) {
                       const learningItemsWithAuthor = await getItemAuthor_Of1ListItem({ items: learningItems, model: modelUser })
@@ -455,7 +466,24 @@ export default async function handler(req, res) {
                         // model: modelComment, // wtest
                         collectionName
                       })
-                      res.status(200).json({ success: true, data: learningItemsWithAuthorWithCommentCount, skipNum: skipNumParam, limitNum: limitNumParam });
+                      
+                      const wtest1 = {
+                        totalItems,
+                        limit,
+                        page,
+                        totalPages: Number(Math.ceil(totalItems / limit)),
+                        currentPage: Number(page)
+                      }
+                      console.log('wtest1', wtest1)
+                      res.status(200).json({
+                        success: true,
+                        data: learningItemsWithAuthorWithCommentCount,
+                        skipNum: skipNumParam,
+                        limitNum: limitNumParam,
+                        totalItems,
+                        totalPages: Number(Math.ceil(totalItems / limit)),
+                        currentPage: Number(page)
+                      });
                     } else {
                       res.status(200).json({ success: true, data: learningItems, skipNum: skipNumParam, limitNum: limitNumParam });
                     }
@@ -520,6 +548,7 @@ export default async function handler(req, res) {
       
       break;
     case 'POST': // wtest here有的时候可以有的时候不行,为什么???
+      console.log('wtest --> po')
       try {
         const { authorId, belongToItemId, belongToItemCollection } = req.body // wtest here 和上面来自不同的fetch,所以query不同?
         if (colLikeOrFav.includes(collectionName) || collectionName === 'user') {
@@ -551,6 +580,7 @@ export default async function handler(req, res) {
       }
       break;
     case 'PUT': // edit
+      console.log('wtest --> pu')
       try {
         const { ...updateData } = req.body; // 获取 id 和要更新的数据
         const id = req.body._id || req.body.id

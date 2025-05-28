@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react"; // wtest ga useSession added
 import './visitorStatistics.scss'
 
 export const VisitorStatistics = () => {
-    // console.log('wtest -> VisitorStatistics >>>>>>')
     
     const [visitors, setVisitors] = useState({ today: 0, total: 0 });
     // console.log('before useEffect')

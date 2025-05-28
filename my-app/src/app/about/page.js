@@ -18,7 +18,12 @@ export default async function About ({ params }) {
     //     sessionUserId: session?.user?.userId
     //   });
       
-    const listIntro = await getListDataOfItems({
+    const {
+        dataNew: listIntro,
+        totalItems,
+        totalPages,
+        currentPage
+    } = await getListDataOfItems({
         urlDomain,
         collectionName: 'intro'
     })

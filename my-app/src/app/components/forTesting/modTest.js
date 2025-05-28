@@ -1,6 +1,6 @@
 'use client'
 import { useModal } from '@/app/contexts/ModalContext' // wtest modTest
-import { ModalContent } from '@/app/components/modal/modalContent'
+import { ModalContentDelConfirm } from '@/app/components/dialogElement/modal/modalContentDelConfirm'
 import { useAlert } from '@/app/contexts/AlertContext'
 
 export const ModTest = ({ urlDomain }) => {
@@ -27,7 +27,7 @@ export const ModTest = ({ urlDomain }) => {
                 title: 'test',
                 content: 'show the val',
                 childEl: () => (
-                    <ModalContent valueHandler={pwCheck} />
+                    <ModalContentDelConfirm valueHandler={pwCheck} />
                 )
                 // closeModal={closeModal} // wtest backup
                 

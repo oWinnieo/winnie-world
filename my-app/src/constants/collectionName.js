@@ -1,4 +1,4 @@
-const collectionNameForListNavGroup = ['learning', 'management']
+const collectionNameForListNavGroup = ['learning', 'management', 'testing']
 // const collectionNameForLearning = ['english', 'japanese', 'server']
 const collectionNameForManagement = ['user', 'listNav', 'intro']
 const collectionNameLikeOrFavorite = ['like', 'favorite']

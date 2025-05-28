@@ -45,10 +45,13 @@ const getColLearning = async (params) => {
   return listLearningFromApi.map(item => item.colName).filter(colName => colName !== 'user')
 }
 
-const getListDataOfItems = async (params) => {
-  const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&status=released`, {
+const getListDataOfItems = async (params) => { // wtest page
+  console.log('--->>> getListDataOfItems', JSON.stringify(params))
+  // console.log('--------------??????????????', `${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&status=released&page=${params.page}&limit=${params.limit}`)
+  const { data, totalItems, totalPages, currentPage } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&status=released&page=${params.page}&limit=${params.limit}`, {
       cache: 'no-store', // 等效于 SSR 的行为
       }).then(res => res.json());
+  console.log(' ===>>> wtest totalItems, totalPages, currentPage ???', totalItems, totalPages, currentPage, 'params', params)
   const colLearning = await getColLearning({
     group: params.group,
     urlDomain: params.urlDomain,
@@ -66,7 +69,21 @@ const getListDataOfItems = async (params) => {
       )
       return itemNew
   }) : []
-  return dataNew
+  return {
+    dataNew,
+    totalItems,
+    totalPages,
+    currentPage
+  }
+  // return {
+  //   dataNew: [2,2]
+  // }
+}
+
+const getListDataOfItems_wtest = () => {
+  return {
+    dataNew: [1,1,1]
+  }
 }
 
 

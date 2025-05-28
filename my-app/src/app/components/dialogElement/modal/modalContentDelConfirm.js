@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import './modal.scss'
-export const ModalContent = ({ valueHandler, params }) => {
+export const ModalContentDelConfirm = ({ valueHandler, params }) => {
     const [val, setVal] = useState("");
     const handleKeyDown = (e) => {
       // 检查按下的键是否为回车键（keyCode 为 13 或者 key 为 'Enter'）

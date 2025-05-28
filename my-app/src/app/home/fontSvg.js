@@ -67,7 +67,7 @@ export const FontSvg = () => {
                 </defs>
                 </svg>
 
-            <div className="font-svg">
+            <div className="font-svg1">
                 <div
                 className="f0 fw9 word1 noto-sans-jp text-stroke-black cascading-letters kern text-shadow pl3 dib"
                 >
@@ -91,6 +91,20 @@ export const FontSvg = () => {
                     <span className="f-subheadline">D</span>
                 </div>
             </div>
+
+            {/* <div className="font-svg2">
+                <div
+                className="f0 fw9 dib noto-sans-jp cascading-letters2 kern2 textOutlineShadow extrudeEffect pl3"
+                >
+                <span className="f-subheadline">B</span>
+                <span className="f-subheadline">o</span>
+                <span className="f-subheadline">K</span>
+                <span className="f-subheadline">é</span>
+                <span className="f-subheadline">M</span>
+                <span className="f-subheadline">a</span>
+                <span className="f-subheadline">N</span>
+                </div>
+            </div> */}
         </>
     )
 }

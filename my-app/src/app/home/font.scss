@@ -6,7 +6,7 @@
     height: 0;
     width: 0;
 }
-.font-svg {
+.font-svg1 {
     .noto-serif-jp {
         font-family: "Noto Serif JP", serif;
       }
@@ -234,4 +234,65 @@
       .kern3 {
         letter-spacing: 2px;
       }
+}
+.font-svg2 {
+  /* PM Styles */
+  .cascading-letters2 {
+    --baseZIndex: 100;
+  }
+
+  .cascading-letters2 * {
+    position: relative;
+    display: inline-block;
+    transition: 0.25s ease-in-out;
+  }
+
+  .cascading-letters2 :nth-child(1) {
+    z-index: calc(var(--baseZIndex) - 1);
+    transform: rotate(-10deg);
+  }
+
+  .cascading-letters2 :nth-child(2) {
+    z-index: calc(var(--baseZIndex) - 2);
+    transform: rotate(-5deg);
+  }
+
+  .cascading-letters2 :nth-last-child(1) {
+    transform: rotate(10deg);
+  }
+
+  .cascading-letters2 :nth-last-child(2) {
+    transform: rotate(5deg);
+  }
+
+  .cascading-letters2:hover * {
+    transform: rotate(0deg);
+  }
+
+  .kern2 {
+    letter-spacing: -12px;
+    transition: 0.25s ease-in-out;
+  }
+
+  .kern2:hover {
+    letter-spacing: 0;
+  }
+
+  .extrudeEffect {
+    filter: url(#extrudeEffect);
+  }
+
+  .textOutlineShadow * {
+    filter: url(#textOutlineShadow);
+  }
+
+  .textOutlineShadow :nth-child(2n) {
+    z-index: 110;
+    vertical-align: 2px;
+  }
+
+  .textOutlineShadow:hover :nth-child(2n) {
+    vertical-align: 0;
+    transition: 0.25s ease-in-out;
+  }
 }

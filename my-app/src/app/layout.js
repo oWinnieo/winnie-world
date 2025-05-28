@@ -10,6 +10,8 @@ import AuthProvider from "@/app/contexts/SessionProvider";
 // import { GoogleAnalytics } from "react-ga4"; // wtest ga wrong importga
 // import { AnalyticsProvider } from '@/app/components/analyticsProvider/analyticsProvider'
 import { GlobalProvider } from "@/app/contexts/GlobalContext";
+import { ReduxProviders } from './providers'
+import { store } from '@/../store'
 
 import "./globals.css";
 import '@styles/base/base.scss';
@@ -34,64 +36,15 @@ export const metadata = {
 /* /wtest backup can't for use client */
 
 export default async function RootLayout({ children }) {
-  /* wtest ga2 */
-  // useEffect(() => {
-  //   GoogleAnalytics.send("pageview");
-  // }, []);
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     ReactGA.initialize(GA_TRACKING_ID);
-  //     ReactGA.send("pageview"); // 发送页面浏览事件
-  //   }
-  // }, []);
-  /* /wtest ga2 */
-  /* wtest ga 1 *
-  useEffect(() => {
-    // 使用正确的 Google Analytics 4 ID
-    ReactGA.initialize(process.env.GA4_MEASUREMENT_ID);  // 用你自己的 GA4 ID 替换
-    // ReactGA.pageview(window.location.pathname + window.location.search);
-
-    // 监听路由变化
-    const handleRouteChange = (url) => {
-      ReactGA.pageview(url);
-    };
-
-    // 清理监听器
-    window.addEventListener('popstate', () => handleRouteChange(window.location.pathname));
-    
-    return () => {
-      window.removeEventListener('popstate', handleRouteChange);
-    };
-  }, []);
-  /* /wtest ga 1 */
-  /* wtest ga *
-  // useEffect(() => {
-  //   GoogleAnalytics.send("pageview");
-  // }, []);
-  useEffect(() => {
-    // 初始化 Google Analytics，替换为你自己的 GA4 ID
-    GoogleAnalytics.initialize(process.env.GA4_MEASUREMENT_ID);
-
-    // 记录页面视图
-    const handleRouteChange = (url) => {
-      GoogleAnalytics.pageview(url);
-    };
-
-    // 监听路由变化
-    window.addEventListener("popstate", () => handleRouteChange(window.location.pathname));
-
-    // 清理监听器
-    return () => {
-      window.removeEventListener("popstate", handleRouteChange);
-    };
-  }, []);
-  /* /wtest ga */
+  
   const urlDomain = process.env.URL_DOMAIN + '/api/learning'
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ReduxProviders>
+        {/* store={store} */}
           {/* <GoogleAnalytics /> */}
           {/* <AnalyticsProvider */}
             {/* gaMeasureId={GA4_MEASUREMENT_ID}> */}
@@ -99,18 +52,18 @@ export default async function RootLayout({ children }) {
               urlDomain={urlDomain}
               >
               <AuthProvider>
-                <Navbar></Navbar>
+                
                 <ModalProvider>
                   <AlertProvider>
+                    <Navbar></Navbar>
                     {children}
                   </AlertProvider>
                 </ModalProvider>
               </AuthProvider>
             </GlobalProvider>
           {/* </AnalyticsProvider> */}
+          </ReduxProviders>
       </body>
     </html>
   );
 }
-
-

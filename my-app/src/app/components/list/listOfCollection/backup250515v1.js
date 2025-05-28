@@ -35,6 +35,8 @@ export const ListOfCollection = ({
     }
 
     /* wtest page */
+    // const [data, setData] = useState<PaginationResponse | null>(null);
+    // const [data, setData] = useState(null);
     const [listData, setListData] = useState([])
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(5);
@@ -56,18 +58,26 @@ export const ListOfCollection = ({
             page,
             limit
         });
-        setListData(listData)
-        setTotalItems(totalItems)
-        setTotalPages(totalPages)
-        setCurrentPage(currentPage)
+        // const wtest_d = 
+        //     {
+        //         listData,
+        //         totalItems,
+        //         totalPages,
+        //         currentPage
+        //     }
+        // console.log('wtest_d', JSON.stringify(wtest_d))
+        // setListData(listData)
+        // setTotalItems(totalItems)
+        // setTotalPages(totalPages)
+        // setCurrentPage(currentPage)
     }
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true)
+            // setIsLoading(true)
             await getListDataOfCol({ urlDomain })
-            setIsLoading(false)
+            // setIsLoading(false)
         }
-        if (accessStatus()) fetchData()
+        fetchData()
       }, [page, limit]);
     /* /wtest page */
     return (
@@ -85,14 +95,15 @@ export const ListOfCollection = ({
                         }
                         session={session}
                     ></ItemEditor>
-                    <Pagination
+                    {/* <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}
                         onPageChange={(newPage) => setPage(newPage)}
                         limit={limit}
                         onLimitChange={setLimit}
-                    />
+                    /> */}
                     <>
+                        {/* <p>wtest ?? {JSON.stringify(listData)}</p> */}
                         {
                             !listData || listData.length <= 0 ? <p>{isLoading ? 'Loading...' : 'No Data'}</p> :
                             <ListLearningItem
@@ -107,13 +118,13 @@ export const ListOfCollection = ({
                         ></ListLearningItem>
                         }
                     </>
-                    <Pagination
+                    {/* <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}
                         onPageChange={(newPage) => setPage(newPage)}
                         limit={limit}
                         onLimitChange={setLimit}
-                    />
+                    /> */}
                 </> :
                 <p>Only admins can see those data.</p>
             }

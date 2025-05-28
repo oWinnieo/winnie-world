@@ -1,12 +1,12 @@
 'use client'
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { FormForLearningItem } from "./itemForm"
 import { EditorComment } from '@components/editorComment/editorComment'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { htmlDecode, strSliced, html2txt } from '@/lib/utils';
 import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
-import { ModalContent } from '@/app/components/modal/modalContent'
+import { ModalContentDelConfirm } from '@/app/components/dialogElement/modal/modalContentDelConfirm'
 import { ListNavItem } from '@components/list/listNavItem/listNavItem'
 import { ItemUser } from '@/app/components/item/itemUser/itemUser';
 import { ItemComment } from '@/app/components/item/itemComment/itemComment';
@@ -19,6 +19,12 @@ import {
 } from '@/lib/auth'
 import { QRCodeCanvas } from "qrcode.react"; // wtest qrcode
 import { itemDelete } from '@/lib/dataOperation';
+/* wtest update recentnode */
+import { useSelector, useDispatch } from 'react-redux';
+import { clearEditPost } from '@/../store/editPostCacheSlice';
+import { setRecentNote } from '@/../store/recentNoteSlice';
+import { AppDispatch } from '@/../store';
+/* /wtest update recentnode */
 import './itemEditor.scss';
 
 const interactClick = async ({ type, params, session, showAlert }) => {
@@ -64,7 +70,15 @@ const interactClick = async ({ type, params, session, showAlert }) => {
 export const ItemEditor = ({ params, type, session }) => {
     const pathName = usePathname()
     const router = useRouter()
-    const { showAlert } = useAlert()
+    /* wtest redux */
+    const [ dataModified, setDataModified ] = useState({})
+    const searchParams = useSearchParams();
+    const isEditItemParam = searchParams.get('isEditItem');
+    let editPost = {} 
+    editPost = useSelector((state) => state.editPostCache.con)
+    
+    /* /wtest redux */
+    const { showAlert, hideAlert } = useAlert()
     const { openModal, closeModal } = useModal()
     const copyContentOfSharing = async ({ type, params, session, showAlert, url }) => {
         const title = params?.data?.title ? params.data.title : ''
@@ -98,8 +112,10 @@ export const ItemEditor = ({ params, type, session }) => {
         )
     }
     const [ isEditItem, setIsEditItem ] = useState(false)
-    
+    const dispatch = useDispatch();
     const ToggleAddItem = () => {
+        dispatch(clearEditPost());
+        hideAlert()
         setIsEditItem((val) => !val)
     }
     /* enterDelWord */
@@ -134,7 +150,7 @@ export const ItemEditor = ({ params, type, session }) => {
                 title: 'del confirm',
                 content: `<${nameForConfrom}>: Are you sure to delete this item? (If yes, please enter the world \'delete\')`,
                 childEl: () => (
-                    <ModalContent valueHandler={enterDelWord} params={params} />
+                    <ModalContentDelConfirm valueHandler={enterDelWord} params={params} />
                 )
                 // closeModal={closeModal} // wtest backup
                 
@@ -168,10 +184,35 @@ export const ItemEditor = ({ params, type, session }) => {
         authorInfo: params?.data?.authorInfo,
         session
     }
+    /* wtest update recentnode */
+    useEffect(() => {
+        if (isEditItemParam) {
+            const dataWithEditPost = isEditItemParam ?
+            (
+                params.data ?
+                {
+                    ...params.data,
+                    ...editPost
+                } : editPost
+            )
+            : (
+                params.data ? params.data : {}
+            )
+            setDataModified(dataWithEditPost)
+            // dispatch(clearEditPost());
+            hideAlert()
+            setIsEditItem(true)
+        }
+    }, [])
+    useEffect(() => {
+        
+    }, [dataModified])
+  
     
     return (
         <>
-            {/* <p>wtest {JSON.stringify(params)}</p> */}
+            {/* <p>wtest ????????? -------------: isEditItem: {JSON.stringify(isEditItem)}, isEditItemParam: {JSON.stringify(isEditItemParam)}</p> */}
+            {/* <p>wtest dataModified: {JSON.stringify(dataModified)}</p> */}
             {/* <p>wtest {JSON.stringify(session)}</p> */}
             {(params.group !== 'management' || !params.data || (params.collectionName === 'intro' && session?.user?.role === 'mainAdmin')) && <div className="area-tools">
                 {
@@ -192,6 +233,8 @@ export const ItemEditor = ({ params, type, session }) => {
                         <>
                             <FormForLearningItem params={{
                                 ...params,
+                                data: isEditItemParam ? dataModified : params.data ? params.data : {},
+                                // data: params.data,
                                 authorId: session?.user?.userId ? session.user.userId : undefined,
                             }}></FormForLearningItem>
                         </> : 

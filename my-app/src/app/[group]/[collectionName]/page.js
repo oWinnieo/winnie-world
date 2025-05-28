@@ -8,8 +8,10 @@ import { titleDisplay } from '@/lib/utils';
 import { learningItemConfig } from '@/constants/formConfig'
 import { ListOfCollection } from '@/app/components/list/listOfCollection/listOfCollection';
 import { getSession } from '../../../../pages/api/getSession'
-import { getListDataOfItems, getColLearning } from '@/lib/getData'
+import { getListDataOfItems, getColLearning } from '@/lib/getData' // wtest page getListDataOfItems
 import { notFound } from 'next/navigation' // wtest notfound
+import { CounterPage } from '@/app/components/forTesting/redux' // wtest
+// import { Pagination } from '@/app/components/pagination/pagination' // wtest page
 
 export default async function LearningArea ({ params }) {
   
@@ -28,8 +30,10 @@ export default async function LearningArea ({ params }) {
     })
 
     const ifGroupColNameMatch = () => {
+      console.log('colListNavGroup 1', colListNavGroup)
       return group === 'learning' && colLearning.includes(collectionName) ||
-      group === 'management' && colManagement.includes(collectionName)
+      group === 'management' && colManagement.includes(collectionName) ||
+      group === 'testing'
     }
     if (!ifGroupOK() || !ifGroupColNameMatch()) {
       return notFound()
@@ -46,7 +50,7 @@ export default async function LearningArea ({ params }) {
         return 'management'
       }
     }
-    /* wtest list fetch */
+    /* wtest list fetch *
     const listData = await getListDataOfItems({
       urlDomain,
       collectionName,
@@ -55,17 +59,22 @@ export default async function LearningArea ({ params }) {
     /* /wtest list fetch */
     return (
         <>
-            <PageWrap>
-                <AreaTitle>{titleDisplay({ name: collectionName, suffix:  setGroup() })}</AreaTitle>
-                {<ListOfCollection
-                  urlDomain={urlDomain}
-                  group={setGroup()}
-                  collectionName={collectionName}
-                  learningItemConfig={learningItemConfig}
-                  listData={listData}
-                  session={session}
-                ></ListOfCollection>}
-            </PageWrap>
+          {group !== 'testing' ?
+              <PageWrap>
+              <AreaTitle>{titleDisplay({ name: collectionName, suffix:  setGroup() })}</AreaTitle>
+              {<ListOfCollection
+                urlDomain={urlDomain}
+                group={setGroup()}
+                collectionName={collectionName}
+                learningItemConfig={learningItemConfig}
+                // listData={listData} // wtest page
+                session={session}
+              ></ListOfCollection>}
+          </PageWrap>
+          :
+          <>
+            <CounterPage></CounterPage>
+          </>}
         </>
     )
 }

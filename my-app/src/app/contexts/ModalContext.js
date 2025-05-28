@@ -1,12 +1,12 @@
 'use client'
 import { createContext, useState, useContext } from 'react'
-import { Modal } from '@/app/components/modal/modal'
+import { Modal } from '@/app/components/dialogElement/modal/modal'
 
 const ModalContext = createContext()
 
 // export const ModalProvider = ({ children }) => {
 //     // const [ modal, setModal ] = useState({ title: "", content: "", visible: false })
-//     const [ modalContent, setModalContent ] = useState(null)
+//     const [ modalContentState, setModalContentState ] = useState(null)
 //     const [ isOpen, setIsOpen ] = useState(false)
 //     const [ modalState, setModalState ] = useState({password: 'wtest-1'}) // wtest {}
 
@@ -16,7 +16,7 @@ const ModalContext = createContext()
 //         childEl,
 //         initialState = {}
 //     }) => {
-//         setModalContent({
+//         setModalContentState({
 //             title,
 //             content,
 //             childEl,
@@ -29,7 +29,7 @@ const ModalContext = createContext()
 //         setModalState({}) // wtest null
 //         let tModal = setTimeout(() => {
 //             clearTimeout(tModal)
-//             setModalContent(null)
+//             setModalContentState(null)
 //         }, 300)
 //     }
 
@@ -37,16 +37,16 @@ const ModalContext = createContext()
 //         <ModalContext.Provider value={{ openModal, closeModal, modalState, setModalState }}>
 //             <p>wtest: {JSON.stringify(modalState)}</p>
 //             {children}
-//             {isOpen && modalContent &&
+//             {isOpen && modalContentState &&
 //             // <Modal title={modal.title} content={modal.content} />
 //             // isOpen={isModalOpen} onClose={closeModal}
 //             <Modal
-//                 title={modalContent.title}
-//                 content={modalContent.content}
+//                 title={modalContentState.title}
+//                 content={modalContentState.content}
 //                 >
 //                 {/* <h2></h2> */}
 //                 {/* <p>This is the content of the modal.</p> */}
-//                 {modalContent.childEl}
+//                 {modalContentState.childEl}
 //             </Modal>
 //             }
 //         </ModalContext.Provider>
@@ -55,24 +55,24 @@ const ModalContext = createContext()
 
 export const ModalProvider = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [modalContent, setModalContent] = useState(null);
+    const [modalContentState, setModalContentState] = useState(null);
   
     const openModal = (content) => {
-      setModalContent(content);
+      setModalContentState(content);
       setIsOpen(true);
     };
   
     const closeModal = () => {
       setIsOpen(false);
-      setModalContent(null);
+      setModalContentState(null);
     };
   
     return (
       <ModalContext.Provider value={{ openModal, closeModal }}>
         {children}
-        {isOpen && modalContent && (
-          <Modal title={modalContent.title} content={modalContent.content}>
-            {modalContent.childEl(closeModal)}
+        {isOpen && modalContentState && (
+          <Modal title={modalContentState.title} content={modalContentState.content}>
+            {modalContentState.childEl(closeModal)}
           </Modal>
         )}
       </ModalContext.Provider>

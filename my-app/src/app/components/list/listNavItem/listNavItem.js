@@ -2,9 +2,9 @@
 import Link from 'next/link'
 import { useAlert } from '@/app/contexts/AlertContext'
 import { useModal } from '@/app/contexts/ModalContext'
-import { ModalContent } from '@/app/components/modal/modalContent'
+import { ModalContentDelConfirm } from '@/app/components/dialogElement/modal/modalContentDelConfirm'
 
-const itemDelete = async ({ params, id }) => {
+export const itemDelete = async ({ params, id }) => {
     const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
         method: 'DELETE',
         headers: {
@@ -46,7 +46,7 @@ export const ListNavItem = ({ status, item, isEditItem, ToggleAddItem, params, i
                 title: 'del confirm',
                 content: `<${nameForConfrom}>: Are you sure to delete this item? (If yes, please enter the world \'delete\')`,
                 childEl: () => (
-                    <ModalContent valueHandler={enterDelWord} />
+                    <ModalContentDelConfirm valueHandler={enterDelWord} />
                 )
                 // closeModal={closeModal} // wtest backup
             },

@@ -13,6 +13,13 @@
     button {
         text-decoration: none;
     }
+    &.keep {
+        top: 58px;
+        right: 10px;
+        left: auto;
+        width: auto;
+        padding-right: 36px;
+    }
 }
 
 .info {

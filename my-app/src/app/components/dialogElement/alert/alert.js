@@ -3,14 +3,23 @@
 import React, { useState } from 'react';
 // import styles from './alert.scss';
 import { useAlert } from '@/app/contexts/AlertContext'
+import { useRouter } from 'next/navigation';
 import './alert.scss'
 
-export const Alert = ({ message, type = 'info', onClose }) => {
+export const Alert = ({ message, type = 'info', onClose, styleType, linkData }) => {
+    console.log('in alert linkData', linkData)
+    // debugger;
     const { hideAlert } = useAlert()
-
+    const router = useRouter()
+    const linkClick = () => {
+        router.push(`${linkData.pathName}?isEditItem=true`)
+    }
     return (
-        <div className={`alert ${type}`}>
+        <div className={`alert ${type} ${styleType}`}>
             <span className="message">{message}</span>
+            {
+                linkData && <p><button onClick={linkClick}>Back to Editing</button></p>
+            }
             <button className="closeButtonAlert" onClick={hideAlert}>
                 ×
             </button>

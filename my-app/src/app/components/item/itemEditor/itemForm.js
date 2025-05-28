@@ -2,7 +2,7 @@
 //     return <p>FormForLearningItem inside wtest_here_fetch -- a1</p>
 // }
 "use client";
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod";
 /* wtest */
 import { Text } from '@components/formElement/text';
@@ -16,6 +16,25 @@ import { FormForLearningItemParams, FormForLearningItemType, FormLearningItemVal
 import { learningItemValidation, listNavItemValidation, userItemValidation, keysDefault, introValidation } from '@/constants/formConfig'
 import { collectionNameForManagement } from '@/constants/collectionName'
 import { TiptapEditor } from '@/app/components/richTextEditor/TiptapEditor'
+/* wtest redux */
+import { RecentNote } from '@components/recentNote/recentNote'
+import { NoteCard } from '@components/forTesting/notecard'
+/* /wtest redux */
+/* wtest update recentnode */
+import { usePathname } from "next/navigation"
+import { useDispatch } from 'react-redux';
+import { updateEditPost, clearEditPost } from '@/../store/editPostCacheSlice';
+import { AppDispatch } from '@/../store';
+
+
+/* /wtest update recentnode */
+/* wtest update recentnode */
+const note = {
+    id: 'abc123',
+    title: '学习 Redux',
+    body: 'Redux 是一个状态管理库...',
+  };
+  /* /wtest update recentnode */
 import './itemEditor.scss';
 
 
@@ -30,12 +49,13 @@ const validationGroupCheck = ({ collectionName }) => {
                 return introValidation
         }
     } else {
-        // return 'wtest waiting' // wtest
         return learningItemValidation
     }
 }
 
 export const FormForLearningItem = ({ params }) => {
+    const [ isJustOpen, setIsJustOpen ] = useState(true)
+    const pathName = usePathname()
     const formConfigKeysArr = Object.keys(params.formConfig).concat(keysDefault)
     const keysForDisplayArr = formConfigKeysArr.filter(key => params.formConfig[key]?.editType) // wtest
     const keysForRichTextArr = formConfigKeysArr.filter(key => params.formConfig[key]?.editType === 'richText')
@@ -71,6 +91,7 @@ export const FormForLearningItem = ({ params }) => {
             ...defaultValues,
             ...data
         }
+        
         const newData = {
             ...dataForUpdate,
             updatedAt: new Date(),
@@ -82,9 +103,8 @@ export const FormForLearningItem = ({ params }) => {
             newData[key] = htmlEncode(newData[key])
         })
         // 处理表单提交逻辑
-        if (params.data) {
+        if (params.data && JSON.stringify(params.data) !== '{}' && params.data._id) {
             try {
-                // console.log('wtest waiting -----------------------> update', newData)
                 const res = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}`, {
                     method: 'PUT',
                     headers: {
@@ -123,9 +143,46 @@ export const FormForLearningItem = ({ params }) => {
             
     };
 
+    /* wtest redux */
+    // console.log('params', params)
+    // const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
+  const handleValue = (data) => {
+    if (params.group === 'learning' && !isJustOpen) {
+        console.log('表单内容发生变化:', data);
+        const { title, status, content } = data
+        if (title !== '' || content !== '') {
+            dispatch(updateEditPost({ title, content, pathName, 'ahaha': 'wtestahaha' }));
+        } else {
+            dispatch(clearEditPost());
+        }
+    }
+        // 这里可以添加你需要执行的逻辑，比如发送请求等
+    };
+    watch(handleValue);
+
+//   const handleClick = () => {
+//     // 设置为最近查看
+    
+    
+//     // 可选：跳转详情页
+//     // router.push(`/notes/${note.id}`);
+//   };
+  /* /wtest redux */
+  useEffect(() => {
+    console.log('setIsJustOpen just enter =--???', isJustOpen)
+    setIsJustOpen(false)
+  }, [])
+
   return (
     // <Form {...form}>
     /* wtest backup */
+    <>
+        isJustOpen, {JSON.stringify(isJustOpen)}
+        {/* <RecentNote></RecentNote> */}
+                        {/* <NoteCard note={note} /> */}
+                        <RecentNote />
+    
     <form
         className="area-form flex flex-col gap-3"
         onSubmit={handleSubmit(onSubmit)}>
@@ -192,8 +249,10 @@ export const FormForLearningItem = ({ params }) => {
             ))
         }
     </form>
+    </>
     /* /wtest backup */
   );
 }
+
 
 

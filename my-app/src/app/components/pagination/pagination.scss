@@ -1,0 +1,15 @@
+.pagination {
+    .opt {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .input-limit {
+        border: 1px solid #666;
+        border-radius: 3px;
+        margin-left: 0!important;
+    }
+    .btn[disabled] {
+        color: #999;
+    }
+    padding: 10px 0;
+}
