@@ -10,6 +10,7 @@ import {
   } from '@/constants/collectionName';
 import { getListDataOfNav } from '@/lib/getData'
 import { notFound } from 'next/navigation' // wtest notfound
+import { PostEditor } from '@components/forTesting/PostEditor'
 import '../../../styles/components/list.scss'
 
 export default async function Area ({ params }) {
@@ -51,6 +52,15 @@ export default async function Area ({ params }) {
                 </>
             }
             <ul className="ul-list-nav">
+                {
+                    // <PostEditor urlDomain={urlDomain}></PostEditor> &&
+                    group === 'management' &&
+                    (
+                        <>
+                            <PostEditor urlDomain={urlDomain}></PostEditor>
+                        </>
+                    )
+                }
                 {
                     listLearningFromApi?.length > 0 ?
                     listLearningFromApi.map((item, index) => (
