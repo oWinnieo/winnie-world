@@ -19,11 +19,11 @@ export function toSlug(str: string) {
 }
 
 export const htmlEncode = (str: string) => {
-  return he.encode(str)
+  return he.encode(str) // 转义html标签
 }
 export const htmlDecode = (str: string) => {
-  const escapedHTML = str ? he.decode(str) : ''
-  const parsedHTML = ReactHtmlParser(escapedHTML)
+  const escapedHTML = str ? he.decode(str) : '' // 还原html标签
+  const parsedHTML = ReactHtmlParser(escapedHTML) // 安全渲染html
   return parsedHTML
 }
 
@@ -58,8 +58,7 @@ export const htmlDecodeSlice = (htmlParsed: React.ReactNode[]) => {
   return htmlDecodedStrStringed.length > lenLimit ? htmlDecodedStrStringed.slice(0, lenLimit) + '...' : htmlDecodedStrStringed
 }
 
-export const html2txt = (html : string) => {
-  // 提取文本内容
+export const html2txt = (html : string) => { // 提取文本内容
   return html ? convert(he.decode(html)) : ''
 }
 

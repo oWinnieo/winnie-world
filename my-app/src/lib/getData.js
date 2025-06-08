@@ -46,12 +46,9 @@ const getColLearning = async (params) => {
 }
 
 const getListDataOfItems = async (params) => { // wtest page
-  console.log('--->>> getListDataOfItems', JSON.stringify(params))
-  // console.log('--------------??????????????', `${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&status=released&page=${params.page}&limit=${params.limit}`)
   const { data, totalItems, totalPages, currentPage } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=list&status=released&page=${params.page}&limit=${params.limit}`, {
       cache: 'no-store', // 等效于 SSR 的行为
       }).then(res => res.json());
-  console.log(' ===>>> wtest totalItems, totalPages, currentPage ???', totalItems, totalPages, currentPage, 'params', params)
   const colLearning = await getColLearning({
     group: params.group,
     urlDomain: params.urlDomain,
@@ -75,9 +72,6 @@ const getListDataOfItems = async (params) => { // wtest page
     totalPages,
     currentPage
   }
-  // return {
-  //   dataNew: [2,2]
-  // }
 }
 
 const getListDataOfItems_wtest = () => {

@@ -393,7 +393,6 @@ export default async function handler(req, res) {
                         res.status(200).json({
                           success: true,
                           data: listOfItemsByThisAuthor,
-                          // data: ['1', '2'],
                           skipNum: skipNumParam,
                           limitNum: limitNumParam
                         })
@@ -410,13 +409,22 @@ export default async function handler(req, res) {
                                 case 'comment':
                                   modelItemFor1User = modelComment
                                   break;
+                                // case 'like':
+                                //   modelItemFor1User = modelLike
+                                //   break;
+                                // case 'favorite':
+                                //   modelItemFor1User = modelFavorite
+                                //   break;
                                 default:
-                                  modelItemFor1User = getModel(collectionName, LearningItemSchema)
+                                  modelItemFor1User = getModel(itemTemp.belongToItemCollection, LearningItemSchema)
                                   break;
                               }
                               const itemInfo = await modelItemFor1User.findOne({
                                 _id: itemTemp.belongToItemId
                               }).lean()
+                              console.log('~~~~~~~~~>>> wtest itemTemp.belongToItemCollection', itemTemp.belongToItemCollection)
+                              console.log(' modelItemFor1User', modelItemFor1User)
+                              console.log('>>> wtest itemInfo', itemInfo)
                               const itemNew = {
                                 ...itemTemp,
                                 belongToItemInfo: {
@@ -436,7 +444,9 @@ export default async function handler(req, res) {
                     
                   } else {
                     let learningItems
+                    console.log('user?', collectionName, 'skipNumParam', skipNumParam, 'limitNumParam', limitNumParam)
                     if (collectionName === 'user' || collectionName === 'intro') {
+                      totalItems = await modelTarget.countDocuments(); // wtest { status }
                       learningItems = await modelTarget.find()
                       .skip(skipNumParam)
                       .limit(limitNumParam)
@@ -449,16 +459,16 @@ export default async function handler(req, res) {
                       .limit(limitNumParam)
                       .sort({ createdAt: -1 })
                       .lean() // 获取所有item
-                      // console.log('--->>> wtest',
-                      //   'totalItems', totalItems,
-                      //   'limit', limit,
-                      //   'page', page,
-                      //   'totalPages', Math.ceil(totalItems / limit),
-                      //   'currentPage', page,
-                      //   't1', Number(Math.ceil(totalItems / limit)),
-                      //   't2', Number(page)
-                      // )
                     }
+                    console.log('--->>> wtest',
+                        'totalItems', totalItems,
+                        'limit', limit,
+                        'page', page,
+                        'totalPages', Math.ceil(totalItems / limit),
+                        'currentPage', page,
+                        't1', Number(Math.ceil(totalItems / limit)),
+                        't2', Number(page)
+                      )
                     if (colLearning.includes(collectionName)) {
                       const learningItemsWithAuthor = await getItemAuthor_Of1ListItem({ items: learningItems, model: modelUser })
                       const learningItemsWithAuthorWithCommentCount = await getInteractionCount_Of1List_OfItem({

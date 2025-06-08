@@ -1,5 +1,5 @@
 import { PageWrap } from '@components/pageWrap/pageWrap'
-import { UserProfile } from '@components/userProfile/userProfile'
+import { UserProfile } from '@components/userRelated/userProfile/userProfile'
 import { tipsConst } from '@/constants/tipsConst'
 const getOneItem = async (params) => {
     const { data } = await fetch(`${params.urlDomain}?collectionName=${params.collectionName}&fetchType=one&userId=${params.id}`, {

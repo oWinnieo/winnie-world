@@ -1,3 +1,4 @@
+// 'use client'
 import { PageWrap } from '@components/pageWrap/pageWrap'
 import { AreaTitle } from '@components/areaTitle/areaTitle'
 import { listNavItemConfig } from '@/constants/formConfig'
@@ -35,6 +36,17 @@ export default async function Area ({ params }) {
     return (
         <PageWrap>
             <AreaTitle>{titleDisplay({ name: group,  suffix: 'area' })}</AreaTitle>
+            {/* wtest */}
+            {/* <div>
+                <h1>Data List</h1>
+                <ul>
+                    {listLearningFromApi.map((item) => (
+                        <li>{JSON.stringify(item)}</li>
+                    // <li key={item.id}>{item.name}</li>
+                    ))}
+                </ul>
+            </div> */}
+            {/* /wtest */}
             {
                 group === 'management' &&
                 <>

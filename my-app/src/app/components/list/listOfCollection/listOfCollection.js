@@ -94,17 +94,18 @@ export const ListOfCollection = ({
                     />
                     <>
                         {
-                            !listData || listData.length <= 0 ? <p>{isLoading ? 'Loading...' : 'No Data'}</p> :
+                            isLoading ? <p>Loading...</p> :
+                            (!listData || listData.length <= 0) ? <p>No Data</p> :
                             <ListLearningItem
-                            params={
-                                {
-                                    urlDomain,
-                                    collectionName,
+                                params={
+                                    {
+                                        urlDomain,
+                                        collectionName,
+                                    }
                                 }
-                            }
-                            listData={listData}
-                            session={session}
-                        ></ListLearningItem>
+                                listData={listData}
+                                session={session}
+                            ></ListLearningItem>
                         }
                     </>
                     <Pagination
